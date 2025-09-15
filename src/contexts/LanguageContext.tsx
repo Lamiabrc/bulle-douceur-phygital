@@ -1,20 +1,43 @@
-// src/contexts/LanguageContext.tsx
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-type Lang = "fr" | "en";
+export type Lang = "fr" | "en";
 type Ctx = { lang: Lang; setLang: (l: Lang) => void };
 
 const LanguageContext = createContext<Ctx | undefined>(undefined);
 
+const STORAGE_KEY = "qvtbox.lang";
+
+function detectInitialLang(): Lang {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY) as Lang | null;
+    if (saved === "fr" || saved === "en") return saved;
+  } catch {}
+  const nav = (typeof navigator !== "undefined" ? navigator.language : "fr")?.toLowerCase();
+  return nav?.startsWith("fr") ? "fr" : "en";
+}
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>("fr");
+  const [lang, setLang] = useState<Lang>(() => detectInitialLang());
+
+  useEffect(() => {
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch {}
+  }, [lang]);
+
   const value = useMemo(() => ({ lang, setLang }), [lang]);
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
 
-export function useLanguage() {
+/**
+ * ✅ Fallback: si le Provider est absent (ou si un import pointe vers un autre module),
+ * on ne crashe pas — on renvoie {lang:"fr", setLang:noop} et on log un warning.
+ */
+export function useLanguage(): Ctx {
   const ctx = useContext(LanguageContext);
-  if (!ctx) throw new Error("useLanguage must be used within a LanguageProvider");
+  if (!ctx) {
+    if (typeof window !== "undefined") {
+      console.warn('[LanguageContext] Provider manquant — fallback "fr" appliqué.');
+    }
+    return { lang: "fr", setLang: () => {} };
+  }
   return ctx;
 }
-
