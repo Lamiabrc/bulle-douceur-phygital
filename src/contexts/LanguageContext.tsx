@@ -1,11 +1,9 @@
-// src/contexts/LanguageContext.tsx
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 export type Lang = "fr" | "en";
 type Ctx = { lang: Lang; setLang: (l: Lang) => void };
 
 const LanguageContext = createContext<Ctx | undefined>(undefined);
-
 const STORAGE_KEY = "qvtbox.lang";
 
 function detectInitialLang(): Lang {
@@ -27,9 +25,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 export function useLanguage(): Ctx {
   const ctx = useContext(LanguageContext);
   if (!ctx) {
-    if (typeof window !== "undefined") {
-      console.warn('[LanguageContext] Provider manquant — fallback "fr" appliqué.');
-    }
+    const err = new Error('[LanguageContext] Provider manquant — fallback "fr" appliqué.');
+    console.warn(err.stack || err.message);
     return { lang: "fr", setLang: () => {} };
   }
   return ctx;
