@@ -4,14 +4,13 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 
+import { HelmetProvider } from "react-helmet-async";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "@/hooks/useAuth";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HelmetProvider } from "react-helmet-async";
-import { Toaster } from "sonner";
 
-// React Query client (valeurs par défaut prudentes)
+// React Query client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -22,7 +21,10 @@ const queryClient = new QueryClient({
   },
 });
 
-createRoot(document.getElementById("root")!).render(
+const rootEl = document.getElementById("root");
+if (!rootEl) throw new Error("Root element #root not found");
+
+createRoot(rootEl).render(
   <React.StrictMode>
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
@@ -30,8 +32,6 @@ createRoot(document.getElementById("root")!).render(
           <LanguageProvider>
             <TooltipProvider delayDuration={200}>
               <App />
-              {/* Toaster pour les notifications (useToast / sonner) */}
-              <Toaster richColors position="top-right" />
             </TooltipProvider>
           </LanguageProvider>
         </AuthProvider>
