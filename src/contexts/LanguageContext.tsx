@@ -1,3 +1,4 @@
+// src/contexts/LanguageContext.tsx
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 export type Lang = "fr" | "en";
@@ -18,19 +19,11 @@ function detectInitialLang(): Lang {
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<Lang>(() => detectInitialLang());
-
-  useEffect(() => {
-    try { localStorage.setItem(STORAGE_KEY, lang); } catch {}
-  }, [lang]);
-
+  useEffect(() => { try { localStorage.setItem(STORAGE_KEY, lang); } catch {} }, [lang]);
   const value = useMemo(() => ({ lang, setLang }), [lang]);
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
 
-/**
- * ✅ Fallback: si le Provider est absent (ou si un import pointe vers un autre module),
- * on ne crashe pas — on renvoie {lang:"fr", setLang:noop} et on log un warning.
- */
 export function useLanguage(): Ctx {
   const ctx = useContext(LanguageContext);
   if (!ctx) {
