@@ -13,6 +13,8 @@
     ] }
   ],
   "rewrites": [
+    { "source": "/manifest.webmanifest", "destination": "/manifest.webmanifest" },
+    { "source": "/icons/(.*)", "destination": "/icons/$1" },
     { "source": "/(fr|en)/(.*)", "destination": "/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
