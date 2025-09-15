@@ -16,8 +16,6 @@ interface UserProperties {
   company?: string;
   role?: string;
   teamSize?: number;
-  // QVCT / segmentation
-  segment?: 'enterprise' | 'family';
   sector?: string;
   country?: string;
 }
@@ -26,7 +24,6 @@ const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefine
 
 export const useAnalytics = () => {
   const trackEvent = useCallback((event: AnalyticsEvent) => {
-    // Enrichissement “safe” côté client
     const analyticsData = {
       ...event,
       timestamp: new Date().toISOString(),
@@ -41,7 +38,6 @@ export const useAnalytics = () => {
     }
 
     try {
-      // GA4 best-effort
       if (isBrowser && typeof (window as any).gtag !== 'undefined') {
         (window as any).gtag('event', event.action, {
           event_category: event.category,
@@ -51,7 +47,6 @@ export const useAnalytics = () => {
         });
       }
 
-      // Endpoint custom – on envoie la version enrichie (correctif)
       if (isBrowser) {
         const payload = JSON.stringify(analyticsData);
         if ('sendBeacon' in navigator) {
@@ -70,7 +65,6 @@ export const useAnalytics = () => {
     }
   }, []);
 
-  // Pages
   const trackPageView = useCallback((page: string, title?: string) => {
     trackEvent({
       action: 'page_view',
@@ -83,7 +77,6 @@ export const useAnalytics = () => {
     });
   }, [trackEvent]);
 
-  // CTA
   const trackCTAClick = useCallback((ctaName: string, location: string, destination?: string) => {
     trackEvent({
       action: 'cta_click',
@@ -93,7 +86,6 @@ export const useAnalytics = () => {
     });
   }, [trackEvent]);
 
-  // E-commerce / catalogue
   const trackProductView = useCallback((productId: string, productName: string, category: string, price?: number) => {
     trackEvent({
       action: 'product_view',
@@ -114,7 +106,6 @@ export const useAnalytics = () => {
     });
   }, [trackEvent]);
 
-  // Forms
   const trackFormSubmission = useCallback((formName: string, success: boolean, errors?: string[]) => {
     trackEvent({
       action: success ? 'form_submit_success' : 'form_submit_error',
@@ -124,7 +115,6 @@ export const useAnalytics = () => {
     });
   }, [trackEvent]);
 
-  // Interactions
   const trackUserInteraction = useCallback((interaction: string, element: string, details?: Record<string, any>) => {
     trackEvent({
       action: 'user_interaction',
@@ -134,7 +124,6 @@ export const useAnalytics = () => {
     });
   }, [trackEvent]);
 
-  // Perf
   const trackPerformance = useCallback((metric: string, value: number, context?: string) => {
     trackEvent({
       action: 'performance_metric',
@@ -149,7 +138,6 @@ export const useAnalytics = () => {
     });
   }, [trackEvent]);
 
-  // Search
   const trackSearch = useCallback((query: string, resultsCount: number, filters?: Record<string, any>) => {
     trackEvent({
       action: 'search',
@@ -160,7 +148,6 @@ export const useAnalytics = () => {
     });
   }, [trackEvent]);
 
-  // Identification (GA4 best-effort + contexte QVCT)
   const identifyUser = useCallback((userProperties: UserProperties) => {
     if (process.env.NODE_ENV === 'development') {
       console.log('👤 User Identified:', userProperties);
@@ -169,10 +156,8 @@ export const useAnalytics = () => {
       if (isBrowser && typeof (window as any).gtag !== 'undefined') {
         (window as any).gtag('config', 'GA_MEASUREMENT_ID', {
           user_id: userProperties.userId,
-          // NB: la map de dimensions custom se fait côté GA (interface) ; ici on pousse juste des champs
         });
       }
-      // Envoie côté backend si besoin (profilage analytics)
       if (isBrowser) {
         fetch('/api/analytics', {
           method: 'POST',
@@ -185,9 +170,7 @@ export const useAnalytics = () => {
     }
   }, []);
 
-  /** ====== Helpers orientés QVCT/ROI/Partenariats ====== */
-
-  // 1) Détection RPS / niveau de risque
+  // QVCT / ROI (sans aucune mention famille)
   const trackRPSRisk = useCallback(
     (level: 'low' | 'medium' | 'high', domain: 'stress' | 'workload' | 'relationships' | 'ergonomics' | 'other') => {
       trackEvent({
@@ -200,7 +183,6 @@ export const useAnalytics = () => {
     [trackEvent]
   );
 
-  // 2) Recommandation de box (personnalisation)
   const trackBoxRecommended = useCallback(
     (boxType: string, rationale?: string, expectedValueEur?: number) => {
       trackEvent({
@@ -214,9 +196,8 @@ export const useAnalytics = () => {
     [trackEvent]
   );
 
-  // 3) Économies accordées (ROI concret, €)
   const trackSavings = useCallback(
-    (amountEur: number, category: 'leisure' | 'travel' | 'health' | 'parenting' | 'groceries' | 'other', partner?: string) => {
+    (amountEur: number, category: 'leisure' | 'travel' | 'health' | 'groceries' | 'other', partner?: string) => {
       trackEvent({
         action: 'savings_awarded',
         category: 'roi',
@@ -228,7 +209,6 @@ export const useAnalytics = () => {
     [trackEvent]
   );
 
-  // 4) Clic sur un partenaire (visibilité des partenariats)
   const trackPartnershipClick = useCallback((partnerName: string, partnerType?: string) => {
     trackEvent({
       action: 'partner_click',
@@ -249,7 +229,6 @@ export const useAnalytics = () => {
     trackPerformance,
     trackSearch,
     identifyUser,
-    // Nouveaux helpers QVCT/ROI
     trackRPSRisk,
     trackBoxRecommended,
     trackSavings,
