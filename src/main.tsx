@@ -13,11 +13,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 // React Query client
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {
-      staleTime: 60_000,
-      refetchOnWindowFocus: false,
-      retry: 1,
-    },
+    queries: { staleTime: 60_000, refetchOnWindowFocus: false, retry: 1 },
   },
 });
 
@@ -26,16 +22,17 @@ if (!rootEl) throw new Error("Root element #root not found");
 
 createRoot(rootEl).render(
   <React.StrictMode>
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <LanguageProvider>
+    {/* 👇 DOIT envelopper tout le reste */}
+    <LanguageProvider>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
             <TooltipProvider delayDuration={200}>
               <App />
             </TooltipProvider>
-          </LanguageProvider>
-        </AuthProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </HelmetProvider>
+    </LanguageProvider>
   </React.StrictMode>
 );
