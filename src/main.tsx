@@ -19,7 +19,7 @@ if (!rootEl) throw new Error("Root element #root not found");
 
 createRoot(rootEl).render(
   <React.StrictMode>
-    {/* Le provider langue DOIT envelopper tout le reste */}
+    {/* 👇 Le provider langue enveloppe TOUT le reste */}
     <LanguageProvider>
       <HelmetProvider>
         <QueryClientProvider client={queryClient}>
