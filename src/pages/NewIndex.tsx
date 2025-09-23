@@ -13,151 +13,99 @@ import { useLanguage } from "@/hooks/useLanguage";
 import heroImage from "@/assets/hero-workplace-team.jpg";
 import saasImage from "@/assets/saas-dashboard-pro.jpg";
 
-import { Phone, BarChart3, CheckCircle, Euro } from "lucide-react";
+import {
+  Phone,
+  BarChart3,
+  CheckCircle2,
+  ShieldCheck,
+  Sparkles,
+  ArrowRight,
+  Euro,
+  Box,
+  Activity,
+} from "lucide-react";
 
 const NewIndex = () => {
   const { t } = useLanguage();
   const [heroRef, heroVisible] = useScrollReveal();
-  const [offerRef, offerVisible] = useStaggeredReveal(3, 200);
+  const [valueRef, valueVisible] = useStaggeredReveal(3, 160);
+  const [howRef, howVisible] = useStaggeredReveal(3, 160);
   const [demoRef, demoVisible] = useScrollReveal();
-  const [pricingRef, pricingVisible] = useStaggeredReveal(3, 150);
-  const [testimonialsRef, testimonialsVisible] = useStaggeredReveal(3, 200);
+  const [pricingRef, pricingVisible] = useStaggeredReveal(3, 140);
+  const [logosRef, logosVisible] = useScrollReveal();
+  const [faqRef, faqVisible] = useScrollReveal();
   const [ctaRef, ctaVisible] = useScrollReveal();
 
-  const offers = [
+  // ✨ 3 bénéfices instantanément compréhensibles
+  const valueProps = [
     {
-      title: t("offer.card.box.title", "Box & Produits"),
-      subtitle: t("offer.card.box.subtitle", "Solutions physiques"),
-      description: t(
-        "offer.card.box.desc",
-        "Box thématiques et événementielles, produits français artisanaux pour le soutien quotidien des équipes"
-      ),
-      icon: CheckCircle,
-      features: [
-        t("offer.card.box.f1", "Box Pouvoir d'Achat"),
-        t("offer.card.box.f2", "Box Thématiques"),
-        t("offer.card.box.f3", "Box Événementielles"),
-        t("offer.card.box.f4", "Produits Made in France"),
-      ],
+      icon: Activity,
+      title: "Mesure QVCT simple",
+      desc: "Un score clair (1–15), des tendances 7/30j, des signaux faibles détectés.",
     },
     {
-      title: t("offer.card.saas.title", "Licence SaaS Entreprise"),
-      subtitle: t("offer.card.saas.subtitle", "Outil numérique exclusif"),
-      description: t(
-        "offer.card.saas.desc",
-        "Application QVT réservée aux entreprises sous forme de licence pour la prévention RPS et le suivi QVCT"
-      ),
-      icon: BarChart3,
-      features: [
-        t("offer.card.saas.f1", "Tableaux de bord RH"),
-        t("offer.card.saas.f2", "Alertes RPS"),
-        t("offer.card.saas.f3", "Export DUERP"),
-        t("offer.card.saas.f4", "Suivi anonymisé"),
-      ],
+      icon: ShieldCheck,
+      title: "Prévention RPS",
+      desc: "Alertes bienveillantes + Export DUERP prêt pour vos obligations.",
     },
     {
-      title: t("offer.card.partners.title", "Boutique & Partenariats"),
-      subtitle: t("offer.card.partners.subtitle", "Réseau local"),
-      description: t(
-        "offer.card.partners.desc",
-        "Sélection de partenaires locaux et boutique en ligne pour compléter votre offre bien-être"
-      ),
-      icon: CheckCircle,
-      features: [
-        t("offer.card.partners.f1", "Partenaires locaux"),
-        t("offer.card.partners.f2", "Co-branding"),
-        t("offer.card.partners.f3", "Commissions"),
-        t("offer.card.partners.f4", "Made in France"),
-      ],
+      icon: CheckCircle2,
+      title: "Actions concrètes",
+      desc: "Box utiles & Made in France en option, pour passer du discours à l’acte.",
     },
   ];
 
-  const demoFeatures = [
+  // 🔁 3 étapes lisibles
+  const howItWorks = [
     {
-      title: t("demo.f1.title", "Dashboard RH Global"),
-      description: t("demo.f1.desc", "Scoring QVT de 1 à 15 avec indicateurs anonymisés par équipe"),
-      mockup: t("demo.f1.mock", "Équipe Marketing: 12/15 • Équipe Vente: 8/15 • Global: 11/15"),
+      step: "01",
+      title: "Installez la licence",
+      desc: "Espace sécurisé par entreprise. Onboardez vos équipes en quelques minutes.",
     },
     {
-      title: t("demo.f2.title", "Gestion des Salariés"),
-      description: t("demo.f2.desc", "Interface simple pour ajouter et gérer vos collaborateurs"),
-      mockup: t("demo.f2.mock", "Ajouter un collaborateur • Gérer les équipes • Voir les profils"),
+      step: "02",
+      title: "Mesurez & surveillez",
+      desc: "Check-ins courts, indicateurs anonymisés, alertes automatiques.",
     },
     {
-      title: t("demo.f3.title", "Alertes RPS"),
-      description: t("demo.f3.desc", "Détection automatique des signaux faibles et alertes préventives"),
-      mockup: t("demo.f3.mock", "🔴 Alerte stress élevé détectée dans l'équipe Support"),
-    },
-    {
-      title: t("demo.f4.title", "Export DUERP"),
-      description: t("demo.f4.desc", "Génération automatique des documents réglementaires"),
-      mockup: t("demo.f4.mock", "Exporter DUERP • Rapport mensuel • Synthèse annuelle"),
+      step: "03",
+      title: "Agissez utile",
+      desc: "Déployez des Box ciblées (en option) quand c’est pertinent — pas par défaut.",
     },
   ];
 
+  // 💶 Offres ultra lisibles (SaaS + Box en option)
   const plans = [
     {
-      type: t("pricing.plan.box.title", "Box Physiques"),
-      price: "39,90 €",
-      unit: t("pricing.plan.box.unit", "HT / box"),
-      list: [
-        t("pricing.plan.box.f1", "Box thématiques"),
-        t("pricing.plan.box.f2", "Box événementielles"),
-        t("pricing.plan.box.f3", "Produits français"),
-        t("pricing.plan.box.f4", "Personnalisation"),
-      ],
-      popular: false,
-    },
-    {
-      type: t("pricing.plan.saas.title", "Licence SaaS Entreprise"),
+      badge: "Populaire",
+      title: "Licence SaaS Entreprise",
       price: "3 000 €",
-      unit: t("pricing.plan.saas.unit", "/an"),
-      list: [
-        t("pricing.plan.saas.f1", "Dashboard RH complet"),
-        t("pricing.plan.saas.f2", "Alertes RPS"),
-        t("pricing.plan.saas.f3", "Export DUERP"),
-        t("pricing.plan.saas.f4", "Support inclus"),
+      unit: "/an",
+      points: [
+        "Dashboard RH complet",
+        "Scores & tendances QVCT",
+        "Alertes RPS automatiques",
+        "Export DUERP (PDF/CSV)",
+        "Support inclus",
       ],
+      cta: "Recevoir une démo",
+      icon: BarChart3,
       popular: true,
     },
     {
-      type: t("pricing.plan.export.title", "Box Premium Export"),
-      price: "49,90 - 89,90 €",
-      unit: t("pricing.plan.export.unit", "HT"),
-      list: [
-        t("pricing.plan.export.f1", "Export international"),
-        t("pricing.plan.export.f2", "Produits premium"),
-        t("pricing.plan.export.f3", "Packaging renforcé"),
-        t("pricing.plan.export.f4", "Douanes incluses"),
+      badge: "Option",
+      title: "Box QVT (à la demande)",
+      price: "39,90 €",
+      unit: "HT / box",
+      points: [
+        "Thématiques utiles (pouvoir d’achat, cohésion, etc.)",
+        "Produits Made in France",
+        "Personnalisation possible",
+        "Expédition à la demande",
       ],
+      cta: "Demander un devis Box",
+      icon: Box,
       popular: false,
-    },
-  ];
-
-  const testimonials = [
-    {
-      quote: t(
-        "testimonials.1.quote",
-        "La licence QVT Box nous a permis de détecter des tensions avant qu'elles ne dégénèrent. Les alertes RPS sont un vrai plus."
-      ),
-      author: "Marie Dubois, DRH",
-      company: "TechCorp (240 salariés)",
-    },
-    {
-      quote: t(
-        "testimonials.2.quote",
-        "Les box apportent du concret à nos actions QVT. Nos salariés voient que l'entreprise s'investit vraiment."
-      ),
-      author: "Pierre Martin, Responsable CSE",
-      company: "IndustrieXX (450 salariés)",
-    },
-    {
-      quote: t(
-        "testimonials.3.quote",
-        "Une solution complète qui combine prévention et action. Le ROI est mesurable et l'impact est immédiat."
-      ),
-      author: "Sophie Laurent, Dirigeante",
-      company: "Services+ (85 salariés)",
     },
   ];
 
@@ -165,115 +113,255 @@ const NewIndex = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero */}
+      {/* Announcement bar */}
+      <div className="sticky top-0 z-30 w-full bg-primary/10 backdrop-blur supports-[backdrop-filter]:backdrop-blur-sm border-b border-primary/20">
+        <div className="container mx-auto px-4 py-2 flex items-center justify-center gap-2">
+          <Sparkles className="w-4 h-4 text-primary" />
+          <p className="text-sm text-foreground/80">
+            QVT Box = <strong>Licence SaaS</strong> ✚ <strong>Box utiles (en option)</strong> — simple & actionnable.
+          </p>
+        </div>
+      </div>
+
+      {/* HERO */}
       <section
-        id="hero"
-        className="relative min-h-[80vh] flex items-center justify-center pt-20 px-6 bg-gradient-to-br from-background via-primary/5 to-secondary/10"
         ref={heroRef}
+        className="relative overflow-hidden"
       >
-        <div className="container mx-auto text-center">
-          <div className={`max-w-4xl mx-auto scroll-reveal ${heroVisible ? "visible" : ""}`}>
-            <h1 className="font-inter text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
-              <span className="text-primary">QVT Box</span>
-              <br />
-              <span className="text-lg md:text-2xl lg:text-3xl font-normal text-foreground/80 mt-4 block">
-                {t("hero.tagline")}
-              </span>
-            </h1>
+        {/* Glow background */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/20 via-transparent to-transparent" />
+        <div className="container mx-auto px-6 pt-20 pb-10 lg:pt-28 lg:pb-14">
+          <div className={`grid lg:grid-cols-2 gap-10 items-center scroll-reveal ${heroVisible ? "visible" : ""}`}>
+            <div>
+              <Badge className="mb-4 bg-primary/15 text-primary hover:bg-primary/20">
+                Nouveau • QVT lisible et actionnable
+              </Badge>
+              <h1 className="font-inter text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.06] tracking-tight">
+                <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+                  La QVT qui se voit
+                </span>
+                <br />
+                <span className="text-foreground">et qui sert vraiment</span>
+              </h1>
+              <p className="mt-5 text-lg text-foreground/70 max-w-xl">
+                Mesurez l’essentiel, détectez les risques, et passez à l’action avec des Box utiles, au bon moment.
+              </p>
 
-            <p className="text-lg md:text-xl text-foreground/70 mb-8 font-light max-w-3xl mx-auto leading-relaxed">
-              {t("hero.description")}
-            </p>
+              <div className="mt-7 flex flex-col sm:flex-row gap-3">
+                <Button asChild size="lg" className="inline-flex items-center gap-2 whitespace-nowrap">
+                  <Link to="/contact">
+                    <BarChart3 className="w-5 h-5" />
+                    <span>Recevoir une démo</span>
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="inline-flex items-center gap-2 whitespace-nowrap"
+                >
+                  <Link to="/contact">
+                    <Phone className="w-5 h-5" />
+                    <span>Parler à un expert</span>
+                  </Link>
+                </Button>
+              </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
-              <Button asChild className="inline-flex items-center gap-2 whitespace-nowrap" size="lg">
-                <Link to="/contact">
-                  <Phone className="w-5 h-5" />
-                  <span className="whitespace-nowrap">{t("hero.cta.quote", "Demander un devis")}</span>
-                </Link>
-              </Button>
-
-              <Button
-                asChild
-                variant="outline"
-                className="inline-flex items-center gap-2 whitespace-nowrap"
-                size="lg"
-              >
-                <Link to="/contact">
-                  <BarChart3 className="w-5 h-5" />
-                  <span className="whitespace-nowrap">{t("hero.cta.callback", "Recevoir une démo")}</span>
-                </Link>
-              </Button>
-            </div>
-
-            <div className="relative max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-floating">
-              <img
-                src={heroImage}
-                alt={t("hero.alt", "Équipe professionnelle QVT Box")}
-                className="w-full h-[420px] md:h-[520px] object-cover"
-                loading="lazy"
-                decoding="async"
-                width={1600}
-                height={520}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-sm p-6 rounded-2xl shadow-2xl">
-                <div className="grid grid-cols-3 text-center">
-                  <div>
-                    <div className="text-xl font-bold text-primary">3 000+</div>
-                    <div className="text-xs text-foreground/70">{t("hero.kpi1", "Entreprises accompagnées")}</div>
-                  </div>
-                  <div>
-                    <div className="text-xl font-bold text-secondary">50+</div>
-                    <div className="text-xs text-foreground/70">{t("hero.kpi2", "Pays desservis")}</div>
-                  </div>
-                  <div>
-                    <div className="text-xl font-bold text-accent">95%</div>
-                    <div className="text-xs text-foreground/70">{t("hero.kpi3", "Satisfaction client")}</div>
-                  </div>
+              {/* Trust mini-metrics */}
+              <div className="mt-8 grid grid-cols-3 gap-4 max-w-md">
+                <div className="rounded-2xl border bg-white/70 dark:bg-white/5 p-4 text-center">
+                  <div className="text-xl font-bold text-primary">95%</div>
+                  <div className="text-xs text-foreground/60">Satisfaction</div>
+                </div>
+                <div className="rounded-2xl border bg-white/70 dark:bg-white/5 p-4 text-center">
+                  <div className="text-xl font-bold text-secondary">1–15</div>
+                  <div className="text-xs text-foreground/60">Score lisible</div>
+                </div>
+                <div className="rounded-2xl border bg-white/70 dark:bg-white/5 p-4 text-center">
+                  <div className="text-xl font-bold text-accent">DUERP</div>
+                  <div className="text-xs text-foreground/60">Export auto</div>
                 </div>
               </div>
+            </div>
+
+            <div className="relative">
+              <div className="rounded-[28px] overflow-hidden shadow-2xl ring-1 ring-black/5">
+                <img
+                  src={heroImage}
+                  alt="Équipe au travail — esprit positif"
+                  className="w-full h-[440px] object-cover"
+                  loading="lazy"
+                  decoding="async"
+                  width={1200}
+                  height={440}
+                />
+              </div>
+              {/* bubble glow */}
+              <div className="pointer-events-none absolute -bottom-8 -left-10 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
+              <div className="pointer-events-none absolute -top-8 -right-10 h-28 w-28 rounded-full bg-secondary/20 blur-2xl" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Offre */}
-      <section id="offre" className="py-16 px-6 bg-background" ref={offerRef}>
+      {/* 3 bénéfices clés */}
+      <section ref={valueRef} className="py-12 px-6">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 font-inter">{t("offer.title")}</h2>
-            <p className="text-lg text-foreground/70 max-w-3xl mx-auto font-lato">{t("offer.subtitle")}</p>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {offers.map((offer, index) => {
-              const Icon = offer.icon;
+          <div className="grid md:grid-cols-3 gap-6">
+            {valueProps.map((v, i) => {
+              const Icon = v.icon;
               return (
                 <Card
-                  key={index}
-                  className={`card-professional p-8 text-center stagger-item ${
-                    offerVisible.has(index) ? "visible" : ""
+                  key={v.title}
+                  className={`stagger-item ${valueVisible.has(i) ? "visible" : ""} border-transparent bg-gradient-to-b from-muted/40 to-background hover:from-muted/60 transition`}
+                >
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
+                      <Icon className="w-6 h-6 text-primary" />
+                    </div>
+                    <h3 className="text-xl font-semibold">{v.title}</h3>
+                    <p className="text-sm text-foreground/70 mt-2">{v.desc}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Comment ça marche (3 étapes) */}
+      <section ref={howRef} className="py-10 px-6 bg-gradient-to-b from-secondary/10 to-transparent">
+        <div className="container mx-auto">
+          <h2 className="text-center text-3xl md:text-4xl font-bold mb-8">
+            Comprendre en <span className="text-primary">3 étapes</span>
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {howItWorks.map((s, i) => (
+              <Card key={s.step} className={`stagger-item ${howVisible.has(i) ? "visible" : ""}`}>
+                <CardContent className="p-6">
+                  <div className="text-4xl font-extrabold text-primary/70">{s.step}</div>
+                  <h3 className="text-xl font-semibold mt-2">{s.title}</h3>
+                  <p className="text-sm text-foreground/70 mt-2">{s.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Demo visuelle */}
+      <section ref={demoRef} className="py-14 px-6">
+        <div className="container mx-auto">
+          <div className={`text-center mb-8 scroll-reveal ${demoVisible ? "visible" : ""}`}>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              La licence <span className="text-secondary">en action</span>
+            </h2>
+            <p className="text-foreground/70 mt-2">
+              Un tableau de bord clair, des alertes automatiques et un Export DUERP prêt à l’emploi.
+            </p>
+          </div>
+
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/5">
+            <img
+              src={saasImage}
+              alt="Dashboard QVT Box — démonstration"
+              className="w-full h-[360px] object-cover"
+              loading="lazy"
+              decoding="async"
+              width={1400}
+              height={360}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/10 via-transparent to-transparent" />
+          </div>
+
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <Button asChild size="lg" className="inline-flex items-center gap-2 whitespace-nowrap">
+              <Link to="/contact">
+                <BarChart3 className="w-5 h-5" />
+                <span>Recevoir une démo</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="inline-flex items-center gap-2 whitespace-nowrap"
+            >
+              <Link to="/contact">
+                <Phone className="w-5 h-5" />
+                <span>Parler à un expert</span>
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Offres (lisibles au 1er coup d'œil) */}
+      <section ref={pricingRef} className="py-16 px-6 bg-gradient-to-b from-primary/5 to-transparent">
+        <div className="container mx-auto">
+          <div className="text-center mb-8">
+            <Badge className="bg-primary/15 text-primary hover:bg-primary/20 mb-3">Offre</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold">Choisissez simplement</h2>
+            <p className="text-foreground/70 mt-2">
+              La licence suffit pour mesurer & prévenir. Les Box sont **optionnelles** et ciblées.
+            </p>
+            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 max-w-2xl mx-auto mt-6">
+              <p className="text-amber-900 text-sm">
+                💡 La <strong>Licence SaaS (3 000 €/an)</strong> est <strong>sans</strong> box. Les Box sont facturées
+                seulement quand vous décidez de les envoyer.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            {plans.map((p, i) => {
+              const Icon = p.icon;
+              return (
+                <Card
+                  key={p.title}
+                  className={`stagger-item ${pricingVisible.has(i) ? "visible" : ""} ${
+                    p.popular ? "border-2 border-primary shadow-lg" : ""
                   }`}
                 >
-                  <CardContent className="space-y-6">
-                    <div className="flex justify-center">
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                        <Icon className="w-8 h-8 text-primary" />
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
+                          <Icon className="w-6 h-6 text-primary" />
+                        </div>
+                        <h3 className="text-xl font-semibold">{p.title}</h3>
+                      </div>
+                      <div className="text-right">
+                        <div className="flex items-center justify-end">
+                          <Euro className="w-4 h-4 text-primary mr-1" />
+                          <span className="text-2xl font-bold text-primary">{p.price}</span>
+                        </div>
+                        <div className="text-xs text-foreground/60">{p.unit}</div>
                       </div>
                     </div>
-                    <h3 className="font-inter font-bold text-2xl text-foreground">{offer.title}</h3>
-                    <Badge variant="outline" className="text-xs">
-                      {offer.subtitle}
-                    </Badge>
-                    <p className="text-foreground/70 text-sm leading-relaxed font-lato">{offer.description}</p>
-                    <div className="space-y-2">
-                      {offer.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center justify-center text-sm text-foreground/60">
-                          <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0" />
-                          {feature}
-                        </div>
+
+                    <ul className="mt-5 space-y-2">
+                      {p.points.map((pt) => (
+                        <li key={pt} className="flex items-start gap-2 text-sm text-foreground/80">
+                          <CheckCircle2 className="w-4 h-4 text-primary mt-0.5" />
+                          <span>{pt}</span>
+                        </li>
                       ))}
+                    </ul>
+
+                    <div className="mt-6">
+                      <Button
+                        asChild
+                        size="lg"
+                        variant={p.popular ? "default" : "outline"}
+                        className="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap"
+                      >
+                        <Link to="/contact">
+                          <span>{p.cta}</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -283,177 +371,78 @@ const NewIndex = () => {
         </div>
       </section>
 
-      {/* Démo SaaS */}
-      <section id="demo" className="py-16 px-6 bg-gradient-to-br from-secondary/5 to-primary/5" ref={demoRef}>
+      {/* Social proof logos (placeholder) */}
+      <section ref={logosRef} className="py-10 px-6">
         <div className="container mx-auto">
-          <div className={`text-center mb-12 scroll-reveal ${demoVisible ? "visible" : ""}`}>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 font-inter">
-              {t("demo.title", "Licence Entreprise – ")} <span className="text-secondary">{t("demo.badge", "Démo")}</span>
-            </h2>
-            <p className="text-lg text-foreground/70 max-w-4xl mx-auto font-lato">
-              {t(
-                "demo.subtitle",
-                "Chaque entreprise dispose de son propre espace sécurisé. Les RH ajoutent les salariés, suivent les indicateurs QVT et reçoivent des alertes."
-              )}
-            </p>
+          <div className={`text-center mb-6 scroll-reveal ${logosVisible ? "visible" : ""}`}>
+            <p className="text-sm uppercase tracking-wider text-foreground/60">Ils s’intéressent à QVT Box</p>
           </div>
-
-          <div className="grid lg:grid-cols-2 gap-10 mb-10">
-            {demoFeatures.map((f, i) => (
-              <Card key={i} className="card-professional p-6">
-                <CardContent className="space-y-3">
-                  <h3 className="font-semibold text-lg">{f.title}</h3>
-                  <p className="text-foreground/70 text-sm">{f.description}</p>
-                  <div className="bg-muted/50 p-3 rounded-lg font-mono text-sm text-foreground/80">{f.mockup}</div>
-                </CardContent>
-              </Card>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 opacity-80">
+            {/* Placeholders sobres. Remplace par de vrais logos quand disponibles. */}
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="h-12 rounded-xl border bg-muted/40" />
             ))}
-          </div>
-
-          <div className="relative rounded-2xl overflow-hidden shadow-floating">
-            <img
-              src={saasImage}
-              alt={t("demo.imageAlt", "Interface de la licence entreprise QVT Box")}
-              className="w-full h-[320px] object-cover"
-              loading="lazy"
-              decoding="async"
-              width={1600}
-              height={320}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent" />
-          </div>
-
-          <div className="text-center mt-10">
-            <Button asChild size="lg" className="inline-flex items-center gap-2 whitespace-nowrap">
-              <Link to="/contact">
-                <BarChart3 className="w-5 h-5" />
-                <span className="whitespace-nowrap">{t("demo.cta", "Recevoir une démo de la licence")}</span>
-              </Link>
-            </Button>
           </div>
         </div>
       </section>
 
-      {/* Nos Box */}
+      {/* Nos Box (catalogue) */}
       <BoxCatalog />
 
-      {/* Tarifs */}
-      <section id="tarifs" className="py-16 px-6 bg-background" ref={pricingRef}>
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4 font-inter">{t("pricing.title")}</h2>
-            <p className="text-lg text-foreground/70 max-w-3xl mx-auto font-lato">{t("pricing.subtitle")}</p>
-            <div className="bg-red-50 border border-red-200 rounded-2xl p-5 max-w-2xl mx-auto mt-6">
-              <p className="text-red-800 font-semibold">
-                💡 {t("pricing.notice.title", "Important : La licence SaaS (3 000 € /an) est SANS box")}
+      {/* FAQ léger (sans nouvelle dépendance) */}
+      <section ref={faqRef} className="py-14 px-6">
+        <div className="container mx-auto max-w-4xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Questions fréquentes</h2>
+          <div className="space-y-3">
+            <details className="rounded-xl border bg-muted/30 p-4">
+              <summary className="cursor-pointer font-semibold">La licence inclut-elle les Box ?</summary>
+              <p className="mt-2 text-sm text-foreground/80">
+                Non. La licence sert à mesurer, prévenir et piloter. Les Box sont **optionnelles** et envoyées seulement quand c’est utile.
               </p>
-              <p className="text-red-700 text-sm mt-1">
-                {t("pricing.notice.desc", "Le coût des box est supplémentaire et facturé séparément selon vos besoins")}
+            </details>
+            <details className="rounded-xl border bg-muted/30 p-4">
+              <summary className="cursor-pointer font-semibold">Comment est calculé le score QVCT ?</summary>
+              <p className="mt-2 text-sm text-foreground/80">
+                Un score lisible de 1 à 15, consolidé par équipe et anonymisé. Des tendances 7/30j permettent d’anticiper.
               </p>
-            </div>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {plans.map((plan, idx) => (
-              <Card
-                key={idx}
-                className={`card-professional p-8 text-center ${
-                  plan.popular ? "border-2 border-primary" : ""
-                } stagger-item ${pricingVisible.has(idx) ? "visible" : ""}`}
-              >
-                <CardContent className="space-y-5">
-                  {plan.popular && <Badge className="bg-primary text-white">{t("pricing.recommended", "Recommandé")}</Badge>}
-                  <h3 className="font-inter font-bold text-xl">{plan.type}</h3>
-                  <div>
-                    <div className="flex items-center justify-center">
-                      <Euro className="w-5 h-5 text-primary mr-1" />
-                      <span className="text-3xl font-bold text-primary">{plan.price}</span>
-                    </div>
-                    <p className="text-sm text-foreground/60">{plan.unit}</p>
-                  </div>
-                  <div className="space-y-2">
-                    {plan.list.map((item) => (
-                      <div key={item} className="flex items-center justify-center gap-2 text-sm text-foreground/70">
-                        <CheckCircle className="w-4 h-4 text-primary" />
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-
-                  <Button
-                    asChild
-                    className="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap"
-                    variant={plan.popular ? "default" : "outline"}
-                    size="lg"
-                  >
-                    <Link to="/contact">
-                      <Phone className="w-5 h-5" />
-                      <span className="whitespace-nowrap">{t("pricing.cta", "Demander un devis")}</span>
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Témoignages */}
-      <section id="temoignages" className="py-16 px-6 bg-background" ref={testimonialsRef}>
-        <div className="container mx-auto">
-          <div className={`text-center mb-12 scroll-reveal ${testimonialsVisible.has(0) ? "visible" : ""}`}>
-            <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
-              {t("testimonials.title", "Ils nous font ")}
-              <span className="text-primary">{t("testimonials.trust", "confiance")}</span>
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((tt, i) => (
-              <Card key={i} className={`card-professional p-6 stagger-item ${testimonialsVisible.has(i) ? "visible" : ""}`}>
-                <CardContent className="space-y-4">
-                  <p className="text-foreground/80 italic font-lato leading-relaxed">"{tt.quote}"</p>
-                  <div className="border-t pt-4">
-                    <p className="font-semibold text-foreground font-inter">{tt.author}</p>
-                    <p className="text-sm text-foreground/60 font-lato">{tt.company}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+            </details>
+            <details className="rounded-xl border bg-muted/30 p-4">
+              <summary className="cursor-pointer font-semibold">Le DUERP est-il conforme ?</summary>
+              <p className="mt-2 text-sm text-foreground/80">
+                L’export DUERP est généré automatiquement à partir des risques identifiés et des actions menées.
+              </p>
+            </details>
           </div>
         </div>
       </section>
 
       {/* CTA final */}
-      <section id="contact" className="py-16 px-6 bg-primary" ref={ctaRef}>
+      <section ref={ctaRef} className="py-16 px-6 bg-primary">
         <div className={`container mx-auto text-center scroll-reveal-scale ${ctaVisible ? "visible" : ""}`}>
-          <h2 className="text-4xl font-bold text-white mb-4 font-inter">
-            {t("cta.final.title", "Prêt à transformer votre QVCT ?")}
-          </h2>
-          <p className="text-white/90 text-lg mb-6 max-w-3xl mx-auto font-lato leading-relaxed">
-            {t("cta.final.subtitle", "Contactez-nous pour un devis personnalisé ou une démonstration.")}
+          <h2 className="text-4xl font-bold text-white mb-3 font-inter">Passez à une QVT utile</h2>
+          <p className="text-white/90 text-lg mb-6 max-w-3xl mx-auto">
+            Mesurez ce qui compte, agissez quand il faut. Une démo ? Un devis Box ?
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button
               asChild
               size="lg"
-              className="bg-white text-primary hover:bg-white/90 font-inter inline-flex items-center gap-2 whitespace-nowrap"
+              className="bg-white text-primary hover:bg-white/90 inline-flex items-center gap-2 whitespace-nowrap"
             >
               <Link to="/contact">
-                <Phone className="w-5 h-5" />
-                <span className="whitespace-nowrap">{t("cta.quote", "Demander un devis")}</span>
+                <BarChart3 className="w-5 h-5" />
+                <span>Recevoir une démo</span>
               </Link>
             </Button>
-
             <Button
               asChild
               size="lg"
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-primary font-inter inline-flex items-center gap-2 whitespace-nowrap"
+              className="border-white text-white hover:bg-white hover:text-primary inline-flex items-center gap-2 whitespace-nowrap"
             >
               <Link to="/contact">
-                <BarChart3 className="w-5 h-5" />
-                <span className="whitespace-nowrap">{t("cta.demo", "Recevoir une démo")}</span>
+                <Phone className="w-5 h-5" />
+                <span>Demander un devis Box</span>
               </Link>
             </Button>
           </div>
