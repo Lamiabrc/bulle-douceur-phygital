@@ -12,11 +12,13 @@ import boxPAA from "@/assets/box-pouvoir-d-achat-contents.webp";
 import boxCohesion from "@/assets/box-cohesion-contents.webp";
 import boxStress from "@/assets/box-bien-etre-anti-stress.webp";
 import boxExport from "@/assets/box-premium-export-packaging.webp";
+import boxPenibilite from "@/assets/box-penibilite-recuperation.webp"; // 👈 nouvelle image pénibilité
 import madeInFranceBadge from "@/assets/label-made-in-france-badge.svg";
 
 const BoxCatalog = () => {
   const [catalogRef, catalogVisible] = useScrollReveal();
 
+  // ---------- BOX THÉMATIQUES ----------
   const thematicBoxes = [
     {
       name: "Focus & Reset",
@@ -53,8 +55,8 @@ const BoxCatalog = () => {
     {
       name: "Pénibilité & Récupération",
       price: "34,90 €",
-      description: "Récupération après effort et soulagement",
-      image: boxExport,
+      description: "Récupération après effort, soulagement des tensions",
+      image: boxPenibilite, // ✅ image dédiée
       contents: [
         "Patch chauffant naturel",
         "Crème articulations & muscles",
@@ -62,7 +64,7 @@ const BoxCatalog = () => {
         "Balle de massage ergonomique",
         "Carte rituel récupération",
       ],
-      benefits: ["Soulage les tensions", "Améliore la récupération", "Détente musculaire"],
+      benefits: ["Soulage les tensions", "Accélère la récupération", "Détente musculaire"],
       madeInFrance: true,
       customizable: true,
     },
@@ -85,6 +87,33 @@ const BoxCatalog = () => {
     },
   ];
 
+  // ---------- BOX PREMIUM / EXPORT (nouvelle) ----------
+  const premiumBoxes = [
+    {
+      name: "Box Premium Export",
+      price: "49,90 – 89,90 €",
+      description:
+        "Packaging renforcé, expédition internationale et formalités douanières simplifiées. Idéal multi-sites & filiales.",
+      image: boxExport,
+      contents: [
+        "Sélection premium (bien-être + gourmandises)",
+        "Protection colis renforcée",
+        "Étiquette douane & conformité",
+        "Message personnalisé multilingue",
+        "Option tracking & preuve de livraison",
+      ],
+      benefits: [
+        "Parfaite pour l'international",
+        "Réduit la casse & retours",
+        "Expérience premium garantie",
+      ],
+      madeInFrance: true,
+      customizable: true,
+      premium: true,
+    },
+  ];
+
+  // ---------- BOX ÉVÉNEMENTIELLES ----------
   const eventBoxes = [
     {
       name: "Box Retraite",
@@ -266,10 +295,7 @@ const BoxCatalog = () => {
                     <h5 className="font-semibold mb-2 text-foreground">Contenu de la box :</h5>
                     <div className="grid gap-2">
                       {box.contents.map((item) => (
-                        <div
-                          key={item}
-                          className="flex items-center text-sm text-foreground/70"
-                        >
+                        <div key={item} className="flex items-center text-sm text-foreground/70">
                           <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0" />
                           {item}
                         </div>
@@ -291,6 +317,101 @@ const BoxCatalog = () => {
                   <Button asChild className="w-full">
                     <Link to="/contact">Demander un devis pour cette box</Link>
                   </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Box Premium / Export (nouvelle section) */}
+        <div className="mb-20">
+          <h3 className="text-3xl font-bold text-center mb-12 font-inter">
+            Box <span className="text-secondary">Premium / Export</span>
+          </h3>
+          <div className="grid lg:grid-cols-1 gap-8 max-w-4xl mx-auto">
+            {premiumBoxes.map((box) => (
+              <Card
+                key={box.name}
+                className="card-professional overflow-hidden hover:shadow-floating transition-all duration-300 group"
+              >
+                <div className="relative h-56 overflow-hidden">
+                  <img
+                    src={box.image}
+                    alt={`Box ${box.name}`}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    loading="lazy"
+                    decoding="async"
+                    width={1400}
+                    height={280}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute top-4 left-4 flex gap-2">
+                    <Badge className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white">Premium</Badge>
+                    {box.madeInFrance && (
+                      <Badge className="bg-primary text-white inline-flex items-center gap-1">
+                        <img
+                          src={madeInFranceBadge}
+                          alt="Made in France"
+                          className="h-4 w-4"
+                          loading="lazy"
+                          decoding="async"
+                          width={16}
+                          height={16}
+                        />
+                        Made in France
+                      </Badge>
+                    )}
+                    {box.customizable && (
+                      <Badge variant="outline" className="bg-white/90">
+                        Personnalisable
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="absolute bottom-4 left-4">
+                    <h4 className="text-xl font-bold text-white mb-1">{box.name}</h4>
+                    <p className="text-white/80 text-sm">{box.description}</p>
+                  </div>
+                  <div className="absolute bottom-4 right-4">
+                    <div className="bg-white/90 px-3 py-1 rounded-full">
+                      <span className="font-bold text-secondary">{box.price}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <CardContent className="p-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h5 className="font-semibold mb-2 text-foreground">Contenu premium :</h5>
+                      <div className="grid gap-2">
+                        {box.contents.map((item) => (
+                          <div key={item} className="flex items-center text-sm text-foreground/70">
+                            <CheckCircle className="w-4 h-4 text-secondary mr-2 flex-shrink-0" />
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h5 className="font-semibold mb-2 text-foreground">Atouts logistiques :</h5>
+                      <div className="flex flex-wrap gap-2">
+                        {box.benefits.map((benefit) => (
+                          <Badge key={benefit} variant="secondary" className="text-xs">
+                            {benefit}
+                          </Badge>
+                        ))}
+                      </div>
+                      <div className="mt-3 text-sm text-foreground/70 flex items-center gap-2">
+                        <Globe className="w-4 h-4" />
+                        Expédition internationale avec options de suivi & preuve de livraison.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-6">
+                    <Button asChild className="w-full">
+                      <Link to="/contact">Demander un devis Export</Link>
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -333,10 +454,7 @@ const BoxCatalog = () => {
                   <div className="mb-4">
                     <div className="grid gap-1">
                       {box.contents.map((item) => (
-                        <div
-                          key={item}
-                          className="flex items-center text-xs text-foreground/60"
-                        >
+                        <div key={item} className="flex items-center text-xs text-foreground/60">
                           <Gift className="w-3 h-3 text-secondary mr-2 flex-shrink-0" />
                           {item}
                         </div>
@@ -363,10 +481,7 @@ const BoxCatalog = () => {
             {customizationOptions.map((option) => {
               const IconComponent = option.icon;
               return (
-                <Card
-                  key={option.title}
-                  className="text-center p-6 hover:shadow-lg transition-all duration-300"
-                >
+                <Card key={option.title} className="text-center p-6 hover:shadow-lg transition-all duration-300">
                   <CardContent>
                     <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                       <IconComponent className="w-8 h-8 text-primary" />
@@ -380,18 +495,12 @@ const BoxCatalog = () => {
           </div>
 
           <div className="text-center">
-            <h4 className="text-2xl font-bold text-foreground mb-4">
-              Cadeau Exceptionnel International
-            </h4>
+            <h4 className="text-2xl font-bold text-foreground mb-4">Cadeau Exceptionnel International</h4>
             <p className="text-lg text-foreground/80 mb-6 max-w-2xl mx-auto">
               Offrez l'excellence française à vos équipes internationales. Nos box sont expédiées
               dans le monde entier avec le même niveau de qualité et d'attention.
             </p>
-            <Button
-              asChild
-              size="lg"
-              className="bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg"
-            >
+            <Button asChild size="lg" className="bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg">
               <Link to="/contact">
                 <Globe className="w-5 h-5 mr-2" />
                 Demander un devis international
