@@ -9,21 +9,22 @@ import { Link } from "react-router-dom";
 import { useScrollReveal, useStaggeredReveal } from "@/hooks/useScrollReveal";
 import { useLanguage } from "@/hooks/useLanguage";
 
-// ✅ Only use images that EXIST in /src/assets
+import { Phone, BarChart3, CheckCircle2, ShieldCheck, Sparkles, ArrowRight, Euro, Box as BoxIcon, Activity } from "lucide-react";
+
+// ==== IMAGES (assure-toi qu’elles existent dans /src/assets) ====
+// Hero + SaaS
 import heroImage from "@/assets/hero-workplace-team.jpg";
 import saasImage from "@/assets/saas-dashboard-pro.jpg";
 
-import {
-  Phone,
-  BarChart3,
-  CheckCircle2,
-  ShieldCheck,
-  Sparkles,
-  ArrowRight,
-  Euro,
-  Box,
-  Activity,
-} from "lucide-react";
+// Pack “Box”
+import boxLineup from "@/assets/box-lineup-table.webp";
+import boxUnboxing from "@/assets/box-unboxing-desk.webp";
+import boxExport from "@/assets/box-premium-export-packaging.webp";
+import madeInFranceBadge from "@/assets/label-made-in-france-badge.svg";
+
+// Confiance / logistique
+import partnersLocal from "@/assets/partners-local-producers.webp";
+import shippingStation from "@/assets/shipping-station-parcel.webp";
 
 const NewIndex = () => {
   const { t } = useLanguage();
@@ -36,7 +37,7 @@ const NewIndex = () => {
   const [faqRef, faqVisible] = useScrollReveal();
   const [ctaRef, ctaVisible] = useScrollReveal();
 
-  // ✨ 3 bénéfices instantanément compréhensibles
+  // ✨ 3 bénéfices
   const valueProps = [
     {
       icon: Activity,
@@ -55,7 +56,7 @@ const NewIndex = () => {
     },
   ];
 
-  // 🔁 3 étapes lisibles
+  // 🔁 3 étapes
   const howItWorks = [
     {
       step: "01",
@@ -74,7 +75,7 @@ const NewIndex = () => {
     },
   ];
 
-  // 💶 Offres ultra lisibles (SaaS + Box en option)
+  // 💶 Offres (SaaS + Box)
   const plans = [
     {
       badge: "Populaire",
@@ -91,6 +92,7 @@ const NewIndex = () => {
       cta: "Recevoir une démo",
       icon: BarChart3,
       popular: true,
+      image: null as string | null,
     },
     {
       badge: "Option",
@@ -98,14 +100,19 @@ const NewIndex = () => {
       price: "39,90 €",
       unit: "HT / box",
       points: [
+        <>
+          Produits <span className="inline-flex items-center gap-1">Made in France
+            <img src={madeInFranceBadge} alt="Made in France" className="inline-block h-4 w-4" loading="lazy" decoding="async" />
+          </span>
+        </>,
         "Thématiques utiles (pouvoir d’achat, cohésion, etc.)",
-        "Produits Made in France",
         "Personnalisation possible",
         "Expédition à la demande",
       ],
       cta: "Demander un devis Box",
-      icon: Box,
+      icon: BoxIcon,
       popular: false,
+      image: boxExport as string,
     },
   ];
 
@@ -124,11 +131,7 @@ const NewIndex = () => {
       </div>
 
       {/* HERO */}
-      <section
-        ref={heroRef}
-        className="relative overflow-hidden"
-      >
-        {/* Glow background */}
+      <section ref={heroRef} className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/20 via-transparent to-transparent" />
         <div className="container mx-auto px-6 pt-20 pb-10 lg:pt-28 lg:pb-14">
           <div className={`grid lg:grid-cols-2 gap-10 items-center scroll-reveal ${heroVisible ? "visible" : ""}`}>
@@ -154,12 +157,7 @@ const NewIndex = () => {
                     <span>Recevoir une démo</span>
                   </Link>
                 </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="inline-flex items-center gap-2 whitespace-nowrap"
-                >
+                <Button asChild size="lg" variant="outline" className="inline-flex items-center gap-2 whitespace-nowrap">
                   <Link to="/contact">
                     <Phone className="w-5 h-5" />
                     <span>Parler à un expert</span>
@@ -167,7 +165,7 @@ const NewIndex = () => {
                 </Button>
               </div>
 
-              {/* Trust mini-metrics */}
+              {/* Metrics mini */}
               <div className="mt-8 grid grid-cols-3 gap-4 max-w-md">
                 <div className="rounded-2xl border bg-white/70 dark:bg-white/5 p-4 text-center">
                   <div className="text-xl font-bold text-primary">95%</div>
@@ -196,10 +194,27 @@ const NewIndex = () => {
                   height={440}
                 />
               </div>
-              {/* bubble glow */}
+              {/* glow */}
               <div className="pointer-events-none absolute -bottom-8 -left-10 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
               <div className="pointer-events-none absolute -top-8 -right-10 h-28 w-28 rounded-full bg-secondary/20 blur-2xl" />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Bandeau visuel Box lineup */}
+      <section className="px-6">
+        <div className="container mx-auto">
+          <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-md">
+            <img
+              src={boxLineup}
+              alt="Gamme de Box QVT alignées"
+              className="w-full h-[320px] md:h-[380px] object-cover"
+              loading="lazy"
+              decoding="async"
+              width={1600}
+              height={380}
+            />
           </div>
         </div>
       </section>
@@ -229,7 +244,7 @@ const NewIndex = () => {
         </div>
       </section>
 
-      {/* Comment ça marche (3 étapes) */}
+      {/* Comment ça marche */}
       <section ref={howRef} className="py-10 px-6 bg-gradient-to-b from-secondary/10 to-transparent">
         <div className="container mx-auto">
           <h2 className="text-center text-3xl md:text-4xl font-bold mb-8">
@@ -242,6 +257,19 @@ const NewIndex = () => {
                   <div className="text-4xl font-extrabold text-primary/70">{s.step}</div>
                   <h3 className="text-xl font-semibold mt-2">{s.title}</h3>
                   <p className="text-sm text-foreground/70 mt-2">{s.desc}</p>
+                  {s.step === "03" && (
+                    <div className="mt-4 rounded-xl overflow-hidden ring-1 ring-black/5">
+                      <img
+                        src={boxUnboxing}
+                        alt="Unboxing d’une Box QVT sur un bureau"
+                        className="w-full h-40 object-cover"
+                        loading="lazy"
+                        decoding="async"
+                        width={800}
+                        height={160}
+                      />
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -282,12 +310,7 @@ const NewIndex = () => {
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="inline-flex items-center gap-2 whitespace-nowrap"
-            >
+            <Button asChild size="lg" variant="outline" className="inline-flex items-center gap-2 whitespace-nowrap">
               <Link to="/contact">
                 <Phone className="w-5 h-5" />
                 <span>Parler à un expert</span>
@@ -297,14 +320,14 @@ const NewIndex = () => {
         </div>
       </section>
 
-      {/* Offres (lisibles au 1er coup d'œil) */}
+      {/* Offres (lisibles) */}
       <section ref={pricingRef} className="py-16 px-6 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="container mx-auto">
           <div className="text-center mb-8">
             <Badge className="bg-primary/15 text-primary hover:bg-primary/20 mb-3">Offre</Badge>
             <h2 className="text-3xl md:text-4xl font-bold">Choisissez simplement</h2>
             <p className="text-foreground/70 mt-2">
-              La licence suffit pour mesurer & prévenir. Les Box sont **optionnelles** et ciblées.
+              La licence suffit pour mesurer & prévenir. Les Box sont <strong>optionnelles</strong> et ciblées.
             </p>
             <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 max-w-2xl mx-auto mt-6">
               <p className="text-amber-900 text-sm">
@@ -325,14 +348,18 @@ const NewIndex = () => {
                   }`}
                 >
                   <CardContent className="p-6">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-start justify-between gap-4">
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center">
                           <Icon className="w-6 h-6 text-primary" />
                         </div>
-                        <h3 className="text-xl font-semibold">{p.title}</h3>
+                        <div>
+                          <h3 className="text-xl font-semibold">{p.title}</h3>
+                          {p.popular && <Badge className="mt-1 bg-primary text-white">Populaire</Badge>}
+                          {!p.popular && <Badge variant="outline" className="mt-1">Option</Badge>}
+                        </div>
                       </div>
-                      <div className="text-right">
+                      <div className="text-right shrink-0">
                         <div className="flex items-center justify-end">
                           <Euro className="w-4 h-4 text-primary mr-1" />
                           <span className="text-2xl font-bold text-primary">{p.price}</span>
@@ -341,9 +368,24 @@ const NewIndex = () => {
                       </div>
                     </div>
 
+                    {/* Visuel optionnel pour le plan Box */}
+                    {p.image && (
+                      <div className="mt-5 rounded-xl overflow-hidden ring-1 ring-black/5">
+                        <img
+                          src={p.image}
+                          alt="Packaging de Box QVT pour export"
+                          className="w-full h-36 object-cover"
+                          loading="lazy"
+                          decoding="async"
+                          width={900}
+                          height={144}
+                        />
+                      </div>
+                    )}
+
                     <ul className="mt-5 space-y-2">
-                      {p.points.map((pt) => (
-                        <li key={pt} className="flex items-start gap-2 text-sm text-foreground/80">
+                      {p.points.map((pt, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm text-foreground/80">
                           <CheckCircle2 className="w-4 h-4 text-primary mt-0.5" />
                           <span>{pt}</span>
                         </li>
@@ -371,25 +413,47 @@ const NewIndex = () => {
         </div>
       </section>
 
-      {/* Social proof logos (placeholder) */}
+      {/* Preuve sociale / Partenaires (remplace placeholders) */}
       <section ref={logosRef} className="py-10 px-6">
         <div className="container mx-auto">
           <div className={`text-center mb-6 scroll-reveal ${logosVisible ? "visible" : ""}`}>
-            <p className="text-sm uppercase tracking-wider text-foreground/60">Ils s’intéressent à QVT Box</p>
+            <p className="text-sm uppercase tracking-wider text-foreground/60">Partenaires & producteurs locaux</p>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 opacity-80">
-            {/* Placeholders sobres. Remplace par de vrais logos quand disponibles. */}
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-12 rounded-xl border bg-muted/40" />
-            ))}
+          <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-md">
+            <img
+              src={partnersLocal}
+              alt="Artisans et producteurs locaux partenaires"
+              className="w-full h-[260px] md:h-[320px] object-cover"
+              loading="lazy"
+              decoding="async"
+              width={1600}
+              height={320}
+            />
           </div>
         </div>
       </section>
 
-      {/* Nos Box (catalogue) */}
+      {/* Catalogue Box */}
       <BoxCatalog />
 
-      {/* FAQ léger (sans nouvelle dépendance) */}
+      {/* Logistique (rassurance) */}
+      <section className="py-12 px-6">
+        <div className="container mx-auto">
+          <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow">
+            <img
+              src={shippingStation}
+              alt="Préparation d’envois de Box dans l’atelier d’expédition"
+              className="w-full h-[260px] md:h-[320px] object-cover"
+              loading="lazy"
+              decoding="async"
+              width={1600}
+              height={320}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
       <section ref={faqRef} className="py-14 px-6">
         <div className="container mx-auto max-w-4xl">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Questions fréquentes</h2>
@@ -397,7 +461,7 @@ const NewIndex = () => {
             <details className="rounded-xl border bg-muted/30 p-4">
               <summary className="cursor-pointer font-semibold">La licence inclut-elle les Box ?</summary>
               <p className="mt-2 text-sm text-foreground/80">
-                Non. La licence sert à mesurer, prévenir et piloter. Les Box sont **optionnelles** et envoyées seulement quand c’est utile.
+                Non. La licence sert à mesurer, prévenir et piloter. Les Box sont <strong>optionnelles</strong> et envoyées seulement quand c’est utile.
               </p>
             </details>
             <details className="rounded-xl border bg-muted/30 p-4">
