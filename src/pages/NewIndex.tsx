@@ -9,20 +9,21 @@ import { Link } from "react-router-dom";
 import { useScrollReveal, useStaggeredReveal } from "@/hooks/useScrollReveal";
 import { useLanguage } from "@/hooks/useLanguage";
 
-import { Phone, BarChart3, CheckCircle2, ShieldCheck, Sparkles, ArrowRight, Euro, Box as BoxIcon, Activity } from "lucide-react";
+import {
+  Phone,
+  BarChart3,
+  CheckCircle2,
+  ShieldCheck,
+  Sparkles,
+  ArrowRight,
+  Euro,
+  Box as BoxIcon,
+  Activity,
+} from "lucide-react";
 
-// ==== IMAGES (assure-toi qu’elles existent dans /src/assets) ====
-// Hero + SaaS
+// ✅ IMAGES (assure-toi qu’elles existent)
 import heroImage from "@/assets/hero-workplace-team.jpg";
 import saasImage from "@/assets/saas-dashboard-pro.jpg";
-
-// Pack “Box”
-import boxLineup from "@/assets/box-lineup-table.webp";
-import boxUnboxing from "@/assets/box-unboxing-desk.webp";
-import boxExport from "@/assets/box-premium-export-packaging.webp";
-import madeInFranceBadge from "@/assets/label-made-in-france-badge.svg";
-
-// Confiance / logistique
 import partnersLocal from "@/assets/partners-local-producers.webp";
 import shippingStation from "@/assets/shipping-station-parcel.webp";
 
@@ -34,10 +35,8 @@ const NewIndex = () => {
   const [demoRef, demoVisible] = useScrollReveal();
   const [pricingRef, pricingVisible] = useStaggeredReveal(3, 140);
   const [logosRef, logosVisible] = useScrollReveal();
-  const [faqRef, faqVisible] = useScrollReveal();
   const [ctaRef, ctaVisible] = useScrollReveal();
 
-  // ✨ 3 bénéfices
   const valueProps = [
     {
       icon: Activity,
@@ -52,11 +51,10 @@ const NewIndex = () => {
     {
       icon: CheckCircle2,
       title: "Actions concrètes",
-      desc: "Box utiles & Made in France en option, pour passer du discours à l’acte.",
+      desc: "Box utiles 100% Made in France, pour passer du discours à l’acte.",
     },
-  ];
+  ] as const;
 
-  // 🔁 3 étapes
   const howItWorks = [
     {
       step: "01",
@@ -73,9 +71,8 @@ const NewIndex = () => {
       title: "Agissez utile",
       desc: "Déployez des Box ciblées (en option) quand c’est pertinent — pas par défaut.",
     },
-  ];
+  ] as const;
 
-  // 💶 Offres (SaaS + Box)
   const plans = [
     {
       badge: "Populaire",
@@ -92,7 +89,6 @@ const NewIndex = () => {
       cta: "Recevoir une démo",
       icon: BarChart3,
       popular: true,
-      image: null as string | null,
     },
     {
       badge: "Option",
@@ -100,11 +96,7 @@ const NewIndex = () => {
       price: "39,90 €",
       unit: "HT / box",
       points: [
-        <>
-          Produits <span className="inline-flex items-center gap-1">Made in France
-            <img src={madeInFranceBadge} alt="Made in France" className="inline-block h-4 w-4" loading="lazy" decoding="async" />
-          </span>
-        </>,
+        "Produits 100% Made in France",
         "Thématiques utiles (pouvoir d’achat, cohésion, etc.)",
         "Personnalisation possible",
         "Expédition à la demande",
@@ -112,9 +104,8 @@ const NewIndex = () => {
       cta: "Demander un devis Box",
       icon: BoxIcon,
       popular: false,
-      image: boxExport as string,
     },
-  ];
+  ] as const;
 
   return (
     <div className="min-h-screen bg-background">
@@ -194,27 +185,9 @@ const NewIndex = () => {
                   height={440}
                 />
               </div>
-              {/* glow */}
               <div className="pointer-events-none absolute -bottom-8 -left-10 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
               <div className="pointer-events-none absolute -top-8 -right-10 h-28 w-28 rounded-full bg-secondary/20 blur-2xl" />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Bandeau visuel Box lineup */}
-      <section className="px-6">
-        <div className="container mx-auto">
-          <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-md">
-            <img
-              src={boxLineup}
-              alt="Gamme de Box QVT alignées"
-              className="w-full h-[320px] md:h-[380px] object-cover"
-              loading="lazy"
-              decoding="async"
-              width={1600}
-              height={380}
-            />
           </div>
         </div>
       </section>
@@ -257,19 +230,6 @@ const NewIndex = () => {
                   <div className="text-4xl font-extrabold text-primary/70">{s.step}</div>
                   <h3 className="text-xl font-semibold mt-2">{s.title}</h3>
                   <p className="text-sm text-foreground/70 mt-2">{s.desc}</p>
-                  {s.step === "03" && (
-                    <div className="mt-4 rounded-xl overflow-hidden ring-1 ring-black/5">
-                      <img
-                        src={boxUnboxing}
-                        alt="Unboxing d’une Box QVT sur un bureau"
-                        className="w-full h-40 object-cover"
-                        loading="lazy"
-                        decoding="async"
-                        width={800}
-                        height={160}
-                      />
-                    </div>
-                  )}
                 </CardContent>
               </Card>
             ))}
@@ -320,21 +280,56 @@ const NewIndex = () => {
         </div>
       </section>
 
-      {/* Offres (lisibles) */}
-      <section ref={pricingRef} className="py-16 px-6 bg-gradient-to-b from-primary/5 to-transparent">
+      {/* Preuve sociale / Partenaires */}
+      <section className="py-10 px-6">
         <div className="container mx-auto">
-          <div className="text-center mb-8">
-            <Badge className="bg-primary/15 text-primary hover:bg-primary/20 mb-3">Offre</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold">Choisissez simplement</h2>
-            <p className="text-foreground/70 mt-2">
-              La licence suffit pour mesurer & prévenir. Les Box sont <strong>optionnelles</strong> et ciblées.
+          <div className={`text-center mb-6 scroll-reveal ${logosVisible ? "visible" : ""}`}>
+            <p className="text-sm uppercase tracking-wider text-foreground/60">Partenaires & producteurs locaux</p>
+          </div>
+          <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-md">
+            <img
+              src={partnersLocal}
+              alt="Artisans et producteurs locaux partenaires"
+              className="w-full h-[260px] md:h-[320px] object-cover"
+              loading="lazy"
+              decoding="async"
+              width={1600}
+              height={320}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* CATALOGUE COMPLET */}
+      <BoxCatalog />
+
+      {/* Logistique (rassurance) */}
+      <section className="py-12 px-6">
+        <div className="container mx-auto">
+          <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow">
+            <img
+              src={shippingStation}
+              alt="Préparation d’envois de Box dans l’atelier d’expédition"
+              className="w-full h-[260px] md:h-[320px] object-cover"
+              loading="lazy"
+              decoding="async"
+              width={1600}
+              height={320}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Tarifs (rappel simple) */}
+      <section className="py-16 px-6" ref={pricingRef}>
+        <div className="container mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-inter">
+              {t("pricing?.title") || "Tarifs simples"}
+            </h2>
+            <p className="text-lg text-foreground/70 max-w-3xl mx-auto font-lato">
+              Licence pour mesurer & prévenir. Box **en option** pour agir.
             </p>
-            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 max-w-2xl mx-auto mt-6">
-              <p className="text-amber-900 text-sm">
-                💡 La <strong>Licence SaaS (3 000 €/an)</strong> est <strong>sans</strong> box. Les Box sont facturées
-                seulement quand vous décidez de les envoyer.
-              </p>
-            </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
@@ -355,8 +350,13 @@ const NewIndex = () => {
                         </div>
                         <div>
                           <h3 className="text-xl font-semibold">{p.title}</h3>
-                          {p.popular && <Badge className="mt-1 bg-primary text-white">Populaire</Badge>}
-                          {!p.popular && <Badge variant="outline" className="mt-1">Option</Badge>}
+                          {p.popular ? (
+                            <Badge className="mt-1 bg-primary text-white">Populaire</Badge>
+                          ) : (
+                            <Badge variant="outline" className="mt-1">
+                              Option
+                            </Badge>
+                          )}
                         </div>
                       </div>
                       <div className="text-right shrink-0">
@@ -368,24 +368,9 @@ const NewIndex = () => {
                       </div>
                     </div>
 
-                    {/* Visuel optionnel pour le plan Box */}
-                    {p.image && (
-                      <div className="mt-5 rounded-xl overflow-hidden ring-1 ring-black/5">
-                        <img
-                          src={p.image}
-                          alt="Packaging de Box QVT pour export"
-                          className="w-full h-36 object-cover"
-                          loading="lazy"
-                          decoding="async"
-                          width={900}
-                          height={144}
-                        />
-                      </div>
-                    )}
-
                     <ul className="mt-5 space-y-2">
-                      {p.points.map((pt, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-sm text-foreground/80">
+                      {p.points.map((pt) => (
+                        <li key={pt} className="flex items-start gap-2 text-sm text-foreground/80">
                           <CheckCircle2 className="w-4 h-4 text-primary mt-0.5" />
                           <span>{pt}</span>
                         </li>
@@ -409,73 +394,6 @@ const NewIndex = () => {
                 </Card>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* Preuve sociale / Partenaires (remplace placeholders) */}
-      <section ref={logosRef} className="py-10 px-6">
-        <div className="container mx-auto">
-          <div className={`text-center mb-6 scroll-reveal ${logosVisible ? "visible" : ""}`}>
-            <p className="text-sm uppercase tracking-wider text-foreground/60">Partenaires & producteurs locaux</p>
-          </div>
-          <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-md">
-            <img
-              src={partnersLocal}
-              alt="Artisans et producteurs locaux partenaires"
-              className="w-full h-[260px] md:h-[320px] object-cover"
-              loading="lazy"
-              decoding="async"
-              width={1600}
-              height={320}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Catalogue Box */}
-      <BoxCatalog />
-
-      {/* Logistique (rassurance) */}
-      <section className="py-12 px-6">
-        <div className="container mx-auto">
-          <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow">
-            <img
-              src={shippingStation}
-              alt="Préparation d’envois de Box dans l’atelier d’expédition"
-              className="w-full h-[260px] md:h-[320px] object-cover"
-              loading="lazy"
-              decoding="async"
-              width={1600}
-              height={320}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section ref={faqRef} className="py-14 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Questions fréquentes</h2>
-          <div className="space-y-3">
-            <details className="rounded-xl border bg-muted/30 p-4">
-              <summary className="cursor-pointer font-semibold">La licence inclut-elle les Box ?</summary>
-              <p className="mt-2 text-sm text-foreground/80">
-                Non. La licence sert à mesurer, prévenir et piloter. Les Box sont <strong>optionnelles</strong> et envoyées seulement quand c’est utile.
-              </p>
-            </details>
-            <details className="rounded-xl border bg-muted/30 p-4">
-              <summary className="cursor-pointer font-semibold">Comment est calculé le score QVCT ?</summary>
-              <p className="mt-2 text-sm text-foreground/80">
-                Un score lisible de 1 à 15, consolidé par équipe et anonymisé. Des tendances 7/30j permettent d’anticiper.
-              </p>
-            </details>
-            <details className="rounded-xl border bg-muted/30 p-4">
-              <summary className="cursor-pointer font-semibold">Le DUERP est-il conforme ?</summary>
-              <p className="mt-2 text-sm text-foreground/80">
-                L’export DUERP est généré automatiquement à partir des risques identifiés et des actions menées.
-              </p>
-            </details>
           </div>
         </div>
       </section>
@@ -506,7 +424,7 @@ const NewIndex = () => {
             >
               <Link to="/contact">
                 <Phone className="w-5 h-5" />
-                <span>Demander un devis Box</span>
+                <span>Demander un devis</span>
               </Link>
             </Button>
           </div>
