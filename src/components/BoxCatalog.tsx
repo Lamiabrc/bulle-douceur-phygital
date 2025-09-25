@@ -6,15 +6,13 @@ import { Link } from "react-router-dom";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { CheckCircle, Gift, Star, Globe, Package } from "lucide-react";
 
-// Fallback drapeau sécurisé (emoji si l'image échoue)
-import SafeFlag from "@/components/SafeFlag";
-
-// ✅ IMAGES attendues dans /src/assets
+// ------------------------------------
+// ✅ IMPORTS IMAGES (assure-toi qu'elles existent)
 // Thématiques
-import boxFocus from "@/assets/box-bien-etre-anti-stress.webp";        // Focus & Reset
-import boxMobilite from "@/assets/box-mobilite-terrain.webp";          // Mobilité & Terrain
-import boxPenibilite from "@/assets/box-penibilite-recuperation.webp"; // Pénibilité & Récupération
-import boxPAA from "@/assets/box-pouvoir-achat.webp";                  // Pouvoir d’Achat
+import imgPAA from "@/assets/box-pouvoir-achat.webp";                  // Pouvoir d’Achat (TOP de page)
+import imgFocus from "@/assets/box-bien-etre-anti-stress.webp";        // Focus & Reset
+import imgMobilite from "@/assets/box-mobilite-terrain.webp";          // Mobilité & Terrain
+import imgPenibilite from "@/assets/box-penibilite-recuperation.webp"; // Pénibilité & Récupération
 
 // Événementielles
 import imgRetraite from "@/assets/box-evenement-retraite.webp";
@@ -23,19 +21,37 @@ import imgAnniversaire from "@/assets/box-evenement-anniversaire.webp";
 import imgPromotion from "@/assets/box-evenement-promotion.webp";
 import imgMariage from "@/assets/box-evenement-mariage.webp";
 
-// Badge (optionnel). Si absent, SafeFlag affichera 🇫🇷 automatiquement.
-import madeInFranceBadge from "@/assets/label-made-in-france-badge.svg";
+// Export (section dédiée tout en bas)
+import imgExport from "@/assets/box-premium-export-packaging.webp";
+// ------------------------------------
 
 const BoxCatalog = () => {
   const [catalogRef, catalogVisible] = useScrollReveal();
 
-  // -------------------- BOX THÉMATIQUES --------------------
+  // -------------------- BOX THÉMATIQUES (Pouvoir d'Achat en premier) --------------------
   const thematicBoxes = [
+    {
+      name: "Pouvoir d’Achat",
+      price: "34,90 €",
+      description: "Produits utiles du quotidien & coups de pouce concrets pour vos équipes.",
+      image: imgPAA,
+      contents: [
+        "Sélection de produits du quotidien",
+        "Gourmandises artisanales locales",
+        "Carnet astuces budget",
+        "Bon/coupon symbolique (option)",
+        "Carte message entreprise",
+      ],
+      benefits: ["Concret et utile", "Valeur perçue forte", "100% Made in France"],
+      madeInFrance: true,
+      customizable: true,
+      premium: false,
+    },
     {
       name: "Focus & Reset",
       price: "29,90 €",
-      description: "Concentration, gestion du stress et clarté mentale",
-      image: boxFocus,
+      description: "Concentration, gestion du stress et clarté mentale.",
+      image: imgFocus,
       contents: [
         "Carnet & stylo éco-conçu",
         "Tisane bio relax premium",
@@ -50,8 +66,8 @@ const BoxCatalog = () => {
     {
       name: "Mobilité & Terrain",
       price: "34,90 €",
-      description: "Soutien pour les salariés nomades et terrain",
-      image: boxMobilite,
+      description: "Soutien pour les salariés nomades et sur le terrain.",
+      image: imgMobilite,
       contents: [
         "Gourde/mug isotherme français",
         "Lingettes biodégradables",
@@ -66,8 +82,8 @@ const BoxCatalog = () => {
     {
       name: "Pénibilité & Récupération",
       price: "34,90 €",
-      description: "Récupération après effort, soulagement des tensions",
-      image: boxPenibilite,
+      description: "Récupération après effort, soulagement des tensions.",
+      image: imgPenibilite,
       contents: [
         "Patch chauffant naturel",
         "Crème articulations & muscles",
@@ -79,31 +95,14 @@ const BoxCatalog = () => {
       madeInFrance: true,
       customizable: true,
     },
-    {
-      name: "Pouvoir d’Achat",
-      price: "34,90 €",
-      description: "Produits utiles du quotidien & coups de pouce",
-      image: boxPAA,
-      contents: [
-        "Sélection de produits du quotidien",
-        "Gourmandises artisanales locales",
-        "Carnet astuces budget",
-        "Bon/coupon symbolique (option)",
-        "Carte message entreprise",
-      ],
-      benefits: ["Concret et utile", "Valeur perçue forte", "Made in France"],
-      madeInFrance: true,
-      customizable: true,
-      premium: false,
-    },
   ] as const;
 
-  // -------------------- BOX ÉVÉNEMENTIELLES --------------------
+  // -------------------- BOX ÉVÉNEMENTIELLES (chacune sa propre image) --------------------
   const eventBoxes = [
     {
       name: "Box Retraite",
       price: "59,90 €",
-      description: "Célébrer une carrière et souhaiter le meilleur",
+      description: "Célébrer une carrière et souhaiter le meilleur.",
       image: imgRetraite,
       contents: [
         "Livre d'or personnalisé",
@@ -116,7 +115,7 @@ const BoxCatalog = () => {
     {
       name: "Box Naissance",
       price: "49,90 €",
-      description: "Partager la joie d'une nouvelle vie",
+      description: "Partager la joie d'une nouvelle vie.",
       image: imgNaissance,
       contents: [
         "Produits bio pour bébé",
@@ -128,7 +127,7 @@ const BoxCatalog = () => {
     {
       name: "Box Anniversaire",
       price: "39,90 €",
-      description: "Marquer une date importante",
+      description: "Marquer une date importante avec élégance.",
       image: imgAnniversaire,
       contents: [
         "Friandises artisanales",
@@ -140,7 +139,7 @@ const BoxCatalog = () => {
     {
       name: "Box Promotion/Réussite",
       price: "49,90 €",
-      description: "Célébrer les succès et évolutions",
+      description: "Célébrer les succès et évolutions.",
       image: imgPromotion,
       contents: [
         "Accessoire professionnel",
@@ -152,7 +151,7 @@ const BoxCatalog = () => {
     {
       name: "Box Mariage/Événement",
       price: "59,90 €",
-      description: "Partager les moments de bonheur",
+      description: "Partager les moments de bonheur avec raffinement.",
       image: imgMariage,
       contents: [
         "Chocolats fins & bougie",
@@ -166,22 +165,22 @@ const BoxCatalog = () => {
   const customizationOptions = [
     {
       title: "Personnalisation Complète",
-      description: "Logo entreprise, couleurs, message personnalisé",
+      description: "Logo entreprise, couleurs, message personnalisé.",
       icon: Star,
     },
     {
       title: "Produits Locaux",
-      description: "Sélection de producteurs de votre région",
+      description: "Sélection de producteurs de votre région.",
       icon: Package,
     },
     {
       title: "Quantités Flexibles",
-      description: "De 10 à 1000+ box selon vos besoins",
+      description: "De 10 à 1000+ box selon vos besoins.",
       icon: Package,
     },
     {
       title: "Livraison Internationale",
-      description: "Expédition partout dans le monde",
+      description: "Expédition partout dans le monde.",
       icon: Globe,
     },
   ] as const;
@@ -197,18 +196,17 @@ const BoxCatalog = () => {
             Nos <span className="text-primary">Box Exceptionnelles</span>
           </h2>
           <p className="text-xl text-foreground/70 max-w-4xl mx-auto font-lato mb-8 leading-relaxed">
-            Offrez à vos équipes un cadeau exceptionnel : une box française expédiée directement
-            dans votre entreprise. Conçues pour marquer les moments importants, une à deux fois par an.
+            Offrez à vos équipes un cadeau d’impact : des box utiles, 100% Made in France, envoyées au bon moment.
           </p>
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl px-4 py-2">
-            <SafeFlag src={madeInFranceBadge} size={20} className="inline-block" />
+            <span role="img" aria-label="Made in France">🇫🇷</span>
             <p className="text-sm font-semibold text-foreground">
               100% Made in France • Artisanat Local • Impact Mesurable
             </p>
           </div>
         </div>
 
-        {/* ---------- Thématiques ---------- */}
+        {/* ---------- Thématiques (PAA en premier) ---------- */}
         <div className="mb-20">
           <h3 className="text-3xl font-bold text-center mb-12 font-inter">
             Box <span className="text-primary">Thématiques</span>
@@ -231,12 +229,10 @@ const BoxCatalog = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute top-4 left-4 flex gap-2">
-                    {box.madeInFrance && (
-                      <Badge className="bg-primary text-white inline-flex items-center gap-1">
-                        <SafeFlag src={madeInFranceBadge} size={16} className="inline-block" />
-                        Made in France
-                      </Badge>
-                    )}
+                    <Badge className="bg-primary text-white inline-flex items-center gap-1">
+                      <span role="img" aria-label="Made in France">🇫🇷</span>
+                      Made in France
+                    </Badge>
                     {box.customizable && (
                       <Badge variant="outline" className="bg-white/90">
                         Personnalisable
@@ -298,7 +294,7 @@ const BoxCatalog = () => {
           <h3 className="text-3xl font-bold text-center mb-12 font-inter">
             Box <span className="text-secondary">Événementielles</span>
           </h3>
-          <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid lg:grid-cols-3 gap-6">
             {eventBoxes.map((box) => (
               <Card
                 key={box.name}
@@ -346,46 +342,91 @@ const BoxCatalog = () => {
           </div>
         </div>
 
-        {/* ---------- Personnalisation ---------- */}
-        <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-3xl p-12">
-          <h3 className="text-3xl font-bold text-center mb-12 font-inter">
-            Options de <span className="text-primary">Personnalisation</span>
+        {/* ---------- SECTION EXPORT (TOUT EN BAS) ---------- */}
+        <div className="mt-24">
+          <h3 className="text-3xl font-bold text-center mb-6 font-inter">
+            Box <span className="text-secondary">Premium Export</span>
           </h3>
+          <p className="text-center text-foreground/80 max-w-3xl mx-auto mb-10">
+            Nous livrons **dans le monde entier** des <strong>box cadeaux salariés 100% Made in France</strong>, avec un
+            **impact salarié luxueux et unique**. Packaging renforcé, formalités douanières simplifiées, et suivi
+            de livraison pour une expérience sans friction.
+          </p>
 
-          <div className="grid lg:grid-cols-4 gap-8 mb-12">
-            {customizationOptions.map((option) => {
-              const IconComponent = option.icon;
-              return (
-                <Card key={option.title} className="text-center p-6 hover:shadow-lg transition-all duration-300">
-                  <CardContent>
-                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <IconComponent className="w-8 h-8 text-primary" />
-                    </div>
-                    <h4 className="font-semibold text-foreground mb-2">{option.title}</h4>
-                    <p className="text-foreground/70 text-sm">{option.description}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+          <Card className="card-professional overflow-hidden hover:shadow-floating transition-all duration-300 group max-w-5xl mx-auto">
+            <div className="relative h-64 overflow-hidden">
+              <img
+                src={imgExport}
+                alt="Box Premium Export — packaging renforcé et expédition internationale"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                decoding="async"
+                width={1600}
+                height={320}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute top-4 left-4 flex gap-2">
+                <Badge className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white">Premium</Badge>
+                <Badge className="bg-primary text-white inline-flex items-center gap-1">
+                  <span role="img" aria-label="Made in France">🇫🇷</span>
+                  Made in France
+                </Badge>
+                <Badge variant="outline" className="bg-white/90">International</Badge>
+              </div>
+              <div className="absolute bottom-4 left-4 right-4">
+                <h4 className="text-2xl font-bold text-white mb-2">Cadeau salarié haut de gamme, partout dans le monde</h4>
+                <p className="text-white/85 text-sm">
+                  Produits premium, message personnalisé multilingue, option tracking & preuve de livraison.
+                </p>
+              </div>
+            </div>
 
-          <div className="text-center">
-            <h4 className="text-2xl font-bold text-foreground mb-4">Cadeau Exceptionnel International</h4>
-            <p className="text-lg text-foreground/80 mb-6 max-w-2xl mx-auto">
-              Offrez l'excellence française à vos équipes internationales. Nos box sont expédiées
-              dans le monde entier avec le même niveau de qualité et d'attention.
-            </p>
-            <Button
-              asChild
-              size="lg"
-              className="bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg"
-            >
-              <Link to="/contact">
-                <Globe className="w-5 h-5 mr-2" />
-                Demander un devis international
-              </Link>
-            </Button>
-          </div>
+            <CardContent className="p-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h5 className="font-semibold mb-2 text-foreground">Contenu premium :</h5>
+                  <div className="grid gap-2">
+                    {[
+                      "Sélection premium (bien-être + gourmandises)",
+                      "Protection colis renforcée",
+                      "Message personnalisé multilingue",
+                      "Finitions soignées (sceau, ruban, papier de soie)",
+                    ].map((item) => (
+                      <div key={item} className="flex items-center text-sm text-foreground/70">
+                        <CheckCircle className="w-4 h-4 text-secondary mr-2 flex-shrink-0" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h5 className="font-semibold mb-2 text-foreground">Atouts logistiques :</h5>
+                  <div className="grid gap-2">
+                    {[
+                      "Étiquette douane & conformité",
+                      "Options de suivi & preuve de livraison",
+                      "Réseau export multi-pays / multi-sites",
+                      "Service client dédié",
+                    ].map((item) => (
+                      <div key={item} className="flex items-center text-sm text-foreground/70">
+                        <CheckCircle className="w-4 h-4 text-secondary mr-2 flex-shrink-0" />
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <Button asChild size="lg" className="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap">
+                  <Link to="/contact">
+                    <Globe className="w-5 h-5" />
+                    Demander un devis Export (monde entier)
+                  </Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>
