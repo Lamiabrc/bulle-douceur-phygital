@@ -19,6 +19,7 @@ import {
   Euro,
   Box as BoxIcon,
   Activity,
+  Gift,
 } from "lucide-react";
 
 // ✅ IMAGES (assure-toi qu’elles existent)
@@ -26,6 +27,7 @@ import heroImage from "@/assets/hero-workplace-team.jpg";
 import saasImage from "@/assets/saas-dashboard-pro.jpg";
 import partnersLocal from "@/assets/partners-local-producers.webp";
 import shippingStation from "@/assets/shipping-station-parcel.webp";
+import boxPAA from "@/assets/box-pouvoir-achat.webp"; // Encart dédié Pouvoir d’Achat
 
 const NewIndex = () => {
   const { t } = useLanguage();
@@ -237,7 +239,7 @@ const NewIndex = () => {
         </div>
       </section>
 
-      {/* Demo visuelle */}
+      {/* Demo visuelle (SaaS) */}
       <section ref={demoRef} className="py-14 px-6">
         <div className="container mx-auto">
           <div className={`text-center mb-8 scroll-reveal ${demoVisible ? "visible" : ""}`}>
@@ -276,6 +278,100 @@ const NewIndex = () => {
                 <span>Parler à un expert</span>
               </Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* >>> ENCARt COMPLET — BOX POUVOIR D'ACHAT (après le SaaS) <<< */}
+      <section className="py-14 px-6 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
+        <div className="container mx-auto">
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            {/* Texte */}
+            <div>
+              <Badge className="mb-3 bg-emerald-100 text-emerald-700 hover:bg-emerald-100/90">
+                Priorité 2025 • Pouvoir d’Achat
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-extrabold leading-tight">
+                La Box qui fait <span className="text-primary">vraiment</span> la différence
+              </h2>
+              <p className="mt-3 text-foreground/80">
+                Un **geste concret** pour soutenir vos équipes : des produits utiles du quotidien, 100% Made in France,
+                sélectionnés avec soin. Valeur perçue forte, gratitude immédiate.
+              </p>
+
+              <div className="mt-5 grid sm:grid-cols-2 gap-4">
+                <Card className="border-emerald-200/60">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-2 text-emerald-700 font-semibold">
+                      <Euro className="w-4 h-4" /> Budget maîtrisé
+                    </div>
+                    <p className="text-sm text-foreground/70 mt-1">À partir de 34,90 € HT / box</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-primary/30">
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-2 text-primary font-semibold">
+                      <Gift className="w-4 h-4" /> Contenu utile & local
+                    </div>
+                    <p className="text-sm text-foreground/70 mt-1">Produits français, artisanat, personnalisation</p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <ul className="mt-5 space-y-2">
+                {[
+                  "Produits du quotidien + gourmandises artisanales",
+                  "Carte message entreprise incluse",
+                  "Personnalisation (logo, couleur, mot) en option",
+                  "Expédition à la demande (multi-sites possible)",
+                ].map((pt) => (
+                  <li key={pt} className="flex items-start gap-2 text-sm text-foreground/85">
+                    <CheckCircle2 className="w-4 h-4 text-primary mt-0.5" />
+                    <span>{pt}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-6 flex flex-col sm:flex-row gap-3">
+                <Button asChild size="lg" className="inline-flex items-center gap-2 whitespace-nowrap">
+                  <Link to="/contact">
+                    <BoxIcon className="w-5 h-5" />
+                    <span>Commander la Box Pouvoir d’Achat</span>
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="inline-flex items-center gap-2 whitespace-nowrap">
+                  <Link to="/contact">
+                    <Phone className="w-5 h-5" />
+                    <span>Demander un devis</span>
+                  </Link>
+                </Button>
+              </div>
+
+              {/* Mini preuve/ROI */}
+              <div className="mt-5 rounded-2xl border bg-white/60 p-4">
+                <p className="text-sm text-foreground/70">
+                  💡 Idéal pour **fin d’année**, **prime partagée** ou **remerciement collectif**. Impact
+                  salarié immédiat, logistique simple.
+                </p>
+              </div>
+            </div>
+
+            {/* Image */}
+            <div className="relative">
+              <div className="rounded-[28px] overflow-hidden shadow-xl ring-1 ring-black/5">
+                <img
+                  src={boxPAA}
+                  alt="Box Pouvoir d’Achat — produits utiles 100% Made in France"
+                  className="w-full h-[380px] object-cover"
+                  loading="lazy"
+                  decoding="async"
+                  width={1200}
+                  height={380}
+                />
+              </div>
+              <div className="pointer-events-none absolute -bottom-8 -left-10 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
+              <div className="pointer-events-none absolute -top-8 -right-10 h-28 w-28 rounded-full bg-secondary/20 blur-2xl" />
+            </div>
           </div>
         </div>
       </section>
