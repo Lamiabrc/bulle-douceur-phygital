@@ -153,7 +153,7 @@ const NewIndex = () => {
                 <Button asChild size="lg" variant="outline" className="inline-flex items-center gap-2 whitespace-nowrap">
                   <Link to="/contact">
                     <Phone className="w-5 h-5" />
-                    <span>Parler à un expert</span>
+                    <span>contacter notre équipe</span>
                   </Link>
                 </Button>
               </div>
