@@ -6,18 +6,24 @@ import { Link } from "react-router-dom";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { CheckCircle, Gift, Star, Globe, Package } from "lucide-react";
 
-// ✅ IMAGES (place-les dans /src/assets)
-import boxFocus from "@/assets/box-bien-etre-anti-stress.webp";
-import boxMobilite from "@/assets/box-mobilite-terrain.webp";
-import boxPenibilite from "@/assets/box-penibilite-recuperation.webp";
-import boxPAA from "@/assets/box-pouvoir-achat.webp";
+// Fallback drapeau sécurisé (emoji si l'image échoue)
+import SafeFlag from "@/components/SafeFlag";
 
+// ✅ IMAGES attendues dans /src/assets
+// Thématiques
+import boxFocus from "@/assets/box-bien-etre-anti-stress.webp";        // Focus & Reset
+import boxMobilite from "@/assets/box-mobilite-terrain.webp";          // Mobilité & Terrain
+import boxPenibilite from "@/assets/box-penibilite-recuperation.webp"; // Pénibilité & Récupération
+import boxPAA from "@/assets/box-pouvoir-achat.webp";                  // Pouvoir d’Achat
+
+// Événementielles
 import imgRetraite from "@/assets/box-evenement-retraite.webp";
 import imgNaissance from "@/assets/box-evenement-naissance.webp";
 import imgAnniversaire from "@/assets/box-evenement-anniversaire.webp";
 import imgPromotion from "@/assets/box-evenement-promotion.webp";
 import imgMariage from "@/assets/box-evenement-mariage.webp";
 
+// Badge (optionnel). Si absent, SafeFlag affichera 🇫🇷 automatiquement.
 import madeInFranceBadge from "@/assets/label-made-in-france-badge.svg";
 
 const BoxCatalog = () => {
@@ -90,7 +96,7 @@ const BoxCatalog = () => {
       customizable: true,
       premium: false,
     },
-  ];
+  ] as const;
 
   // -------------------- BOX ÉVÉNEMENTIELLES --------------------
   const eventBoxes = [
@@ -155,7 +161,7 @@ const BoxCatalog = () => {
         "Présentation élégante",
       ],
     },
-  ];
+  ] as const;
 
   const customizationOptions = [
     {
@@ -178,7 +184,7 @@ const BoxCatalog = () => {
       description: "Expédition partout dans le monde",
       icon: Globe,
     },
-  ];
+  ] as const;
 
   return (
     <section
@@ -195,15 +201,7 @@ const BoxCatalog = () => {
             dans votre entreprise. Conçues pour marquer les moments importants, une à deux fois par an.
           </p>
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl px-4 py-2">
-            <img
-              src={madeInFranceBadge}
-              alt="Made in France"
-              className="h-5 w-5"
-              loading="lazy"
-              decoding="async"
-              width={20}
-              height={20}
-            />
+            <SafeFlag src={madeInFranceBadge} size={20} className="inline-block" />
             <p className="text-sm font-semibold text-foreground">
               100% Made in France • Artisanat Local • Impact Mesurable
             </p>
@@ -233,25 +231,21 @@ const BoxCatalog = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute top-4 left-4 flex gap-2">
-                    {"madeInFrance" in box && (box as any).madeInFrance && (
+                    {box.madeInFrance && (
                       <Badge className="bg-primary text-white inline-flex items-center gap-1">
-                        <img
-                          src={madeInFranceBadge}
-                          alt="Made in France"
-                          className="h-4 w-4"
-                          loading="lazy"
-                          decoding="async"
-                          width={16}
-                          height={16}
-                        />
+                        <SafeFlag src={madeInFranceBadge} size={16} className="inline-block" />
                         Made in France
                       </Badge>
                     )}
-                    {"customizable" in box && (box as any).customizable && (
-                      <Badge variant="outline" className="bg-white/90">Personnalisable</Badge>
+                    {box.customizable && (
+                      <Badge variant="outline" className="bg-white/90">
+                        Personnalisable
+                      </Badge>
                     )}
                     {"premium" in box && (box as any).premium && (
-                      <Badge className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white">Premium</Badge>
+                      <Badge className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white">
+                        Premium
+                      </Badge>
                     )}
                   </div>
 
@@ -267,32 +261,28 @@ const BoxCatalog = () => {
                 </div>
 
                 <CardContent className="p-6">
-                  {"contents" in box && (
-                    <div className="mb-4">
-                      <h5 className="font-semibold mb-2 text-foreground">Contenu de la box :</h5>
-                      <div className="grid gap-2">
-                        {(box as any).contents.map((item: string) => (
-                          <div key={item} className="flex items-center text-sm text-foreground/70">
-                            <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0" />
-                            {item}
-                          </div>
-                        ))}
-                      </div>
+                  <div className="mb-4">
+                    <h5 className="font-semibold mb-2 text-foreground">Contenu de la box :</h5>
+                    <div className="grid gap-2">
+                      {box.contents.map((item) => (
+                        <div key={item} className="flex items-center text-sm text-foreground/70">
+                          <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0" />
+                          {item}
+                        </div>
+                      ))}
                     </div>
-                  )}
+                  </div>
 
-                  {"benefits" in box && (
-                    <div className="mb-4">
-                      <h5 className="font-semibold mb-2 text-foreground">Bénéfices :</h5>
-                      <div className="flex flex-wrap gap-2">
-                        {(box as any).benefits.map((benefit: string) => (
-                          <Badge key={benefit} variant="secondary" className="text-xs">
-                            {benefit}
-                          </Badge>
-                        ))}
-                      </div>
+                  <div className="mb-4">
+                    <h5 className="font-semibold mb-2 text-foreground">Bénéfices :</h5>
+                    <div className="flex flex-wrap gap-2">
+                      {box.benefits.map((benefit) => (
+                        <Badge key={benefit} variant="secondary" className="text-xs">
+                          {benefit}
+                        </Badge>
+                      ))}
                     </div>
-                  )}
+                  </div>
 
                   <Button asChild className="w-full">
                     <Link to="/contact">Demander un devis pour cette box</Link>
@@ -336,18 +326,16 @@ const BoxCatalog = () => {
                   <h4 className="font-bold text-lg text-foreground mb-2">{box.name}</h4>
                   <p className="text-foreground/70 text-sm mb-4">{box.description}</p>
 
-                  {"contents" in box && (
-                    <div className="mb-4">
-                      <div className="grid gap-1">
-                        {(box as any).contents.map((item: string) => (
-                          <div key={item} className="flex items-center text-xs text-foreground/60">
-                            <Gift className="w-3 h-3 text-secondary mr-2 flex-shrink-0" />
-                            {item}
-                          </div>
-                        ))}
-                      </div>
+                  <div className="mb-4">
+                    <div className="grid gap-1">
+                      {box.contents.map((item) => (
+                        <div key={item} className="flex items-center text-xs text-foreground/60">
+                          <Gift className="w-3 h-3 text-secondary mr-2 flex-shrink-0" />
+                          {item}
+                        </div>
+                      ))}
                     </div>
-                  )}
+                  </div>
 
                   <Button asChild variant="outline" size="sm" className="w-full">
                     <Link to="/contact">Commander cette box</Link>
