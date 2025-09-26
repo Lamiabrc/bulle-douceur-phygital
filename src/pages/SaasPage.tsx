@@ -1,344 +1,464 @@
+// src/pages/Saas.tsx
 import React, { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { SEOHead } from "@/components/SEOHead";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Link } from "react-router-dom";
+import {
+  BarChart3,
+  Check,
+  Crown,
   Shield,
-  LineChart,
   Sparkles,
-  Users,
-  Bell,
-  Cpu,
-  Lock,
-  Database,
-  CheckCircle,
+  Star,
+  Zap,
   ArrowRight,
 } from "lucide-react";
 
-const FEATURES = [
-  {
-    icon: LineChart,
-    title: "Dashboard RH en temps réel",
-    desc: "Suivez le moral, les signaux faibles et les indicateurs QVT consolidés par équipe et par site.",
-  },
-  {
-    icon: Bell,
-    title: "Alertes intelligentes",
-    desc: "Détection d'alertes personnalisées (absentéisme, surcharge, risques de burn-out) avec seuils ajustables.",
-  },
-  {
-    icon: Cpu,
-    title: "IA attentionnée",
-    desc: "Suggestions d'actions concrètes et Box recommandées selon le contexte et la saisonnalité.",
-  },
-  {
-    icon: Users,
-    title: "Espaces collaborateurs",
-    desc: "Auto-évaluations rapides, feedbacks anonymisés et suivi de ses propres tendances.",
-  },
-] as const;
+// ✅ Image démo (assure-toi qu’elle existe)
+import saasImage from "@/assets/saas-dashboard-pro.jpg";
 
-const SECURITY = [
-  { icon: Lock, title: "Sécurité & RGPD", desc: "Chiffrement en transit et au repos, consentements explicites et DPA." },
-  { icon: Database, title: "Supabase sécurisé", desc: "RLS strictes, rôles limités, et audit des accès recommandés." },
-  { icon: Shield, title: "Disponibilité", desc: "Architecture cloud résiliente et supervision continue." },
-] as const;
+type Currency = "EUR" | "USD";
 
-const PLANS = [
+type Plan = {
+  name: "Starter" | "Professional" | "Enterprise";
+  description: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  monthlyEUR: number;
+  annualEUR: number;
+  maxUsers: number | "Illimité";
+  features: string[];
+  popular?: boolean;
+  ctaTo?: string;
+};
+
+const BASE_PLANS: Plan[] = [
   {
-    name: "Essentiel",
-    price: "89€ / mois",
-    badge: "PME",
-    points: [
-      "Jusqu'à 50 collaborateurs",
-      "Dashboards de base",
-      "Exports CSV",
+    name: "Starter",
+    description: "Parfait pour les petites équipes",
+    icon: Zap,
+    monthlyEUR: 29,
+    annualEUR: 290, // ~2 mois off
+    maxUsers: 25,
+    features: [
+      "Tableau de bord basique",
+      "Sondages bien-être mensuels",
+      "Alertes email simples",
+      "Rapports standards",
       "Support email",
     ],
-    cta: { label: "Essayer", to: "/contact" },
   },
   {
-    name: "Plus",
-    price: "249€ / mois",
-    badge: "Le + choisi",
-    points: [
-      "Jusqu'à 250 collaborateurs",
-      "Alertes intelligentes",
-      "Recommandations IA",
+    name: "Professional",
+    description: "Pour les entreprises en croissance",
+    icon: Star,
+    monthlyEUR: 79,
+    annualEUR: 790, // ~2 mois off
+    maxUsers: 100,
+    features: [
+      "Tableau de bord avancé",
+      "IA prédictive",
+      "Alertes RPS en temps réel",
+      "Analyse par département",
+      "Plans d'action automatisés",
+      "Intégrations HR",
       "Support prioritaire",
     ],
-    
-    cta: { label: "Demander une démo", to: "/contact" },
+    popular: true,
   },
   {
-    name: "Entreprise",
-    price: "Sur devis",
-    badge: "Grand compte",
-    points: [
-      "> 250 collaborateurs",
-      "SSO / RBAC avancé",
-      "Intégrations (API)",
-      "SLA & accompagnement",
+    name: "Enterprise",
+    description: "Solution complète pour grandes organisations",
+    icon: Crown,
+    monthlyEUR: 199,
+    annualEUR: 1990,
+    maxUsers: "Illimité",
+    features: [
+      "Toutes les fonctionnalités Pro",
+      "IA prédictive avancée",
+      "Tableaux de bord personnalisés",
+      "API complète",
+      "Conformité RGPD renforcée",
+      "Formation équipes",
+      "Support dédié 24/7",
+      "Déploiement on-premise",
     ],
-    cta: { label: "Parler à un expert", to: "/contact" },
+    ctaTo: "/contact",
   },
-] as const;
+];
 
-const FAQ = [
-  {
-    q: "Les données sont-elles anonymisées ?",
-    a: "Oui, les tableaux de bord RH agrègent les résultats au-dessus d'effectifs minimaux et respectent le principe de minimisation des données.",
-  },
-  {
-    q: "Peut-on connecter nos outils ?",
-    a: "Oui, via API (Supabase / REST). Nous proposons des connecteurs sur demande (Power BI, Slack, Teams).",
-  },
-  {
-    q: "La solution fonctionne-t-elle sans la Box physique ?",
-    a: "Oui. Le SaaS est autonome. La Box vient enrichir l'engagement et la prévention terrain.",
-  },
-] as const;
+function formatMoney(value: number, currency: Currency) {
+  return new Intl.NumberFormat(currency === "EUR" ? "fr-FR" : "en-US", {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+  }).format(value);
+}
 
-const SaaSPage: React.FC = () => {
-  const [heroRef, heroVisible] = useScrollReveal();
-  const [featRef, featVisible] = useScrollReveal();
-  const [demoRef, demoVisible] = useScrollReveal();
-  const [plansRef, plansVisible] = useScrollReveal();
-  const [securityRef, securityVisible] = useScrollReveal();
-  const [faqRef, faqVisible] = useScrollReveal();
-  const [ctaRef, ctaVisible] = useScrollReveal();
+function getSavingsPercent(monthly: number, annual: number) {
+  const monthlyTotal = monthly * 12;
+  if (annual >= monthlyTotal) return 0;
+  return Math.round(((monthlyTotal - annual) / monthlyTotal) * 100);
+}
 
-  const [email, setEmail] = useState("");
+const SaaS: React.FC = () => {
+  // --- Devise ---
+  const [currency, setCurrency] = useState<Currency>("EUR");
+  const [isAnnual, setIsAnnual] = useState<boolean>(false);
 
-  const jsonLd = useMemo(
-    () => ({
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      name: "QVT Box – SaaS",
-      description:
-        "Plateforme SaaS de suivi QVT avec dashboards, alertes intelligentes et recommandations d'actions.",
-      applicationCategory: "BusinessApplication",
-      offers: { "@type": "Offer", price: 0, priceCurrency: "EUR" },
-    }),
-    []
+  // ⚖️ Taux simple (statique) — ajuste si besoin
+  const FX = 1.08; // 1 EUR ~ 1.08 USD
+
+  const plans = useMemo(() => {
+    return BASE_PLANS.map((p) => {
+      const monthly = currency === "EUR" ? p.monthlyEUR : p.monthlyEUR * FX;
+      const annual = currency === "EUR" ? p.annualEUR : p.annualEUR * FX;
+      return {
+        ...p,
+        monthly,
+        annual,
+      };
+    });
+  }, [currency]);
+
+  const arrangedPlans = useMemo(() => {
+    const idx = plans.findIndex((p: any) => p.popular);
+    if (idx === -1) return plans;
+    const arr = [...plans];
+    const [pro] = arr.splice(idx, 1);
+    arr.splice(1, 0, pro);
+    return arr;
+  }, [plans]);
+
+  // --- ROI Calculator ---
+  const [employees, setEmployees] = useState<number>(100);
+  const [benefitPerEmp, setBenefitPerEmp] = useState<number>(8); // € / mois
+  const [selectedPlan, setSelectedPlan] = useState<Plan["name"]>("Professional");
+
+  const selected = useMemo(
+    () => plans.find((p) => p.name === selectedPlan)!,
+    [plans, selectedPlan]
   );
+
+  const annualCost =
+    (isAnnual ? selected.annual : selected.monthly) * (isAnnual ? 1 : 12);
+  const annualBenefit = employees * benefitPerEmp * 12;
+  const roiPct =
+    annualCost > 0 ? Math.round(((annualBenefit - annualCost) / annualCost) * 100) : 0;
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
-        title="SaaS QVT – Dashboards & Alertes intelligentes | QVT Box"
-        description="Suivez et améliorez la QVT avec notre SaaS : indicateurs en temps réel, alertes intelligentes, IA attentionnée, sécurité RGPD."
-      />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-
       <Navigation />
 
-      {/* Hero */}
-      <section
-        className={`pt-24 pb-16 px-6 bg-gradient-hero scroll-reveal ${heroVisible ? "visible" : ""}`}
-        aria-labelledby="saas-hero-title"
-        ref={heroRef}
-      >
+      {/* Top bar */}
+      <div className="sticky top-0 z-30 w-full bg-primary/10 backdrop-blur border-b border-primary/20">
+        <div className="container mx-auto px-4 py-2 flex items-center justify-center gap-2">
+          <Sparkles className="w-4 h-4 text-primary" />
+          <p className="text-sm text-foreground/80">
+            Licence SaaS QVT — claire, mesurable, actionnable.
+          </p>
+        </div>
+      </div>
+
+      {/* HERO / DEMO */}
+      <section className="py-12 px-6">
         <div className="container mx-auto">
-          <div className="max-w-3xl">
-            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">Plateforme SaaS</Badge>
-            <h1 id="saas-hero-title" className="text-4xl md:text-6xl font-bold text-foreground mb-6 font-inter">
-              Le cockpit QVT qui veille sur vos équipes
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">
+              Mesurez, prévenez, <span className="text-primary">agissez</span>
             </h1>
-            <p className="text-lg text-foreground/80 max-w-2xl mb-8">
-              Centralisez vos signaux QVT, recevez des alertes intelligentes et agissez avec des recommandations concrètes.
-              Compatible avec la Box physique <span className="text-primary font-medium">(optionnelle)</span>.
+            <p className="mt-3 text-foreground/70">
+              Score QVCT lisible (1–15), alertes RPS automatiques, export DUERP prêt.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3">
+          </div>
+
+          <div className="mt-8 relative rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/5">
+            <img
+              src={saasImage}
+              alt="Dashboard QVT Box — démonstration"
+              className="w-full h-[360px] object-cover"
+              loading="lazy"
+              decoding="async"
+              width={1400}
+              height={360}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/10 via-transparent to-transparent" />
+          </div>
+
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <Button asChild size="lg" className="inline-flex items-center gap-2 whitespace-nowrap">
               <Link to="/contact">
-                <Button className="btn-primary">Demander une démo</Button>
+                <BarChart3 className="w-5 h-5" />
+                <span>Recevoir une démo</span>
+                <ArrowRight className="w-4 h-4" />
               </Link>
-              <button 
-                onClick={() => document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth' })}
-                className="inline-flex items-center gap-2 text-primary font-medium hover:text-primary/80 transition-colors"
-              >
-                Voir les offres <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </button>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="inline-flex items-center gap-2 whitespace-nowrap"
+            >
+              <Link to="/contact">Parler à un expert</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING + CURRENCY TOGGLE */}
+      <section className="py-10 px-6">
+        <div className="container mx-auto">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold">Tarifs transparents</h2>
+            <p className="text-muted-foreground">
+              Choisissez le plan adapté à votre organisation
+            </p>
+
+            <div className="mt-6 flex items-center justify-center gap-4">
+              <span className={`${currency === "EUR" ? "text-foreground font-medium" : "text-muted-foreground"}`}>
+                EUR €
+              </span>
+              <Switch
+                checked={currency === "USD"}
+                onCheckedChange={(checked) => setCurrency(checked ? "USD" : "EUR")}
+                aria-label="Basculer EUR/USD"
+                className="data-[state=checked]:bg-primary"
+              />
+              <span className={`${currency === "USD" ? "text-foreground font-medium" : "text-muted-foreground"}`}>
+                USD $
+              </span>
+
+              <div className="mx-4 h-6 w-px bg-border" />
+              <span className={`${!isAnnual ? "text-foreground font-medium" : "text-muted-foreground"}`}>
+                Mensuel
+              </span>
+              <Switch
+                checked={isAnnual}
+                onCheckedChange={setIsAnnual}
+                aria-label="Basculer mensuel/annuel"
+                className="data-[state=checked]:bg-primary"
+              />
+              <span className={`${isAnnual ? "text-foreground font-medium" : "text-muted-foreground"}`}>
+                Annuel
+              </span>
+              {isAnnual && (
+                <Badge variant="secondary" className="ml-2">Jusqu’à 20% d’économie</Badge>
+              )}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Features */}
-      <section
-        className={`py-16 px-6 section-professional scroll-reveal ${featVisible ? "visible" : ""}`}
-        aria-labelledby="features-title"
-        ref={featRef}
-      >
-        <div className="container mx-auto">
-          <h2 id="features-title" className="text-3xl md:text-4xl font-bold text-foreground mb-10 font-inter">
-            Ce que le SaaS vous apporte
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {FEATURES.map(({ icon: Icon, title, desc }) => (
-              <Card key={title} className="card-professional">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center mb-4">
-                    <Icon className="w-6 h-6 text-white" aria-hidden="true" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">{title}</h3>
-                  <p className="text-foreground/70 text-sm">{desc}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {arrangedPlans.map((plan) => {
+              const Icon = plan.icon;
+              const price = isAnnual ? (plan as any).annual : (plan as any).monthly;
+              const savings = getSavingsPercent(
+                (plan as any).monthlyEUR || plan.monthlyEUR,
+                (plan as any).annualEUR || plan.annualEUR
+              );
+
+              return (
+                <Card key={plan.name} className={`relative h-full ${plan.popular ? "border-primary shadow-lg md:scale-105" : ""}`}>
+                  {plan.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                      <Badge className="bg-primary text-primary-foreground">Le plus populaire</Badge>
+                    </div>
+                  )}
+
+                  <CardHeader className="text-center pb-4">
+                    <div className="flex justify-center mb-4">
+                      <div className="p-3 bg-primary/10 rounded-full">
+                        <Icon className="text-primary" size={24} />
+                      </div>
+                    </div>
+                    <CardTitle className="text-xl">{plan.name}</CardTitle>
+                    <CardDescription>{plan.description}</CardDescription>
+
+                    <div className="mt-4">
+                      <div className="flex items-baseline justify-center">
+                        <span className="text-4xl font-bold">
+                          {formatMoney(price, currency)}
+                        </span>
+                        <span className="text-muted-foreground ml-1">/{isAnnual ? "an" : "mois"}</span>
+                      </div>
+                      {isAnnual && savings > 0 && (
+                        <div className="text-sm text-green-600 font-medium mt-1">
+                          Économisez {savings}% vs mensuel
+                        </div>
+                      )}
+                      <div className="text-sm text-muted-foreground mt-2">
+                        Jusqu’à {plan.maxUsers} utilisateurs
+                      </div>
+                    </div>
+                  </CardHeader>
+
+                  <CardContent className="pt-0">
+                    {plan.name === "Enterprise" ? (
+                      <Button asChild size="lg" className="w-full mb-6 whitespace-nowrap">
+                        <Link to={plan.ctaTo || "/contact"}>Nous contacter</Link>
+                      </Button>
+                    ) : (
+                      <Button
+                        size="lg"
+                        className={`w-full mb-6 whitespace-nowrap ${plan.popular ? "bg-primary hover:bg-primary/90" : ""}`}
+                        variant={plan.popular ? "default" : "outline"}
+                      >
+                        Essai gratuit 14 jours
+                      </Button>
+                    )}
+
+                    <div className="space-y-3">
+                      {plan.features.map((feature) => (
+                        <div key={feature} className="flex items-start gap-3">
+                          <Check className="text-green-600 mt-0.5 flex-shrink-0" size={16} />
+                          <span className="text-sm">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Demo / Email capture */}
-      <section
-        className={`py-12 px-6 bg-background-soft scroll-reveal ${demoVisible ? "visible" : ""}`}
-        aria-labelledby="demo-title"
-        ref={demoRef}
-      >
+      {/* ROI CALCULATOR */}
+      <section className="py-10 px-6">
         <div className="container mx-auto">
-          <Card className="card-professional">
-            <CardContent className="p-8">
-              <div className="flex flex-col lg:flex-row items-center gap-6 justify-between">
+          <Card className="max-w-5xl mx-auto">
+            <CardHeader>
+              <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
-                  <h2 id="demo-title" className="text-2xl font-bold mb-2">Voir une démo personnalisée</h2>
-                  <p className="text-foreground/70 max-w-xl">
-                    Dites-nous en une phrase votre contexte (taille d'équipe, enjeux, sites) et on vous recontacte.
+                  <CardTitle className="text-2xl">Calculateur de ROI</CardTitle>
+                  <CardDescription>
+                    Estimez vos gains annuels vs. coût de la licence sélectionnée.
+                  </CardDescription>
+                </div>
+                <Badge variant="secondary" className="whitespace-nowrap">
+                  Simple & indicatif
+                </Badge>
+              </div>
+            </CardHeader>
+
+            <CardContent className="grid lg:grid-cols-2 gap-6">
+              {/* Form */}
+              <div className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium">Plan</label>
+                  <select
+                    value={selectedPlan}
+                    onChange={(e) => setSelectedPlan(e.target.value as Plan["name"])}
+                    className="mt-1 w-full rounded-md border bg-background p-2"
+                  >
+                    {plans.map((p) => (
+                      <option key={p.name} value={p.name}>
+                        {p.name} — {formatMoney(isAnnual ? (p as any).annual : (p as any).monthly, currency)}
+                        {isAnnual ? "/an" : "/mois"}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium">Nombre de salariés</label>
+                  <input
+                    type="number"
+                    min={1}
+                    value={employees}
+                    onChange={(e) => setEmployees(Math.max(1, Number(e.target.value || 1)))}
+                    className="mt-1 w-full rounded-md border bg-background p-2"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium">
+                    Gain estimé par salarié / mois ({currency})
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={benefitPerEmp}
+                    onChange={(e) => setBenefitPerEmp(Math.max(0, Number(e.target.value || 0)))}
+                    className="mt-1 w-full rounded-md border bg-background p-2"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Exemples : baisse de l’absentéisme, micro-gains de productivité, climat social…
                   </p>
                 </div>
-                <form
-                  className="flex w-full max-w-xl gap-2"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    window.location.href = "/contact"; // redirige vers la page contact
-                  }}
-                >
-                  <Input
-                    type="email"
-                    required
-                    placeholder="Votre email pro"
-                    aria-label="Votre email professionnel"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <Button type="submit" className="btn-primary">Je veux une démo</Button>
-                </form>
+              </div>
+
+              {/* Result */}
+              <div className="rounded-lg border bg-muted/30 p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Shield className="w-4 h-4 text-primary" />
+                  <p className="text-sm text-muted-foreground">Résultat indicatif</p>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span>Coût licence (annuel)</span>
+                    <strong>{formatMoney(annualCost, currency)}</strong>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Gains estimés (annuel)</span>
+                    <strong>{formatMoney(annualBenefit, currency)}</strong>
+                  </div>
+                  <div className="h-px bg-border" />
+                  <div className="flex items-center justify-between">
+                    <span>ROI estimé</span>
+                    <strong className={roiPct >= 0 ? "text-green-600" : "text-red-600"}>
+                      {roiPct >= 0 ? "+" : ""}
+                      {roiPct}%
+                    </strong>
+                  </div>
+                </div>
+
+                <CardFooter className="mt-4 justify-end">
+                  <Button asChild size="lg" className="whitespace-nowrap">
+                    <Link to="/contact">Obtenir une estimation détaillée</Link>
+                  </Button>
+                </CardFooter>
               </div>
             </CardContent>
           </Card>
         </div>
       </section>
 
-      {/* Plans */}
-      <section
-        id="plans"
-        className={`py-16 px-6 bg-background scroll-reveal ${plansVisible ? "visible" : ""}`}
-        aria-labelledby="plans-title"
-        ref={plansRef}
-      >
+      {/* Rassurance */}
+      <section className="py-10 px-6">
         <div className="container mx-auto">
-          <h2 id="plans-title" className="text-3xl md:text-4xl font-bold mb-10 font-inter">Des offres simples et évolutives</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {PLANS.map((plan) => (
-              <Card key={plan.name} className={`card-professional ${plan.name === "Plus" ? "ring-2 ring-primary" : ""}`}>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                    <Badge className={plan.name === "Plus" ? "bg-primary text-white" : "bg-primary/10 text-primary"}>{plan.badge}</Badge>
+          <Card className="max-w-5xl mx-auto bg-gradient-to-r from-primary/5 to-secondary/5">
+            <CardContent className="p-6">
+              <div className="flex flex-col items-center text-center gap-2">
+                <Shield className="text-primary" />
+                <h3 className="text-xl font-semibold">Garanties & Sécurité</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm mt-4 w-full">
+                  <div>
+                    <div className="font-medium mb-1">Essai gratuit</div>
+                    <div className="text-muted-foreground">14 jours sans engagement</div>
                   </div>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div className="text-3xl font-bold mb-4">{plan.price}</div>
-                  <ul className="space-y-2 mb-6">
-                    {plan.points.map((p) => (
-                      <li key={p} className="flex items-center gap-2 text-sm">
-                        <CheckCircle className="w-4 h-4 text-primary" aria-hidden="true" />
-                        <span>{p}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link to={plan.cta.to}>
-                    <Button className={plan.name === "Plus" ? "btn-primary w-full" : "btn-secondary w-full"}>{plan.cta.label}</Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Sécurité */}
-      <section
-        className={`py-16 px-6 section-professional scroll-reveal ${securityVisible ? "visible" : ""}`}
-        aria-labelledby="security-title"
-        ref={securityRef}
-      >
-        <div className="container mx-auto">
-          <h2 id="security-title" className="text-3xl md:text-4xl font-bold mb-10 font-inter">Sécurité & conformité</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {SECURITY.map(({ icon: Icon, title, desc }) => (
-              <Card key={title} className="card-professional">
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center mb-4">
-                    <Icon className="w-6 h-6 text-white" aria-hidden="true" />
+                  <div>
+                    <div className="font-medium mb-1">Conformité RGPD</div>
+                    <div className="text-muted-foreground">Données hébergées en France</div>
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">{title}</h3>
-                  <p className="text-foreground/70 text-sm">{desc}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section
-        className={`py-16 px-6 bg-background-soft scroll-reveal ${faqVisible ? "visible" : ""}`}
-        aria-labelledby="faq-title"
-        ref={faqRef}
-      >
-        <div className="container mx-auto">
-          <h2 id="faq-title" className="text-3xl md:text-4xl font-bold mb-10 font-inter">FAQ</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {FAQ.map(({ q, a }) => (
-              <Card key={q} className="card-professional">
-                <CardHeader>
-                  <CardTitle className="text-lg">{q}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-foreground/70 text-sm">{a}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA final */}
-      <section
-        className={`py-20 px-6 bg-primary scroll-reveal ${ctaVisible ? "visible" : ""}`}
-        aria-labelledby="cta-title"
-        ref={ctaRef}
-      >
-        <div className="container mx-auto text-center">
-          <h2 id="cta-title" className="text-3xl md:text-4xl font-bold text-white mb-4">Prêt à piloter la QVT autrement ?</h2>
-          <p className="text-white/90 max-w-2xl mx-auto mb-8">
-            Discutons de vos enjeux et voyons comment QVT Box peut s'intégrer simplement à votre environnement.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link to="/contact">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90">Parler à un expert</Button>
-            </Link>
-            <Link to="/box">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">Découvrir la Box</Button>
-            </Link>
-          </div>
+                  <div>
+                    <div className="font-medium mb-1">Support inclus</div>
+                    <div className="text-muted-foreground">Formation & accompagnement</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </section>
 
@@ -347,4 +467,4 @@ const SaaSPage: React.FC = () => {
   );
 };
 
-export default SaaSPage;
+export default SaaS;
