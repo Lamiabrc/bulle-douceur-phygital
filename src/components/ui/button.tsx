@@ -1,14 +1,11 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-
 import { cn } from "@/lib/utils";
 
 /**
- * Styles et variantes
- * - Conserve tes classes (gradients, shadows, whitespace-nowrap, etc.)
+ * Variantes & tailles (identiques à ta version)
  */
-const buttonVariants = cva(
+export const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
@@ -54,31 +51,24 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   /**
-   * Rendu polymorphe:
-   * - false => <button>
-   * - true  => <Slot> (pour rendre un <Link> par ex.) tout en gardant le style
+   * Polymorphisme : si true, on essaie de rendre l’unique enfant (ex: <Link>)
+   * en lui injectant les classes & props du bouton.
+   * Si l’enfant n’est pas un élément React valide unique => fallback <button>.
    */
   asChild?: boolean;
-
-  /** Affiche un spinner et désactive automatiquement le bouton */
+  /** Affiche un spinner, met aria-busy et désactive le bouton */
   loading?: boolean;
-
   /** Force la largeur à 100% */
   fullWidth?: boolean;
-
-  /** Icône à gauche (ex: lucide-react) */
+  /** Icône à gauche (lucide-react, etc.) */
   leftIcon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   /** Icône à droite */
   rightIcon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
-/** Petit spinner inline (SVG) */
+/** Petit spinner */
 const Spinner: React.FC<{ className?: string }> = ({ className }) => (
-  <svg
-    className={cn("animate-spin", className)}
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-  >
+  <svg className={cn("animate-spin", className)} viewBox="0 0 24 24" aria-hidden="true">
     <circle
       className="opacity-25"
       cx="12"
@@ -88,13 +78,18 @@ const Spinner: React.FC<{ className?: string }> = ({ className }) => (
       strokeWidth="4"
       fill="none"
     />
-    <path
-      className="opacity-90"
-      fill="currentColor"
-      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-    />
+    <path className="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
   </svg>
 );
+
+/**
+ * Helper : vérifie si on a exactement 1 enfant élément React valide.
+ */
+function getSingleValidChild(children: React.ReactNode) {
+  if (React.Children.count(children) !== 1) return null;
+  const child = React.Children.only(children);
+  return React.isValidElement(child) ? (child as React.ReactElement) : null;
+}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -102,9 +97,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       variant,
       size,
-      asChild = false,
       loading = false,
       fullWidth = false,
+      asChild = false,
       leftIcon: LeftIcon,
       rightIcon: RightIcon,
       children,
@@ -114,56 +109,77 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : "button";
-
-    // Gestion accessibilité: si asChild rend un élément non-button (ex <a>),
-    // autorise activation via Entrée/Espace.
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-      if (onKeyDown) onKeyDown(e);
-      if (asChild) {
-        const target = e.target as HTMLElement;
-        const tag = target.tagName.toLowerCase();
-        const isButtonLike = tag === "button" || target.getAttribute("role") === "button";
-        if (!isButtonLike && (e.key === "Enter" || e.key === " ")) {
-          e.preventDefault();
-          (target as HTMLElement).click?.();
-        }
-      }
-    };
-
+    const classes = cn(buttonVariants({ variant, size, loading, fullWidth }), className);
     const isDisabled = disabled || loading;
 
+    // Mode “asChild” SAFE : on clone si et seulement si un enfant valide unique est présent.
+    if (asChild) {
+      const onlyChild = getSingleValidChild(children);
+
+      if (onlyChild) {
+        // Fusion des className & props sur l’enfant
+        const childProps: any = {
+          className: cn(onlyChild.props.className, classes),
+          "aria-busy": loading || undefined,
+          "aria-disabled": isDisabled || undefined,
+          onKeyDown: (e: React.KeyboardEvent) => {
+            // Permet Space/Enter d’activer les éléments non-button
+            if (onKeyDown) onKeyDown(e as any);
+            const el = e.currentTarget as HTMLElement;
+            const tag = el.tagName.toLowerCase();
+            const isButtonLike = tag === "button" || el.getAttribute("role") === "button";
+            if (!isButtonLike && (e.key === "Enter" || e.key === " ")) {
+              e.preventDefault();
+              el.click?.();
+            }
+          },
+        };
+
+        // Si désactivé et que l’enfant est un <a>, on empêche l’action
+        if (isDisabled) {
+          childProps.onClick = (e: React.MouseEvent) => {
+            e.preventDefault();
+            e.stopPropagation();
+          };
+          childProps.tabIndex = -1;
+        }
+
+        // On place le contenu (icônes, spinner) À L’INTÉRIEUR de l’enfant.
+        const content = (
+          <>
+            {loading && variant !== "link" && <Spinner className="h-4 w-4" />}
+            {!loading && LeftIcon && <LeftIcon aria-hidden="true" />}
+            <span className="inline-flex items-center">{onlyChild.props.children}</span>
+            {!loading && RightIcon && <RightIcon aria-hidden="true" />}
+          </>
+        );
+
+        return React.cloneElement(onlyChild, childProps, content);
+      }
+
+      // Fallback (sécurisé) : on repasse en <button> classique si l’enfant n’est pas valide/unique
+      // pour éviter l’erreur React.Children.only.
+    }
+
+    // Rendu bouton standard
     return (
-      <Comp
+      <button
         ref={ref}
-        className={cn(
-          buttonVariants({ variant, size, loading, fullWidth }),
-          className
-        )}
-        // @ts-expect-error: Slot peut ne pas accepter tous les props but ok au runtime
-        disabled={!asChild ? isDisabled : undefined}
+        className={classes}
+        disabled={isDisabled}
         aria-busy={loading || undefined}
-        aria-disabled={asChild ? isDisabled : undefined}
-        onKeyDown={handleKeyDown}
+        onKeyDown={onKeyDown}
         {...props}
       >
-        {/* Spinner à gauche si loading (sauf pour variant=link) */}
-        {loading && variant !== "link" && (
-          <Spinner className="h-4 w-4" />
-        )}
-
-        {/* Icône gauche */}
+        {loading && variant !== "link" && <Spinner className="h-4 w-4" />}
         {!loading && LeftIcon && <LeftIcon aria-hidden="true" />}
-
-        {/* Label */}
         <span className="inline-flex items-center">{children}</span>
-
-        {/* Icône droite */}
         {!loading && RightIcon && <RightIcon aria-hidden="true" />}
-      </Comp>
+      </button>
     );
   }
 );
+
 Button.displayName = "Button";
 
-export { Button, buttonVariants };
+export { Button };
