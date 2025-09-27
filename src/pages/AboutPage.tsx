@@ -21,7 +21,7 @@ import {
   Globe,
 } from "lucide-react";
 
-// ✅ Remplace par tes images locales si besoin
+// 🔄 Remplace par des assets existants si besoin
 import lamiaPhoto from "@/assets/lamia-portrait.jpg";
 import atelierExpedition from "@/assets/atelier-expedition.jpg";
 import atelierProduits from "@/assets/atelier-produits-francais.jpg";
@@ -36,26 +36,27 @@ const About: React.FC = () => {
     { icon: Globe, title: "Impact à l’échelle", desc: "Livraison multi-sites et internationale, sans sacrifier la qualité." },
   ];
 
+  // ✅ Temporalité corrigée — point de départ en 2024 (après ~15 ans de salariat)
   const timeline = [
     {
-      year: "2021",
-      title: "Premières missions QVT",
-      desc: "Accompagnement de PME et ETI en Bretagne — ateliers, écoute terrain, premiers indicateurs maison.",
+      year: "2024",
+      title: "Déclic & concept",
+      desc: "Après ~15 ans de salariat, Lamia formalise une idée simple : rendre la QVCT lisible (score 1–15) et actionnable (box utiles, prévention RPS).",
     },
     {
-      year: "2022",
-      title: "Naissance de QVT Box",
-      desc: "Allier mesure QVCT + action concrète : des box utiles et françaises pour matérialiser la démarche.",
+      year: "Fin 2024",
+      title: "Co-design & pilotes",
+      desc: "Entretiens terrain, ateliers managers/RH, premiers pilotes : cadrage du score, alertes, et des box thématiques 100% France.",
     },
     {
-      year: "2023",
-      title: "SaaS interne",
-      desc: "Un tableau de bord simple (1–15), alertes RPS, export DUERP. C’est utile ou ça n’existe pas.",
+      year: "Début 2025",
+      title: "Structuration",
+      desc: "QVT Box prend forme : maquette SaaS, premiers exports DUERP, chaîne logistique pour box (personnalisation, qualité, délais).",
     },
     {
-      year: "2024–2025",
-      title: "Déploiement",
-      desc: "Réseau de partenaires locaux, logistique multi-sites, et international. Montée en charge maîtrisée.",
+      year: "2025",
+      title: "Lancement & déploiement",
+      desc: "Licence SaaS Entreprise, réseau de partenaires locaux, international maîtrisé. Objectif : impact concret et mesurable.",
     },
   ];
 
@@ -88,9 +89,9 @@ const About: React.FC = () => {
                 QVT Box — un projet utile, humain et <span className="text-primary">opérationnel</span>
               </h1>
               <p className="mt-3 text-foreground/70 text-lg">
-                Je m’appelle <strong>Lamia</strong>. J’ai créé QVT Box pour rendre la QVCT
-                lisible et actionnable : <em>mesurer ce qui compte</em>, <em>prévenir les RPS</em> et
-                <em> matérialiser la reconnaissance</em> avec des box 100% Made in France.
+                Je m’appelle <strong>Lamia</strong>. Après ~15 ans de salariat, j’ai créé QVT Box pour rendre la QVCT
+                lisible et actionnable : <em>mesurer ce qui compte</em>, <em>prévenir les RPS</em> et <em>matérialiser la
+                reconnaissance</em> avec des box 100% Made in France.
               </p>
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <Button asChild size="lg" className="whitespace-nowrap">
@@ -124,6 +125,10 @@ const About: React.FC = () => {
                   className="w-full h-[420px] object-cover"
                   loading="lazy"
                   decoding="async"
+                  onError={(e) => {
+                    // Fallback doux si l’asset n’existe pas encore
+                    (e.currentTarget as HTMLImageElement).style.display = "none";
+                  }}
                 />
               </div>
               <div className="pointer-events-none absolute -bottom-8 -left-10 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
@@ -182,9 +187,9 @@ const About: React.FC = () => {
               <Badge variant="secondary">100% Made in France</Badge>
               <h3 className="text-2xl font-semibold">Des box utiles, locales, et appréciées</h3>
               <p className="text-foreground/70">
-                Nos box ne sont pas des goodies. Elles contiennent des produits **utiles** du quotidien (pouvoir d’achat,
-                mobilité, récupération, cohésion…), sourcés auprès d’artisans et de marques françaises. L’objectif :
-                un geste de reconnaissance **concret** et **crédible**.
+                Nos box ne sont pas des goodies. Elles contiennent des produits <strong>utiles</strong> du quotidien
+                (pouvoir d’achat, mobilité, récupération, cohésion…), sourcés auprès d’artisans et de marques françaises.
+                L’objectif : un geste de reconnaissance <strong>concret</strong> et <strong>crédible</strong>.
               </p>
               <ul className="text-sm text-foreground/80 space-y-2">
                 <li className="flex items-start gap-2"><Target className="w-4 h-4 text-primary mt-0.5" /> Thématiques adaptées au terrain</li>
@@ -209,6 +214,7 @@ const About: React.FC = () => {
                   className="w-full h-[240px] object-cover"
                   loading="lazy"
                   decoding="async"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                 />
               </div>
               <div className="rounded-2xl overflow-hidden shadow-lg ring-1 ring-black/5">
@@ -218,6 +224,7 @@ const About: React.FC = () => {
                   className="w-full h-[240px] object-cover"
                   loading="lazy"
                   decoding="async"
+                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                 />
               </div>
             </div>
@@ -233,7 +240,7 @@ const About: React.FC = () => {
               <Badge variant="secondary" className="mb-3">Expertise</Badge>
               <h3 className="text-2xl font-semibold">Mon approche (Lamia)</h3>
               <p className="text-foreground/70 mt-2">
-                Je privilégie le **terrain** et la **lisibilité**. Pas de promesse magique ni d’usine à gaz.
+                Je privilégie le <strong>terrain</strong> et la <strong>lisibilité</strong>. Pas de promesse magique ni d’usine à gaz.
                 On mesure peu mais bien, on prévient sans stresser, on agit avec des gestes qui comptent.
               </p>
               <div className="grid sm:grid-cols-2 gap-3 mt-4">
@@ -271,7 +278,7 @@ const About: React.FC = () => {
         </div>
       </section>
 
-      {/* RAISONS DE CHOISIR */}
+      {/* RAISONS */}
       <section className="py-12 px-6">
         <div className="container mx-auto">
           <h2 className="text-3xl font-bold text-center mb-8">Pourquoi QVT Box ?</h2>
