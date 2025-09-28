@@ -1,5 +1,5 @@
-import os, re, glob, psycopg, yaml
-from typing import Dict, Any, List
+import os, re, glob, psycopg, yaml, traceback
+from typing import List
 
 # -------- Config --------
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -47,33 +47,50 @@ def embed(text: str) -> List[float]:
         res = mistral_client.embeddings.create(model=EMBED_MODEL, inputs=[text])
         return res.data[0].embedding   # 1024 floats
 
+def to_vector_param(vec: List[float]) -> str:
+    # On passe un LITTÉRAL texte "[0.1,0.2,...]" et on le caste en ::vector côté SQL
+    return "[" + ",".join(f"{x:.7f}" for x in vec) + "]"
+
 # -------- Ingest --------
 def ingest_dir():
     base_dir = os.path.dirname(__file__)               # .../ai-service
     dirpath  = os.path.join(base_dir, "docs")          # .../ai-service/docs
     files = sorted(glob.glob(os.path.join(dirpath, "*.md")))
+    print(f"[{PROVIDER}] docs dir: {dirpath}, found {len(files)} files")
     if not files:
         print("No .md files in", dirpath); return
 
     with psycopg.connect(DATABASE_URL) as conn, conn.cursor() as cur:
         for p in files:
-            meta, body = parse_md(p)
-            vec = embed(body)
-            cur.execute(f"""
-                insert into {TABLE} (title, persona, jurisdiction, source_url, published_at, tags, body, embedding)
-                values (%s,%s,%s,%s,%s,%s,%s,%s)
-            """, (
-                meta.get("title"),
-                meta.get("persona"),
-                meta.get("jurisdiction"),
-                meta.get("source_url"),
-                meta.get("published_at"),
-                meta.get("tags"),
-                body,
-                vec,
-            ))
+            try:
+                meta, body = parse_md(p)
+                vec = embed(body)
+                vec_lit = to_vector_param(vec)  # string "[...]"
+                cur.execute(
+                    f"""
+                    insert into {TABLE}
+                      (title, persona, jurisdiction, source_url, published_at, tags, body, embedding)
+                    values
+                      (%s,%s,%s,%s,%s,%s,%s, %s::vector)
+                    """,
+                    (
+                        meta.get("title"),
+                        meta.get("persona"),
+                        meta.get("jurisdiction"),
+                        meta.get("source_url"),
+                        meta.get("published_at"),
+                        meta.get("tags"),
+                        body,
+                        vec_lit,  # casté en ::vector par SQL
+                    ),
+                )
+                print(f"Inserted: {os.path.basename(p)} -> {TABLE}")
+            except Exception as e:
+                print(f"❌ Failed on {p}: {e}")
+                traceback.print_exc()
+                raise
         conn.commit()
-    print(f"[{PROVIDER}] Ingested {len(files)} documents into {TABLE}")
+    print(f"✅ [{PROVIDER}] Ingested {len(files)} documents into {TABLE}")
 
 if __name__ == "__main__":
     ingest_dir()
