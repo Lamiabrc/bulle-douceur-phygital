@@ -1,4 +1,4 @@
-import Navigation from "@/components/Navigation";
+// src/pages/Index.tsx
 import NewIndex from "./NewIndex";
 
 const Index = () => {
