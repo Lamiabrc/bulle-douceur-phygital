@@ -134,26 +134,26 @@ const NewIndex = () => {
               </Badge>
               <h1 className="font-inter text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.06] tracking-tight">
                 <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-                  La QVT qui se voit
+                  La QVT qui demande: Ca va?? (cette question matinale est un levier d'écoute) 
                 </span>
                 <br />
-                <span className="text-foreground">et qui sert vraiment</span>
+                <span className="text-foreground"> et bien plus que répondre vous êtes présent objectivement </span>
               </h1>
               <p className="mt-5 text-lg text-foreground/70 max-w-xl">
                 Mesurez l’essentiel, détectez les risques, et passez à l’action avec des Box utiles, au bon moment.
               </p>
 
               <div className="mt-7 flex flex-col sm:flex-row gap-3">
-                <Button asChild size="lg" className="inline-flex items-center gap-2 whitespace-nowrap">
+                <Button asChild size="lg" variant="outline" className="inline-flex items-center gap-2 whitespace-nowrap">
                   <Link to="/contact">
                     <BarChart3 className="w-5 h-5" />
-                    <span>Recevoir une démo</span>
+                    <span> Recevoir une démo </span>
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="inline-flex items-center gap-2 whitespace-nowrap">
                   <Link to="/contact">
                     <Phone className="w-5 h-5" />
-                    <span>contacter notre équipe</span>
+                    <span> Contacter notre équipe </span>
                   </Link>
                 </Button>
               </div>
