@@ -1,5 +1,6 @@
 import os, re, glob, psycopg, yaml, traceback
-from typing import List
+from typing import List, Tuple
+from pypdf import PdfReader  # <— pour PDF
 
 # -------- Config --------
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -29,13 +30,41 @@ else:
 # -------- Utils --------
 FM_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n(.*)$", re.DOTALL)
 
-def parse_md(path: str):
+def parse_md(path: str) -> Tuple[dict, str]:
     txt = open(path, "r", encoding="utf-8").read()
     m = FM_RE.match(txt)
-    meta, body = ({}, txt) if not m else (yaml.safe_load(m.group(1)) or {}, m.group(2).strip())
+    if m:
+        meta = yaml.safe_load(m.group(1)) or {}
+        body = m.group(2).strip()
+    else:
+        meta, body = {}, txt
     meta.setdefault("title", os.path.basename(path))
     meta.setdefault("persona", "expert-qvt")
     meta.setdefault("tags", [])
+    return meta, body
+
+def parse_pdf(path: str) -> Tuple[dict, str]:
+    reader = PdfReader(path)
+    chunks = []
+    for page in reader.pages:
+        try:
+            chunks.append(page.extract_text() or "")
+        except Exception:
+            chunks.append("")
+    body = "\n".join(chunks).strip()
+    # Nettoyage léger
+    body = re.sub(r"[ \t]+", " ", body)
+    body = re.sub(r"\n{3,}", "\n\n", body)
+    meta = {
+        "title": f"[PDF] {os.path.basename(path)}",
+        "persona": "expert-qvt",
+        "tags": [],
+        "source_url": None,
+        "published_at": None
+    }
+    # Tronque si énorme (optionnel)
+    if len(body) > 200_000:
+        body = body[:200_000]
     return meta, body
 
 def embed(text: str) -> List[float]:
@@ -48,24 +77,34 @@ def embed(text: str) -> List[float]:
         return res.data[0].embedding   # 1024 floats
 
 def to_vector_param(vec: List[float]) -> str:
-    # On passe un LITTÉRAL texte "[0.1,0.2,...]" et on le caste en ::vector côté SQL
     return "[" + ",".join(f"{x:.7f}" for x in vec) + "]"
 
 # -------- Ingest --------
 def ingest_dir():
     base_dir = os.path.dirname(__file__)               # .../ai-service
     dirpath  = os.path.join(base_dir, "docs")          # .../ai-service/docs
-    files = sorted(glob.glob(os.path.join(dirpath, "*.md")))
-    print(f"[{PROVIDER}] docs dir: {dirpath}, found {len(files)} files")
+    md_files  = sorted(glob.glob(os.path.join(dirpath, "*.md")))
+    pdf_files = sorted(glob.glob(os.path.join(dirpath, "*.pdf")))
+    files = md_files + pdf_files
+    print(f"[{PROVIDER}] docs dir: {dirpath}, found {len(files)} files (md:{len(md_files)} pdf:{len(pdf_files)})")
     if not files:
-        print("No .md files in", dirpath); return
+        print("No docs found"); return
 
     with psycopg.connect(DATABASE_URL) as conn, conn.cursor() as cur:
         for p in files:
             try:
-                meta, body = parse_md(p)
+                if p.lower().endswith(".md"):
+                    meta, body = parse_md(p)
+                else:
+                    meta, body = parse_pdf(p)
+
+                if not body or len(body.strip()) < 50:
+                    print(f"⚠️ Skipped (too short): {os.path.basename(p)}")
+                    continue
+
                 vec = embed(body)
-                vec_lit = to_vector_param(vec)  # string "[...]"
+                vec_lit = to_vector_param(vec)
+
                 cur.execute(
                     f"""
                     insert into {TABLE}
@@ -81,7 +120,7 @@ def ingest_dir():
                         meta.get("published_at"),
                         meta.get("tags"),
                         body,
-                        vec_lit,  # casté en ::vector par SQL
+                        vec_lit,
                     ),
                 )
                 print(f"Inserted: {os.path.basename(p)} -> {TABLE}")
