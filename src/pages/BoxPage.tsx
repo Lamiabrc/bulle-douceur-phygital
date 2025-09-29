@@ -19,16 +19,15 @@ import {
   Heart,
   Gift,
 } from "lucide-react";
+
 import qvtBoxImage from "@/assets/qvt-box-products.jpg";
 import professionalTeam from "@/assets/professional-team-meeting.jpg";
 
-// >>> Images de la mini-galerie (depuis src/assets)
 import imgAlimentaire from "@/assets/products-alimentaire.jpg";
 import imgHygiene from "@/assets/products-hygiene.jpg";
 import imgCosmetique from "@/assets/products-cosmetique.jpg";
 import imgSurprise from "@/assets/products-surprise.jpg";
 
-// --- Mise en avant : Box Pouvoir d'Achat (standard mensuelle)
 const FEATURED_BOX = {
   name: "Box Pouvoir d'Achat",
   subtitle: "La box standard, personnalisée par les salariés, à recevoir chaque mois",
@@ -62,8 +61,7 @@ const THEMATIC_BOXES = [
   },
   {
     name: "Box Mobilité & Ergonomie",
-    description:
-      "Prévention des TMS et amélioration des conditions de travail",
+    description: "Prévention des TMS et amélioration des conditions de travail",
     price: "À partir de 55€",
     contents: [
       "Accessoires ergonomiques",
@@ -76,8 +74,7 @@ const THEMATIC_BOXES = [
   },
   {
     name: "Box Pénibilité & Récupération",
-    description:
-      "Solutions pour soulager la pénibilité physique au travail",
+    description: "Solutions pour soulager la pénibilité physique au travail",
     price: "À partir de 65€",
     contents: [
       "Produits de récupération bio",
@@ -90,8 +87,7 @@ const THEMATIC_BOXES = [
   },
   {
     name: "Box Cohésion & Reconnaissance",
-    description:
-      "Renforcement du lien social et valorisation des équipes",
+    description: "Renforcement du lien social et valorisation des équipes",
     price: "À partir de 40€",
     contents: [
       "Activités team-building",
@@ -154,11 +150,10 @@ const PROCESS_STEPS = [
 
 const NewBoxPage: React.FC = () => {
   const [heroRef, heroVisible] = useScrollReveal();
-  const [boxesRef, boxesVisible] = useStaggeredReveal(5, 200); // +1 pour la mise en avant
+  const [boxesRef, boxesVisible] = useStaggeredReveal(5, 200);
   const [processRef, processVisible] = useScrollReveal();
   const [ctaRef, ctaVisible] = useScrollReveal();
 
-  // JSON-LD: inclut la Box Pouvoir d'Achat en premier
   const jsonLd = useMemo(
     () => ({
       "@context": "https://schema.org",
@@ -208,7 +203,7 @@ const NewBoxPage: React.FC = () => {
 
       <Navigation />
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section
         className={`pt-24 pb-16 px-6 bg-gradient-hero scroll-reveal ${
           heroVisible ? "visible" : ""
@@ -249,23 +244,16 @@ const NewBoxPage: React.FC = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/boutique?preselect=pouvoir-achat">
-                  <Button
-                    className="btn-primary text-lg px-8 py-4 font-inter"
-                    aria-label="Commander la Box Pouvoir d'Achat"
-                  >
+                <Button asChild className="btn-primary text-lg px-8 py-4 font-inter">
+                  <Link to="/boutique?preselect=pouvoir-achat" aria-label="Commander la Box Pouvoir d'Achat">
                     Commander la Box Pouvoir d'Achat
-                  </Button>
-                </Link>
-                <Link to="/auth">
-                  <Button
-                    variant="outline"
-                    className="text-lg px-8 py-4 font-inter"
-                    aria-label="Évaluer mes besoins"
-                  >
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" className="text-lg px-8 py-4 font-inter">
+                  <Link to="/auth" aria-label="Évaluer mes besoins">
                     Évaluer mes besoins
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
             </div>
 
@@ -279,18 +267,14 @@ const NewBoxPage: React.FC = () => {
               <div
                 className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"
                 aria-hidden="true"
-              ></div>
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Mise en avant : Box Pouvoir d'Achat */}
-      <section
-        id="featured"
-        className="py-10 px-6 bg-background"
-        aria-labelledby="featured-title"
-      >
+      {/* Mise en avant */}
+      <section id="featured" className="py-10 px-6 bg-background" aria-labelledby="featured-title">
         <div className="container mx-auto">
           <h2 id="featured-title" className="sr-only">
             Box standard mise en avant
@@ -300,9 +284,7 @@ const NewBoxPage: React.FC = () => {
               <div className="flex flex-col lg:flex-row items-start gap-6 justify-between">
                 <div className="max-w-2xl">
                   <div className="flex items-center gap-3 mb-3">
-                    <Badge className="bg-secondary text-white">
-                      {FEATURED_BOX.badge}
-                    </Badge>
+                    <Badge className="bg-secondary text-white">{FEATURED_BOX.badge}</Badge>
                     <span className="text-secondary font-medium">Abonnement mensuel</span>
                   </div>
                   <h3 className="text-3xl font-bold mb-2">{FEATURED_BOX.name}</h3>
@@ -312,16 +294,12 @@ const NewBoxPage: React.FC = () => {
                   <div className="grid sm:grid-cols-2 gap-2 mb-6">
                     {FEATURED_BOX.contents.map((c) => (
                       <div key={c} className="flex items-start gap-2 text-sm">
-                        <CheckCircle
-                          className="w-4 h-4 text-secondary mt-0.5"
-                          aria-hidden="true"
-                        />
+                        <CheckCircle className="w-4 h-4 text-secondary mt-0.5" aria-hidden="true" />
                         {c}
                       </div>
                     ))}
                   </div>
 
-                  {/* Mini-galerie catégories (visuel uniquement) */}
                   <div
                     className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6"
                     aria-label="Aperçu du contenu typique"
@@ -339,25 +317,20 @@ const NewBoxPage: React.FC = () => {
                           className="w-full h-28 object-cover"
                           loading="lazy"
                         />
-                        <figcaption className="px-2 py-1 text-sm text-foreground/70">
-                          {label}
-                        </figcaption>
+                        <figcaption className="px-2 py-1 text-sm text-foreground/70">{label}</figcaption>
                       </figure>
                     ))}
                   </div>
 
                   <div className="flex items-center gap-4">
                     <div className="text-2xl font-bold text-primary">{FEATURED_BOX.price}</div>
-                    <Link to="/boutique?preselect=pouvoir-achat">
-                      <Button className="btn-secondary">Choisir cette box</Button>
-                    </Link>
+                    <Button asChild className="btn-secondary">
+                      <Link to="/boutique?preselect=pouvoir-achat">Choisir cette box</Link>
+                    </Button>
                   </div>
                 </div>
                 <div className="hidden lg:flex items-center justify-center w-24 h-24 rounded-full bg-secondary/10">
-                  <FEATURED_BOX.icon
-                    className="w-12 h-12 text-secondary"
-                    aria-hidden="true"
-                  />
+                  <FEATURED_BOX.icon className="w-12 h-12 text-secondary" aria-hidden="true" />
                 </div>
               </div>
             </CardContent>
@@ -366,26 +339,14 @@ const NewBoxPage: React.FC = () => {
       </section>
 
       {/* Box Thématiques */}
-      <section
-        className="py-20 px-6 section-professional"
-        ref={boxesRef}
-        aria-labelledby="thematic-title"
-      >
+      <section className="py-20 px-6 section-professional" ref={boxesRef} aria-labelledby="thematic-title">
         <div className="container mx-auto">
-          <div
-            className={`text-center mb-16 scroll-reveal ${
-              boxesVisible.has(0) ? "visible" : ""
-            }`}
-          >
-            <h2
-              id="thematic-title"
-              className="text-4xl font-bold text-foreground mb-6 font-inter"
-            >
+          <div className={`text-center mb-16 scroll-reveal ${boxesVisible.has(0) ? "visible" : ""}`}>
+            <h2 id="thematic-title" className="text-4xl font-bold text-foreground mb-6 font-inter">
               Box <span className="text-secondary">Thématiques</span>
             </h2>
             <p className="text-xl text-foreground/70 max-w-4xl mx-auto font-lato">
-              Solutions ciblées pour répondre aux défis identifiés par les études DARES
-              et INRS
+              Solutions ciblées pour répondre aux défis identifiés par les études DARES et INRS
             </p>
           </div>
 
@@ -403,20 +364,14 @@ const NewBoxPage: React.FC = () => {
                 >
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between mb-4">
-                      <IconComponent
-                        className="w-10 h-10 text-primary"
-                        aria-hidden="true"
-                      />
+                      <IconComponent className="w-10 h-10 text-primary" aria-hidden="true" />
                       {box.compliance && (
                         <Badge variant="outline" className="text-xs">
                           {box.compliance}
                         </Badge>
                       )}
                     </div>
-                    <CardTitle
-                      className="text-2xl font-inter text-foreground"
-                      itemProp="name"
-                    >
+                    <CardTitle className="text-2xl font-inter text-foreground" itemProp="name">
                       {box.name}
                     </CardTitle>
                     <p className="text-foreground/70 font-lato" itemProp="description">
@@ -433,10 +388,7 @@ const NewBoxPage: React.FC = () => {
                         itemType="https://schema.org/Offer"
                       >
                         <meta itemProp="priceCurrency" content="EUR" />
-                        <span
-                          itemProp="price"
-                          content={box.price.replace(/[^0-9]/g, "")}
-                        >
+                        <span itemProp="price" content={box.price.replace(/[^0-9]/g, "")}>
                           {box.price}
                         </span>
                       </div>
@@ -445,25 +397,16 @@ const NewBoxPage: React.FC = () => {
                         <h4 className="font-semibold mb-2 font-inter">Contenu de la box :</h4>
                         <ul className="space-y-1">
                           {box.contents.map((item) => (
-                            <li
-                              key={`${box.name}-${item}`}
-                              className="flex items-start gap-2 text-sm font-lato"
-                            >
-                              <CheckCircle
-                                className="w-4 h-4 text-secondary mt-0.5 flex-shrink-0"
-                                aria-hidden="true"
-                              />
+                            <li key={`${box.name}-${item}`} className="flex items-start gap-2 text-sm font-lato">
+                              <CheckCircle className="w-4 h-4 text-secondary mt-0.5 flex-shrink-0" aria-hidden="true" />
                               {item}
                             </li>
                           ))}
                         </ul>
                       </div>
 
-                      <Button
-                        className="w-full btn-outline button-hover"
-                        aria-label={`Personnaliser la ${box.name}`}
-                      >
-                        Personnaliser cette box
+                      <Button asChild className="w-full btn-outline button-hover" aria-label={`Personnaliser la ${box.name}`}>
+                        <Link to="/contact">Personnaliser cette box</Link>
                       </Button>
                     </div>
                   </CardContent>
@@ -478,10 +421,7 @@ const NewBoxPage: React.FC = () => {
       <section className="py-20 px-6 bg-background" aria-labelledby="event-title">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2
-              id="event-title"
-              className="text-4xl font-bold text-foreground mb-6 font-inter"
-            >
+            <h2 id="event-title" className="text-4xl font-bold text-foreground mb-6 font-inter">
               Box <span className="text-primary">Événementielles</span>
             </h2>
             <p className="text-xl text-foreground/70 max-w-4xl mx-auto font-lato">
@@ -501,9 +441,7 @@ const NewBoxPage: React.FC = () => {
                     <h3 className="font-bold text-lg font-inter">{eventBox.event}</h3>
                     <p className="text-sm text-foreground/70 font-lato">{eventBox.description}</p>
                     <div className="pt-2 border-t">
-                      <p className="text-xs text-primary font-medium font-lato">
-                        {eventBox.customization}
-                      </p>
+                      <p className="text-xs text-primary font-medium font-lato">{eventBox.customization}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -514,30 +452,18 @@ const NewBoxPage: React.FC = () => {
       </section>
 
       {/* Processus participatif */}
-      <section
-        className="py-20 px-6 section-professional"
-        ref={processRef}
-        aria-labelledby="process-title"
-      >
+      <section className="py-20 px-6 section-professional" ref={processRef} aria-labelledby="process-title">
         <div className="container mx-auto">
-          <div
-            className={`text-center mb-16 scroll-reveal ${
-              processVisible ? "visible" : ""
-            }`}
-          >
-            <h2
-              id="process-title"
-              className="text-4xl font-bold text-foreground mb-6 font-inter"
-            >
+          <div className={`text-center mb-16 scroll-reveal ${processVisible ? "visible" : ""}`}>
+            <h2 id="process-title" className="text-4xl font-bold text-foreground mb-6 font-inter">
               Un processus <span className="text-secondary">clair et participatif</span>
             </h2>
             <p className="text-xl text-foreground/70 max-w-4xl mx-auto font-lato">
-              Conformément aux recommandations ANACT : participation, dialogue social et
-              co-construction
+              Conformément aux recommandations ANACT : participation, dialogue social et co-construction
             </p>
           </div>
 
-        <div className="max-w-5xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             {PROCESS_STEPS.map((step, index) => (
               <div key={step.step} className="flex items-center gap-8 mb-12 last:mb-0">
                 <div className="flex-shrink-0 w-20 h-20 bg-primary text-white rounded-full flex items-center justify-center text-2xl font-bold font-inter">
@@ -545,12 +471,8 @@ const NewBoxPage: React.FC = () => {
                 </div>
 
                 <div className="flex-1 card-professional p-6">
-                  <h3 className="text-2xl font-bold text-foreground mb-3 font-inter">
-                    {step.title}
-                  </h3>
-                  <p className="text-foreground/70 font-lato leading-relaxed">
-                    {step.description}
-                  </p>
+                  <h3 className="text-2xl font-bold text-foreground mb-3 font-inter">{step.title}</h3>
+                  <p className="text-foreground/70 font-lato leading-relaxed">{step.description}</p>
                 </div>
 
                 {index < PROCESS_STEPS.length - 1 && (
@@ -581,15 +503,12 @@ const NewBoxPage: React.FC = () => {
                   Témoignage client
                 </h3>
                 <blockquote className="text-lg italic text-foreground/80 mb-6 font-lato">
-                  "La démarche participative de QVT Box a transformé notre approche du
-                  bien-être au travail. Les salariés se sentent écoutés et les box répondent
-                  vraiment à leurs besoins quotidiens."
+                  "La démarche participative de QVT Box a transformé notre approche du bien-être au travail.
+                  Les salariés se sentent écoutés et les box répondent vraiment à leurs besoins quotidiens."
                 </blockquote>
                 <div className="border-t pt-4">
                   <p className="font-semibold text-foreground font-inter">Catherine Moreau</p>
-                  <p className="text-sm text-foreground/60 font-lato">
-                    DRH, TechnoServices (320 salariés)
-                  </p>
+                  <p className="text-sm text-foreground/60 font-lato">DRH, TechnoServices (320 salariés)</p>
                 </div>
               </div>
             </div>
@@ -598,40 +517,24 @@ const NewBoxPage: React.FC = () => {
       </section>
 
       {/* CTA */}
-      <section
-        className={`py-20 px-6 bg-primary scroll-reveal-scale ${
-          ctaVisible ? "visible" : ""
-        }`}
-        ref={ctaRef}
-        aria-labelledby="cta-title"
-      >
+      <section className={`py-20 px-6 bg-primary scroll-reveal-scale ${ctaVisible ? "visible" : ""}`} ref={ctaRef} aria-labelledby="cta-title">
         <div className="container mx-auto text-center">
           <h2 id="cta-title" className="text-4xl font-bold text-white mb-6 font-inter">
             Prêt à co-construire avec vos équipes ?
           </h2>
           <p className="text-white/90 text-lg mb-8 max-w-3xl mx-auto font-lato">
-            Lancez une démarche participative alignée avec les recommandations ANACT et
-            offrez des solutions concrètes à vos collaborateurs.
+            Lancez une démarche participative alignée avec les recommandations ANACT et offrez des solutions concrètes à vos collaborateurs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/auth">
-              <Button
-                size="lg"
-                className="bg-white text-primary hover:bg-white/90 font-inter button-hover"
-              >
+            <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 font-inter button-hover">
+              <Link to="/auth">
                 <Users className="w-5 h-5 mr-2" aria-hidden="true" />
                 Commencer l'évaluation
-              </Button>
-            </Link>
-            <Link to="/contact">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-primary font-inter button-hover"
-              >
-                Demander une présentation
-              </Button>
-            </Link>
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary font-inter button-hover">
+              <Link to="/contact">Demander une présentation</Link>
+            </Button>
           </div>
         </div>
       </section>
