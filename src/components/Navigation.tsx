@@ -25,8 +25,9 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass-effect">
-      <div className="container mx-auto px-6 py-4">
+    // >>> Fond quasi opaque + blur + bordure pour contraste garanti
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+      <div className="container mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link
@@ -34,33 +35,33 @@ const Navigation = () => {
             className="flex items-center space-x-3 hover:opacity-90 transition-all duration-200 group"
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-primary/20 rounded-full blur-md group-hover:blur-lg transition-all duration-300" />
               <img
                 src="https://2d181cb9-4143-4c90-9e92-77eb836ddc8b.lovableproject.com/logo-qvt.jpeg"
                 alt="QVT Box Logo"
-                className="relative w-12 h-12 rounded-full object-cover shadow-lg group-hover:scale-105 transition-transform"
+                className="relative w-10 h-10 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform"
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).style.display = "none";
                 }}
               />
-              {/* Fallback rond QVT si logo off */}
-              <div className="hidden relative w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary text-white font-bold text-xs items-center justify-center shadow-lg">
+              <div className="hidden relative w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary text-white font-bold text-[10px] items-center justify-center shadow-md">
                 QVT
               </div>
             </div>
-            <span className="text-2xl font-inter font-bold text-foreground group-hover:text-primary transition-colors">
+            <span className="text-xl font-inter font-bold text-foreground group-hover:text-primary transition-colors">
               QVT Box
             </span>
           </Link>
 
           {/* Desktop nav */}
-          <ul className="hidden md:flex items-center space-x-8">
+          <ul className="hidden md:flex items-center space-x-7">
             {navItems.map((item) => (
               <li key={item.path}>
                 <Link
                   to={item.path}
-                  className={`nav-link transition-colors font-montserrat ${
-                    location.pathname === item.path ? "text-primary" : "text-foreground/80 hover:text-primary"
+                  className={`font-montserrat text-sm transition-colors ${
+                    location.pathname === item.path
+                      ? "text-primary"
+                      : "text-foreground/85 hover:text-primary"
                   }`}
                 >
                   {item.name}
@@ -69,13 +70,13 @@ const Navigation = () => {
             ))}
 
             {/* Langue + CTA */}
-            <li className="flex items-center gap-4">
+            <li className="flex items-center gap-3">
               <LanguageSelector currentLanguage={language} onLanguageChange={setLanguage} />
 
-              {/* CTA principal : Contact (on enlève le panier) */}
+              {/* CTA principal : Contact */}
               <Link
                 to="/contact"
-                className="bg-primary text-white px-6 py-2 rounded-lg font-medium transition-all hover:bg-primary/90 font-inter"
+                className="bg-primary text-white px-5 py-2 rounded-md font-medium transition-colors hover:bg-primary/90 font-inter"
               >
                 {t("nav.contact") || "Contact"}
               </Link>
@@ -83,16 +84,16 @@ const Navigation = () => {
               {/* Espace compte / dashboard */}
               <Link
                 to={user ? "/dashboard" : "/auth"}
-                className="bg-secondary text-white px-6 py-2 rounded-lg font-medium transition-all hover:bg-secondary/90 font-inter"
+                className="bg-secondary text-white px-5 py-2 rounded-md font-medium transition-colors hover:bg-secondary/90 font-inter"
               >
                 {user ? t("nav.dashboard") : t("nav.account")}
               </Link>
 
-              {/* Lien Admin si admin */}
+              {/* Admin */}
               {user && isAdmin && (
                 <Link
                   to="/admin"
-                  className="bg-accent text-white px-4 py-2 rounded-lg font-medium transition-all hover:bg-accent/90 font-inter"
+                  className="bg-accent text-white px-3 py-2 rounded-md transition-colors hover:bg-accent/90"
                   aria-label="Administration"
                   title="Administration"
                 >
@@ -124,18 +125,18 @@ const Navigation = () => {
             >
               <div className="flex items-center justify-between mb-6">
                 <span className="text-xl font-inter font-bold text-foreground">Menu</span>
-                <button onClick={() => setMobileMenuOpen(false)} className="p-2" aria-label="Fermer le menu">
+                <button onClick={() => setMobileMenuOpen(false)} className="p-2" aria-label="Fermer">
                   <X className="w-6 h-6 text-foreground" />
                 </button>
               </div>
 
-              <div className="flex flex-col space-y-4 mb-6">
+              <div className="flex flex-col space-y-3 mb-6">
                 {navItems.map((item) => (
                   <Link
                     key={item.path}
                     to={item.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`text-lg font-montserrat py-3 px-4 rounded-lg transition-colors ${
+                    className={`text-base font-montserrat py-3 px-4 rounded-lg transition-colors ${
                       location.pathname === item.path
                         ? "bg-primary/10 text-primary font-semibold"
                         : "text-foreground hover:bg-muted"
@@ -147,15 +148,14 @@ const Navigation = () => {
               </div>
 
               <div className="flex flex-col space-y-3 pt-4 border-t border-border">
-                <div className="px-4 mb-2">
+                <div className="px-1 mb-2">
                   <LanguageSelector currentLanguage={language} onLanguageChange={setLanguage} />
                 </div>
 
-                {/* CTA principal : Contact (panier supprimé) */}
                 <Link
                   to="/contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="bg-primary text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-primary/90 font-inter text-center"
+                  className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 text-center"
                 >
                   {t("nav.contact") || "Contact"}
                 </Link>
@@ -163,7 +163,7 @@ const Navigation = () => {
                 <Link
                   to={user ? "/dashboard" : "/auth"}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="bg-secondary text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-secondary/90 font-inter text-center"
+                  className="bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-secondary/90 text-center"
                 >
                   {user ? t("nav.dashboard") : t("nav.account")}
                 </Link>
@@ -172,7 +172,7 @@ const Navigation = () => {
                   <Link
                     to="/admin"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="bg-accent text-white px-6 py-3 rounded-lg font-medium transition-all hover:bg-accent/90 font-inter flex items-center justify-center gap-2"
+                    className="bg-accent text-white px-6 py-3 rounded-lg font-medium hover:bg-accent/90 flex items-center justify-center gap-2"
                   >
                     <Settings className="w-5 h-5" />
                     Administration
