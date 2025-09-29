@@ -17,8 +17,23 @@ import {
   Truck,
 } from "lucide-react";
 
-/** ✅ images qui existent dans /src/assets */
 import internationalHero from "@/assets/hero-spectacular-impact.jpg";
+import partnersLocal from "@/assets/partners-local-producers.webp";
+import shippingStation from "@/assets/shipping-station-parcel.webp";
+
+// Helpers couleurs sûres (pas de classes dynamiques)
+type Tone = "primary" | "secondary" | "accent";
+const toneClasses = (tone: Tone) => {
+  switch (tone) {
+    case "primary":
+      return { bg: "bg-primary/10", text: "text-primary" };
+    case "secondary":
+      return { bg: "bg-secondary/10", text: "text-secondary" };
+    case "accent":
+    default:
+      return { bg: "bg-accent/10", text: "text-accent" };
+  }
+};
 
 const InternationalPage = () => {
   const { t } = useLanguage();
@@ -28,7 +43,14 @@ const InternationalPage = () => {
   const [testimonialsRef, testimonialsVisible] = useStaggeredReveal(3, 200);
   const [ctaRef, ctaVisible] = useScrollReveal();
 
-  const internationalServices = [
+  const internationalServices: Array<{
+    title: string;
+    description: string;
+    icon: any;
+    features: string[];
+    price: string;
+    tone: Tone;
+  }> = [
     {
       title: "Box Premium International",
       description:
@@ -40,7 +62,8 @@ const InternationalPage = () => {
         "Documentation douanière incluse",
         "Suivi de livraison mondial",
       ],
-      price: "49,90 – 89,90 €",
+      price: "49,90 - 89,90 €",
+      tone: "primary",
     },
     {
       title: "Licence SaaS Globale",
@@ -54,6 +77,7 @@ const InternationalPage = () => {
         "Rapports consolidés globaux",
       ],
       price: "Sur devis",
+      tone: "secondary",
     },
     {
       title: "Accompagnement Culturel",
@@ -67,14 +91,15 @@ const InternationalPage = () => {
         "Support multilingue",
       ],
       price: "Inclus",
+      tone: "accent",
     },
   ];
 
   const deliveryZones = [
-    { zone: "Europe", countries: "27 pays", delivery: "3–5 jours", customs: "Incluses", icon: "🇪🇺" },
-    { zone: "Amérique du Nord", countries: "USA, Canada", delivery: "5–8 jours", customs: "Incluses", icon: "🇺🇸" },
-    { zone: "Asie-Pacifique", countries: "Japon, Singapour, Australie", delivery: "7–12 jours", customs: "Incluses", icon: "🌏" },
-    { zone: "Moyen-Orient & Afrique", countries: "Émirats, Maroc, Afrique du Sud", delivery: "8–15 jours", customs: "Incluses", icon: "🌍" },
+    { zone: "Europe", countries: "27 pays", delivery: "3-5 jours", customs: "Incluses", icon: "🇪🇺" },
+    { zone: "Amérique du Nord", countries: "USA, Canada", delivery: "5-8 jours", customs: "Incluses", icon: "🇺🇸" },
+    { zone: "Asie-Pacifique", countries: "Japon, Singapour, Australie", delivery: "7-12 jours", customs: "Incluses", icon: "🌏" },
+    { zone: "Moyen-Orient & Afrique", countries: "Émirats, Maroc, Afrique du Sud", delivery: "8-15 jours", customs: "Incluses", icon: "🌍" },
   ];
 
   const internationalProcess = [
@@ -113,7 +138,7 @@ const InternationalPage = () => {
       quote:
         "Nos équipes de Londres, Berlin et Tokyo reçoivent désormais les mêmes attentions. La qualité française fait l'unanimité !",
       author: "Sarah Chen, Global HR Director",
-      company: "TechCorp International (2 400 employés, 15 pays)",
+      company: "TechCorp International (2,400 employés, 15 pays)",
       flag: "🌍",
     },
     {
@@ -127,7 +152,7 @@ const InternationalPage = () => {
       quote:
         "La logistique est parfaite. Nos bureaux de Singapour et Sydney reçoivent leurs box en parfait état.",
       author: "Yuki Tanaka, Regional Manager",
-      company: "Asian Solutions Ltd (1 200 employés, Asie)",
+      company: "Asian Solutions Ltd (1,200 employés, Asie)",
       flag: "🇸🇬",
     },
   ];
@@ -136,140 +161,129 @@ const InternationalPage = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* HERO — contraste fort + overlay */}
-      <section
-        className="relative min-h-[92vh] flex items-center justify-center pt-20 px-6"
-        ref={heroRef}
-      >
+      {/* HERO (overlay + texte blanc pour contraste) */}
+      <section className="relative min-h-[80vh] flex items-center justify-center pt-20 px-6" ref={heroRef}>
         <div className="absolute inset-0">
           <img
             src={internationalHero}
             alt="QVT Box International - Équipes mondiales"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/60 to-black/30" />
+          <div className="absolute inset-0 bg-black/65" />
         </div>
 
         <div className="relative container mx-auto text-center text-white">
-          <div
-            className={`max-w-5xl mx-auto scroll-reveal ${
-              heroVisible ? "visible" : ""
-            }`}
-          >
-            <Badge className="bg-white text-primary font-semibold px-4 py-1.5 rounded-full inline-flex items-center justify-center gap-2 mb-6 shadow-lg">
-              <Globe className="w-4 h-4" />
-              {t("international.subtitle")}
-            </Badge>
+          <div className={`max-w-5xl mx-auto scroll-reveal ${heroVisible ? "visible" : ""}`}>
+            <div className="mb-8">
+              <Badge className="bg-white/15 text-white border-white/30 mb-6 px-6 py-2 text-lg">
+                <Globe className="w-5 h-5 mr-2" />
+                {t("international.subtitle") || "Déploiement international sans friction"}
+              </Badge>
 
-            <h1 className="font-inter text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
-              QVT Box <span className="text-primary">International</span>
-            </h1>
+              <h1 className="font-inter text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
+                QVT Box <span className="text-primary">International</span>
+              </h1>
 
-            <h2 className="text-xl md:text-3xl font-semibold mb-6 text-white">
-              {t("international.hero.title")}
-            </h2>
+              <h2 className="text-2xl md:text-4xl font-bold mb-6 text-white">
+                {t("international.hero.title") || "L’excellence française pour toutes vos équipes, partout."}
+              </h2>
 
-            <p className="text-base md:text-lg text-white/90 mb-10 font-light max-w-4xl mx-auto leading-relaxed">
-              {t("international.hero.description")}
-            </p>
+              <p className="text-lg md:text-xl text-white/90 mb-10 font-light max-w-4xl mx-auto leading-relaxed">
+                {t("international.hero.description") ||
+                  "Nous expédions des box 100% Made in France et déployons notre licence SaaS dans plus de 50 pays, avec un accompagnement culturel et une logistique maîtrisée."}
+              </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-14">
-              <Link
-                to="/contact"
-                className="btn-primary bg-white text-primary hover:bg-white/90 px-7 py-3 text-base md:text-lg font-semibold shadow-primary"
-              >
-                <Plane className="w-5 h-5 mr-2" />
-                Demander un devis international
-              </Link>
-              <Link
-                to="/contact"
-                className="btn-outline border-2 border-white text-white hover:bg-white hover:text-primary px-7 py-3 text-base md:text-lg font-semibold"
-              >
-                <Users className="w-5 h-5 mr-2" />
-                Consultation gratuite
-              </Link>
-            </div>
-
-            {/* Stats contrastées */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
-              {[
-                { k: "50+", v: "Pays desservis" },
-                { k: "100%", v: "Made in France" },
-                { k: "15+", v: "Langues disponibles" },
-                { k: "72h", v: "Délai moyen mondial" },
-              ].map((item) => (
-                <div
-                  key={item.v}
-                  className="bg-white/15 backdrop-blur-md rounded-2xl p-4 md:p-5 border border-white/25"
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
+                  <Link to="/contact">
+                    <Plane className="w-5 h-5 mr-2" />
+                    Demander un devis international
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="border-white text-white hover:bg-white hover:text-primary"
                 >
-                  <div className="text-2xl md:text-3xl font-extrabold text-white">
-                    {item.k}
-                  </div>
-                  <div className="text-white/90 text-xs md:text-sm font-medium">
-                    {item.v}
-                  </div>
+                  <Link to="/contact">
+                    <Users className="w-5 h-5 mr-2" />
+                    Consultation gratuite
+                  </Link>
+                </Button>
+              </div>
+
+              {/* KPIs */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center mt-12">
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
+                  <div className="text-2xl font-bold text-white">50+</div>
+                  <div className="text-white/80 text-sm">Pays desservis</div>
                 </div>
-              ))}
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
+                  <div className="text-2xl font-bold text-white">100%</div>
+                  <div className="text-white/80 text-sm">Made in France</div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
+                  <div className="text-2xl font-bold text-white">15+</div>
+                  <div className="text-white/80 text-sm">Langues disponibles</div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4">
+                  <div className="text-2xl font-bold text-white">72h</div>
+                  <div className="text-white/80 text-sm">Délai moyen mondial</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SERVICES — contraste fort, textes foncés */}
+      {/* Services */}
       <section className="py-20 px-6 bg-background" ref={servicesRef}>
         <div className="container mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 font-inter tracking-tight">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
               Solutions <span className="text-primary">Internationales</span>
             </h2>
-            <p className="text-base md:text-lg text-foreground/80 max-w-3xl mx-auto font-lato">
-              Des solutions QVT pensées pour vos équipes dispersées dans le
-              monde entier.
+            <p className="text-xl text-foreground/70 max-w-4xl mx-auto font-lato">
+              Des solutions QVT pensées pour vos équipes dispersées dans le monde entier
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-8 mb-8">
             {internationalServices.map((service, index) => {
-              const IconComponent = service.icon;
+              const Icon = service.icon;
+              const tones = toneClasses(service.tone);
               return (
                 <Card
                   key={service.title}
-                  className={`p-7 md:p-8 hover:shadow-floating transition-all duration-300 border-2 border-border/70 bg-card/95 ${
-                    servicesVisible.has(index) ? "visible" : "stagger-item"
+                  className={`card-professional p-8 hover:shadow-floating transition-all duration-300 stagger-item ${
+                    servicesVisible.has(index) ? "visible" : ""
                   }`}
                 >
-                  <CardContent className="space-y-6 p-0">
+                  <CardContent className="space-y-6">
                     <div className="flex justify-center">
-                      <div className="w-16 h-16 md:w-20 md:h-20 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20">
-                        <IconComponent className="w-8 h-8 md:w-10 md:h-10 text-primary" />
+                      <div className={`w-20 h-20 ${tones.bg} rounded-full flex items-center justify-center`}>
+                        <Icon className={`w-10 h-10 ${tones.text}`} />
                       </div>
                     </div>
-
-                    <div className="text-center">
-                      <h3 className="font-inter font-bold text-xl md:text-2xl text-foreground">
-                        {service.title}
-                      </h3>
-                      <p className="text-foreground/80 mt-2">
-                        {service.description}
-                      </p>
-                    </div>
+                    <h3 className="font-inter font-bold text-2xl text-foreground text-center">
+                      {service.title}
+                    </h3>
+                    <p className="text-foreground/70 text-center leading-relaxed font-lato">
+                      {service.description}
+                    </p>
 
                     <div className="space-y-3">
                       {service.features.map((feature) => (
-                        <div
-                          key={feature}
-                          className="flex items-start text-sm text-foreground/90"
-                        >
-                          <CheckCircle className="w-4 h-4 text-primary mr-3 mt-0.5 flex-shrink-0" />
-                          <span>{feature}</span>
+                        <div key={feature} className="flex items-center text-sm text-foreground/70">
+                          <CheckCircle className="w-4 h-4 text-primary mr-3 flex-shrink-0" />
+                          {feature}
                         </div>
                       ))}
                     </div>
 
-                    <div className="text-center pt-4 border-t border-border/70">
-                      <div className="text-lg font-extrabold text-primary">
-                        {service.price}
-                      </div>
+                    <div className="text-center pt-4 border-t border-border">
+                      <div className="text-lg font-bold text-primary">{service.price}</div>
                     </div>
                   </CardContent>
                 </Card>
@@ -279,46 +293,36 @@ const InternationalPage = () => {
         </div>
       </section>
 
-      {/* ZONES DE LIVRAISON — cartes nettes */}
-      <section className="py-20 px-6 bg-gradient-to-br from-secondary/10 to-primary/10">
+      {/* Zones de Livraison */}
+      <section className="py-20 px-6 bg-gradient-to-br from-secondary/5 to-primary/5">
         <div className="container mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 font-inter tracking-tight">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
               Livraison <span className="text-secondary">Mondiale</span>
             </h2>
-            <p className="text-base md:text-lg text-foreground/80 max-w-3xl mx-auto font-lato">
-              Nous livrons dans plus de 50 pays avec la même qualité et le même
-              soin.
+            <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-lato">
+              Nous livrons dans plus de 50 pays avec la même qualité et le même soin
             </p>
           </div>
 
           <div className="grid lg:grid-cols-4 gap-6">
             {deliveryZones.map((zone) => (
-              <Card
-                key={zone.zone}
-                className="text-center p-6 hover:shadow-lg transition-all duration-300 border-2 border-border/70 bg-card/95"
-              >
-                <CardContent className="p-0">
+              <Card key={zone.zone} className="card-professional text-center p-6 hover:shadow-lg transition-all">
+                <CardContent>
                   <div className="text-4xl mb-4">{zone.icon}</div>
-                  <h3 className="font-bold text-lg text-foreground mb-2">
-                    {zone.zone}
-                  </h3>
-                  <div className="space-y-2 text-sm text-foreground/90">
+                  <h3 className="font-bold text-lg text-foreground mb-2">{zone.zone}</h3>
+                  <div className="space-y-2 text-sm text-foreground/70">
                     <div className="flex items-center justify-between">
-                      <span className="text-foreground/70">Pays :</span>
+                      <span>Pays:</span>
                       <span className="font-semibold">{zone.countries}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-foreground/70">Livraison :</span>
-                      <span className="font-semibold text-primary">
-                        {zone.delivery}
-                      </span>
+                      <span>Livraison:</span>
+                      <span className="font-semibold text-primary">{zone.delivery}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-foreground/70">Douanes :</span>
-                      <span className="font-semibold text-green-600">
-                        {zone.customs}
-                      </span>
+                      <span>Douanes:</span>
+                      <span className="font-semibold text-green-600">{zone.customs}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -328,46 +332,39 @@ const InternationalPage = () => {
         </div>
       </section>
 
-      {/* PROCESSUS — blocs très lisibles */}
+      {/* Processus */}
       <section className="py-20 px-6 bg-background" ref={processRef}>
         <div className="container mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 font-inter tracking-tight">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
               Notre <span className="text-primary">Processus</span>
             </h2>
-            <p className="text-base md:text-lg text-foreground/80 max-w-3xl mx-auto font-lato">
-              Un accompagnement sur-mesure pour déployer QVT Box à
-              l'international.
+            <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-lato">
+              Un accompagnement sur-mesure pour déployer QVT Box à l'international
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-10">
+          <div className="grid lg:grid-cols-2 gap-12">
             {internationalProcess.map((step, index) => {
-              const IconComponent = step.icon;
+              const Icon = step.icon;
               return (
                 <Card
                   key={step.title}
-                  className={`p-7 hover:shadow-lg transition-all duration-300 border-2 border-border/70 bg-card/95 ${
-                    processVisible.has(index) ? "visible" : "stagger-item"
+                  className={`card-professional p-8 hover:shadow-lg transition-all stagger-item ${
+                    processVisible.has(index) ? "visible" : ""
                   }`}
                 >
-                  <CardContent className="space-y-4 p-0">
-                    <div className="flex items-start gap-6">
-                      <div className="flex-shrink-0 text-center">
-                        <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-2 border border-primary/20">
-                          <IconComponent className="w-7 h-7 text-primary" />
+                  <CardContent className="space-y-4">
+                    <div className="flex items-start space-x-6">
+                      <div className="flex-shrink-0">
+                        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-2">
+                          <Icon className="w-8 h-8 text-primary" />
                         </div>
-                        <div className="text-xs font-bold text-primary">
-                          {step.step}
-                        </div>
+                        <div className="text-xs font-bold text-center text-primary">{step.step}</div>
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-semibold text-xl text-foreground mb-2">
-                          {step.title}
-                        </h3>
-                        <p className="text-foreground/85 leading-relaxed">
-                          {step.description}
-                        </p>
+                        <h3 className="font-semibold text-xl text-foreground mb-3">{step.title}</h3>
+                        <p className="text-foreground/70 leading-relaxed">{step.description}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -378,14 +375,11 @@ const InternationalPage = () => {
         </div>
       </section>
 
-      {/* TÉMOIGNAGES — contraste soigné */}
-      <section
-        className="py-20 px-6 bg-gradient-to-br from-primary/10 to-secondary/10"
-        ref={testimonialsRef}
-      >
+      {/* Témoignages */}
+      <section className="py-20 px-6 bg-gradient-to-br from-primary/5 to-secondary/5" ref={testimonialsRef}>
         <div className="container mx-auto">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4 font-inter tracking-tight">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
               Témoignages <span className="text-primary">Mondiaux</span>
             </h2>
           </div>
@@ -394,18 +388,16 @@ const InternationalPage = () => {
             {internationalTestimonials.map((t, index) => (
               <Card
                 key={t.author}
-                className={`p-6 text-center hover:shadow-lg transition-all duration-300 border-2 border-border/70 bg-card/95 ${
-                  testimonialsVisible.has(index) ? "visible" : "stagger-item"
+                className={`card-professional p-6 text-center hover:shadow-lg transition-all stagger-item ${
+                  testimonialsVisible.has(index) ? "visible" : ""
                 }`}
               >
-                <CardContent className="space-y-4 p-0">
-                  <div className="text-4xl mb-2">{t.flag}</div>
-                  <blockquote className="text-foreground/90 italic leading-relaxed">
-                    “{t.quote}”
-                  </blockquote>
-                  <div className="border-t border-border/70 pt-4">
+                <CardContent className="space-y-4">
+                  <div className="text-4xl mb-4">{t.flag}</div>
+                  <blockquote className="text-foreground/80 italic leading-relaxed mb-4">"{t.quote}"</blockquote>
+                  <div className="border-t border-border pt-4">
                     <div className="font-semibold text-foreground">{t.author}</div>
-                    <div className="text-sm text-foreground/80">{t.company}</div>
+                    <div className="text-sm text-foreground/60">{t.company}</div>
                   </div>
                 </CardContent>
               </Card>
@@ -414,37 +406,57 @@ const InternationalPage = () => {
         </div>
       </section>
 
-      {/* CTA — très lisible */}
-      <section
-        className="py-20 px-6 bg-gradient-to-r from-primary to-secondary text-white"
-        ref={ctaRef}
-      >
+      {/* CTA Final */}
+      <section className="py-20 px-6 bg-gradient-to-r from-primary to-secondary text-white" ref={ctaRef}>
         <div className="container mx-auto text-center">
           <div className={`scroll-reveal ${ctaVisible ? "visible" : ""}`}>
-            <h2 className="text-3xl md:text-5xl font-extrabold mb-6 font-inter tracking-tight">
-              Prêt à conquérir le monde ?
-            </h2>
-            <p className="text-base md:text-lg text-white/95 mb-10 max-w-3xl mx-auto font-lato">
-              Rejoignez les entreprises qui font confiance à QVT Box pour prendre
-              soin de leurs équipes internationales avec l'excellence française.
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 font-inter">Prêt à Conquérir le Monde ?</h2>
+            <p className="text-xl text-white/90 mb-10 max-w-3xl mx-auto font-lato">
+              Rejoignez les entreprises qui font confiance à QVT Box pour prendre soin de leurs équipes internationales
+              avec l'excellence française.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
-              <Link
-                to="/contact"
-                className="btn-primary bg-white text-primary hover:bg-white/90 px-7 py-3 text-base md:text-lg font-semibold shadow-primary"
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
+                <Link to="/contact">
+                  <Globe className="w-5 h-5 mr-2" />
+                  Démarrer votre projet international
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-primary"
               >
-                <Globe className="w-5 h-5 mr-2" />
-                Démarrer votre projet international
-              </Link>
-              <Link
-                to="/contact"
-                className="btn-outline border-2 border-white text-white hover:bg-white hover:text-primary px-7 py-3 text-base md:text-lg font-semibold"
-              >
-                <Users className="w-5 h-5 mr-2" />
-                Planifier une démo
-              </Link>
+                <Link to="/contact">
+                  <Users className="w-5 h-5 mr-2" />
+                  Planifier une démo
+                </Link>
+              </Button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Rassurance logistique / partenaires */}
+      <section className="py-10 px-6">
+        <div className="container mx-auto">
+          <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-md mb-8">
+            <img
+              src={partnersLocal}
+              alt="Artisans et producteurs locaux partenaires"
+              className="w-full h-[260px] md:h-[320px] object-cover"
+              loading="lazy"
+            />
+          </div>
+          <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow">
+            <img
+              src={shippingStation}
+              alt="Préparation d’envois de Box dans l’atelier d’expédition"
+              className="w-full h-[260px] md:h-[320px] object-cover"
+              loading="lazy"
+            />
           </div>
         </div>
       </section>
