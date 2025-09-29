@@ -22,7 +22,7 @@ import {
   Gift,
 } from "lucide-react";
 
-// ✅ IMAGES (assure-toi qu’elles existent)
+// ✅ IMAGES (assure-toi qu’elles existent dans /src/assets)
 import heroImage from "@/assets/hero-workplace-team.jpg";
 import saasImage from "@/assets/saas-dashboard-pro.jpg";
 import partnersLocal from "@/assets/partners-local-producers.webp";
@@ -88,7 +88,7 @@ const NewIndex = () => {
         "Export DUERP (PDF/CSV)",
         "Support inclus",
       ],
-      cta: "Recevoir une démo",
+      cta: "Nous contacter",
       icon: BarChart3,
       popular: true,
     },
@@ -134,22 +134,19 @@ const NewIndex = () => {
               </Badge>
               <h1 className="font-inter text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.06] tracking-tight">
                 <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-                  La QVT qui demande: Ca va?? (cette question matinale est un levier d'écoute) 
+                  La QVT qui demande : « Ça va ? »
                 </span>
                 <br />
-                <span className="text-foreground"> et bien plus que répondre vous êtes présent objectivement </span>
+                <span className="text-foreground">
+                  Et qui permet d’agir au bon moment, avec des preuves concrètes.
+                </span>
               </h1>
               <p className="mt-5 text-lg text-foreground/70 max-w-xl">
-                Mesurez l’essentiel, détectez les risques, et passez à l’action avec des Box utiles, au bon moment.
+                Mesurez l’essentiel, détectez les risques, et passez à l’action avec des Box utiles — au bon moment.
               </p>
 
-              <div className="mt-7 flex flex-col sm:flex-row gap-3">
-                <Button asChild size="lg" variant="outline" className="inline-flex items-center gap-2 whitespace-nowrap">
-                  <Link to="/contact">
-                    <BarChart3 className="w-5 h-5" />
-                    <span> Recevoir une démo </span>
-                  </Link>
-                </Button>
+              {/* CTA unique : Contacter notre équipe */}
+              <div className="mt-7">
                 <Button asChild size="lg" variant="outline" className="inline-flex items-center gap-2 whitespace-nowrap">
                   <Link to="/contact">
                     <Phone className="w-5 h-5" />
@@ -239,7 +236,7 @@ const NewIndex = () => {
         </div>
       </section>
 
-      {/* Demo visuelle (SaaS) */}
+      {/* Section SaaS (visuel) */}
       <section ref={demoRef} className="py-14 px-6">
         <div className="container mx-auto">
           <div className={`text-center mb-8 scroll-reveal ${demoVisible ? "visible" : ""}`}>
@@ -264,25 +261,20 @@ const NewIndex = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-background/10 via-transparent to-transparent" />
           </div>
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+          {/* CTA unique : Nous contacter */}
+          <div className="mt-8 flex justify-center">
             <Button asChild size="lg" className="inline-flex items-center gap-2 whitespace-nowrap">
               <Link to="/contact">
-                <BarChart3 className="w-5 h-5" />
-                <span>Recevoir une démo</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="inline-flex items-center gap-2 whitespace-nowrap">
-              <Link to="/contact">
                 <Phone className="w-5 h-5" />
-                <span>Parler à un expert</span>
+                <span>Nous contacter</span>
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* >>> ENCARt COMPLET — BOX POUVOIR D'ACHAT (après le SaaS) <<< */}
+      {/* >>> ENCART COMPLET — BOX POUVOIR D'ACHAT (après le SaaS) <<< */}
       <section className="py-14 px-6 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-10 items-center">
@@ -295,7 +287,7 @@ const NewIndex = () => {
                 La Box qui fait <span className="text-primary">vraiment</span> la différence
               </h2>
               <p className="mt-3 text-foreground/80">
-                Un **geste concret** pour soutenir vos équipes : des produits utiles du quotidien, 100% Made in France,
+                Un <strong>geste concret</strong> pour soutenir vos équipes : des produits utiles du quotidien, 100% Made in France,
                 sélectionnés avec soin. Valeur perçue forte, gratitude immédiate.
               </p>
 
@@ -350,7 +342,7 @@ const NewIndex = () => {
               {/* Mini preuve/ROI */}
               <div className="mt-5 rounded-2xl border bg-white/60 p-4">
                 <p className="text-sm text-foreground/70">
-                  💡 Idéal pour **fin d’année**, **prime partagée** ou **remerciement collectif**. Impact
+                  💡 Idéal pour <strong>fin d’année</strong>, <strong>prime partagée</strong> ou <strong>remerciement collectif</strong>. Impact
                   salarié immédiat, logistique simple.
                 </p>
               </div>
@@ -424,7 +416,7 @@ const NewIndex = () => {
               {t("pricing?.title") || "Tarifs simples"}
             </h2>
             <p className="text-lg text-foreground/70 max-w-3xl mx-auto font-lato">
-              Licence pour mesurer & prévenir. Box **en option** pour agir.
+              Licence pour mesurer & prévenir. Box <strong>en option</strong> pour agir.
             </p>
           </div>
 
@@ -499,7 +491,7 @@ const NewIndex = () => {
         <div className={`container mx-auto text-center scroll-reveal-scale ${ctaVisible ? "visible" : ""}`}>
           <h2 className="text-4xl font-bold text-white mb-3 font-inter">Passez à une QVT utile</h2>
           <p className="text-white/90 text-lg mb-6 max-w-3xl mx-auto">
-            Mesurez ce qui compte, agissez quand il faut. Une démo ? Un devis Box ?
+            Mesurez ce qui compte, agissez quand il faut. Parlons-en !
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button
@@ -508,8 +500,8 @@ const NewIndex = () => {
               className="bg-white text-primary hover:bg-white/90 inline-flex items-center gap-2 whitespace-nowrap"
             >
               <Link to="/contact">
-                <BarChart3 className="w-5 h-5" />
-                <span>Recevoir une démo</span>
+                <Phone className="w-5 h-5" />
+                <span>Nous contacter</span>
               </Link>
             </Button>
             <Button
@@ -519,8 +511,8 @@ const NewIndex = () => {
               className="border-white text-white hover:bg-white hover:text-primary inline-flex items-center gap-2 whitespace-nowrap"
             >
               <Link to="/contact">
-                <Phone className="w-5 h-5" />
-                <span>Demander un devis</span>
+                <BarChart3 className="w-5 h-5" />
+                <span>Lancez-vous</span>
               </Link>
             </Button>
           </div>
