@@ -39,6 +39,12 @@ const NewIndex = () => {
   const [logosRef, logosVisible] = useScrollReveal();
   const [ctaRef, ctaVisible] = useScrollReveal();
 
+  // Helper i18n : si la clé manque, on affiche un fallback propre
+  const tt = (k: string, fallback: string) => {
+    const v = t(k);
+    return v === k ? fallback : v;
+  };
+
   const valueProps = [
     {
       icon: Activity,
@@ -413,7 +419,7 @@ const NewIndex = () => {
         <div className="container mx-auto">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-inter">
-              {t("pricing?.title") || "Tarifs simples"}
+              {tt("pricing.title", "Tarifs simples")}
             </h2>
             <p className="text-lg text-foreground/70 max-w-3xl mx-auto font-lato">
               Licence pour mesurer & prévenir. Box <strong>en option</strong> pour agir.
