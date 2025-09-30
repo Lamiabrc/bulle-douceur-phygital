@@ -6,6 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
+    <meta name="color-scheme" content="light dark" />
     <title>QVT Box — Box + App pour vos équipes</title>
     <meta
       name="description"
@@ -13,6 +14,10 @@
     />
     <meta name="author" content="QVT Box" />
     <meta name="theme-color" content="#8B5CF6" />
+
+    <!-- SEO -->
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="/" />
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -23,9 +28,9 @@
     <!-- PWA manifest -->
     <link rel="manifest" href="/manifest.webmanifest" />
 
-    <!-- Fonts -->
+    <!-- Polices (préconnect + chargement) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
@@ -41,7 +46,41 @@
     <meta property="og:image" content="/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="/og-image.png" />
+
+    <!-- Google Analytics (gtag.js) -->
+    <!-- Remarque : on désactive le page_view automatique pour gérer les navigations SPA dans React Router -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-752B8V04TV"></script>
+    <script>
+      (function () {
+        const GA_ID =
+          (typeof import !== "undefined" &&
+            import.meta &&
+            import.meta.env &&
+            import.meta.env.VITE_GA_ID) ||
+          "G-752B8V04TV"; // fallback à ton ID fourni
+
+        if (!GA_ID) return;
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        window.gtag = gtag;
+
+        // (Optionnel) Consent Mode v2 par défaut en "denied" — à ouvrir si tu as une CMP
+        // gtag('consent', 'default', {
+        //   ad_user_data: 'denied',
+        //   ad_personalization: 'denied',
+        //   ad_storage: 'denied',
+        //   analytics_storage: 'denied',
+        // });
+
+        gtag("js", new Date());
+        gtag("config", GA_ID, { send_page_view: false });
+      })();
+    </script>
   </head>
+
   <body>
     <noscript>QVT Box nécessite JavaScript pour fonctionner correctement.</noscript>
     <div id="root"></div>
