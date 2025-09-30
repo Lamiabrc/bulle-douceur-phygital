@@ -1,0 +1,26 @@
+version: 1
+items:
+  - url: "https://www.anact.fr/qualite-de-vie-et-des-conditions-de-travail-qvct"
+    profile: "expert-qvt"
+    tags: ["QVCT","organisation","prévention"]
+  - url: "https://www.inrs.fr/risques/psychosociaux/ce-qu-il-faut-retenir.html"
+    profile: "expert-qvt"
+    tags: ["RPS","prévention"]
+  - url: "https://www.iso.org/standard/64283.html"
+    profile: "expert-qvt"
+    tags: ["ISO 45003","management"]
+  - url: "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000033033747"
+    profile: "expert-juridique"
+    tags: ["droit à la déconnexion","temps de travail","FR"]
+  - url: "https://www.cnil.fr/fr/videoprotection-et-travail"
+    profile: "expert-juridique"
+    tags: ["RGPD","surveillance","travail"]
+  - url: "https://www.who-5.org/"
+    profile: "psy-coach"
+    tags: ["WHO-5","bien-être"]
+  - url: "https://moka.care/resources"         # exemple fournisseur FR
+    profile: "psy-coach"
+    tags: ["prévention","ressources"]
+  - url: "https://www.allianceyoga.fr/"
+    profile: "prof-de-yoga"
+    tags: ["yoga","pédagogie"]
