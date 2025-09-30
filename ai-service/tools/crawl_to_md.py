@@ -1,6 +1,5 @@
-import os, re, time, hashlib, yaml, tldextract
+import os, re, time, yaml, tldextract
 from datetime import date
-from urllib.parse import urlparse
 import trafilatura
 
 BASE = os.path.dirname(os.path.dirname(__file__))        # .../ai-service
@@ -17,20 +16,11 @@ def domain_label(url: str) -> str:
     ext = tldextract.extract(url)
     return ".".join([p for p in [ext.domain, ext.suffix] if p])
 
-def fetch_to_md(url: str, profile: str, tags: list[str]):
+def fetch_to_md(url: str, profile: str, tags):
     downloaded = trafilatura.fetch_url(url)
     if not downloaded:
         print(f"❌ fetch fail: {url}")
         return None
-    # extract main text with metadata
-    txt = trafilatura.extract(downloaded, include_comments=False, include_tables=False,
-                              favor_precision=True, with_metadata=True)
-    if not txt:
-        print(f"❌ extract fail: {url}")
-        return None
-
-    # Trafilatura peut renvoyer un bloc avec métadonnées; on isole le texte
-    # Il expose aussi extract_metadata(downloaded), mais pour rester simple:
     text = trafilatura.extract(downloaded, include_comments=False, include_tables=False,
                                favor_precision=True, with_metadata=False) or ""
     text = text.strip()
@@ -38,10 +28,9 @@ def fetch_to_md(url: str, profile: str, tags: list[str]):
         print(f"⚠️ trop court: {url}")
         return None
 
-    # nom de fichier: domaine + slug titre approximé
-    title_guess = text.split("\n")[0][:90]
-    if len(title_guess) < 10:
-        title_guess = url
+    # Title guess
+    title_guess = next((ln.strip() for ln in text.splitlines() if ln.strip()), url)[:120]
+
     name = f"{domain_label(url)}-{slugify(title_guess)}"
     fn = os.path.join(DOCS, f"{name}.md")
 
@@ -68,7 +57,7 @@ def main():
         url = it["url"]; profile = it.get("profile","expert-qvt"); tags = it.get("tags",[])
         out = fetch_to_md(url, profile, tags)
         if out: total += 1
-        time.sleep(0.5)  # politesse
+        time.sleep(0.5)
     print(f"Done: {total}/{len(items)}")
 
 if __name__ == "__main__":
