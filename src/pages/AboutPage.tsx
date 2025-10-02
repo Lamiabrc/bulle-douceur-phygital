@@ -20,7 +20,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 
-// ✅ Images présentes dans tes assets (déjà utilisées ailleurs)
+// Images existantes de ton projet
 import heroTeam from "@/assets/hero-workplace-team.jpg";
 import qvtBoxImage from "@/assets/qvt-box-products.jpg";
 import teamPro from "@/assets/professional-team-meeting.jpg";
@@ -32,27 +32,64 @@ import imgHygiene from "@/assets/products-hygiene.jpg";
 import imgCosmetique from "@/assets/products-cosmetique.jpg";
 import imgSurprise from "@/assets/products-surprise.jpg";
 
+// 👉 Si tu as un portrait fondateur : place "lamia-portrait.jpg" dans src/assets/
+import lamiaPortrait from "@/assets/lamia-portrait.jpg"; // si le fichier n’existe pas, remplace par teamPro
+
 const brand = {
   violet: "#8B5CF6",
   turquoise: "#00B0B9",
   canard: "#005B5F",
-  noir: "#212121",
-  blancCasse: "#F2F7F6",
-} as const;
+};
+
+// Titre tricolore 🇫🇷 + petite barre décorative
+function HeadingFR({
+  children,
+  as: Tag = "h2",
+  className = "",
+}: {
+  children: React.ReactNode;
+  as?: keyof JSX.IntrinsicElements;
+  className?: string;
+}) {
+  return (
+    <div className={`mb-6 ${className}`}>
+      <Tag
+        className="font-bold leading-tight tracking-tight text-3xl md:text-4xl"
+        style={{
+          background:
+            "linear-gradient(90deg, #2563EB 0%, #ffffff 50%, #DC2626 100%)",
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          color: "transparent",
+          // ombre légère pour que le “blanc” se lise sur fond clair
+          textShadow:
+            "0 0 1px rgba(0,0,0,0.07), 0 0 12px rgba(255,255,255,0.35)",
+        }}
+      >
+        {children}
+      </Tag>
+      <div className="mt-3 h-1.5 w-28 rounded-full overflow-hidden flex">
+        <span className="flex-1 bg-blue-600" />
+        <span className="flex-1 bg-white" />
+        <span className="flex-1 bg-red-600" />
+      </div>
+    </div>
+  );
+}
 
 const AboutPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
         title="À propos — Manifeste QVT Box"
-        description="QVT Box : IA qui écoute, box qui agissent. Une démarche phygitale française, utile et exportable. Découvrez notre manifeste et notre histoire."
+        description="QVT Box : IA qui écoute, box qui agissent. Une démarche phygitale française, utile et exportable. Découvrez notre manifeste, la fondatrice et nos engagements."
         ogImage="/og-image.png"
         type="article"
       />
 
       <Navigation />
 
-      {/* HERO avec image + overlay pour lisibilité */}
+      {/* HERO */}
       <section className="relative pt-28 pb-16">
         <img
           src={heroTeam}
@@ -60,24 +97,19 @@ const AboutPage: React.FC = () => {
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/30" />
         <div className="relative container mx-auto px-6">
           <div className="max-w-5xl">
-            <div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-5 shadow bg-white/90 text-[color:var(--canard)]"
-              style={{ color: brand.canard }}
-            >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-5 shadow bg-white/90 text-[color:#005B5F]">
               <Sparkles className="h-4 w-4" />
               Manifeste — « La luciole » QVT
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-extrabold leading-[1.06] text-white">
-              S’occuper des salariés :
-              <span className="block text-[color:#8B5CF6]">notre fierté française</span>
-              <span className="block text-[color:#00B0B9]">notre force exportable</span>
-            </h1>
+            <HeadingFR as="h1" className="mb-2" >
+              S’occuper des salariés : notre fierté française — notre force exportable
+            </HeadingFR>
 
-            <p className="mt-6 text-lg md:text-xl text-white/90 max-w-3xl">
+            <p className="mt-4 text-lg md:text-xl text-white/90 max-w-3xl">
               QVT Box réunit une application d’<strong>écoute émotionnelle</strong> et des
               <strong> box utiles</strong> 100% françaises. On mesure simplement, on prévient tôt,
               on agit concrètement. Résultat : des équipes soutenues, un dialogue social vivant,
@@ -102,27 +134,25 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 4 promesses avec mosaïque images */}
+      {/* Promesses + mosaïque */}
       <section className="py-14 px-6">
         <div className="container mx-auto grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold">
-              Écouter, prévenir, <span className="text-primary">agir</span>
-            </h2>
-            <p className="mt-3 text-foreground/80">
+            <HeadingFR>Écouter, prévenir, agir</HeadingFR>
+            <p className="text-foreground/80">
               Notre approche phygitale : l’app détecte les besoins, la box répond.
-              Simple, lisible, responsabilisante — pour les salariés, les managers, les RH et le CSE.
+              Simple, lisible, responsabilisante — pour salariés, managers, RH et CSE.
             </p>
 
             <div className="mt-6 grid gap-3">
               {[
                 {
                   icon: <HeartHandshake className="h-5 w-5" />,
-                  text: 'Écoute sincère (« Ça va ? » → score QVT 1→15)',
+                  text: 'Écoute sincère : « Ça va ? » → score QVT 1→15',
                 },
                 {
                   icon: <ShieldCheck className="h-5 w-5" />,
-                  text: "Alertes RPS et tendances anonymisées en temps réel",
+                  text: "Alertes RPS & tendances anonymisées en temps réel",
                 },
                 {
                   icon: <Boxes className="h-5 w-5" />,
@@ -133,7 +163,7 @@ const AboutPage: React.FC = () => {
                   text: "Savoir-faire français qui rayonne à l’international",
                 },
               ].map((item, i) => (
-                <div key={i} className="flex items-start gap-3 p-4 rounded-2xl bg-white/80 backdrop-blur border">
+                <div key={i} className="flex items-start gap-3 p-4 rounded-2xl bg-white/85 backdrop-blur border">
                   <span className="mt-0.5 text-[color:#00B0B9]">{item.icon}</span>
                   <p className="leading-relaxed text-foreground/90">{item.text}</p>
                 </div>
@@ -141,7 +171,6 @@ const AboutPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Mosaïque visuelle 2x2 */}
           <div className="grid grid-cols-2 gap-4">
             {[qvtBoxImage, boxPA, imgAlimentaire, imgCosmetique].map((src, i) => (
               <div key={i} className="rounded-2xl overflow-hidden shadow-lg ring-1 ring-black/5">
@@ -157,16 +186,71 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Histoire de Lamia + timeline + image pleine largeur */}
+      {/* 🎯 Fondatrice */}
       <section className="py-14 px-6 bg-muted/40">
+        <div className="container mx-auto max-w-6xl grid lg:grid-cols-2 gap-10 items-center">
+          <div className="rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5">
+            <img
+              src={lamiaPortrait || teamPro}
+              alt="Lamia — fondatrice de QVT Box"
+              className="w-full h-[420px] object-cover"
+              loading="lazy"
+            />
+          </div>
+
+          <div>
+            <HeadingFR>La fondatrice — Lamia</HeadingFR>
+            <p className="text-foreground/80">
+              Après <strong>15 ans de salariat</strong> et d’accompagnement d’équipes,
+              Lamia lance QVT Box en <strong>2024</strong>. Une conviction : la question
+              « Ça va ? » peut devenir un **levier d’écoute et d’action**, si on
+              la mesure simplement et qu’on y répond concrètement. D’où l’union
+              d’une app claire (score 1→15, tendances, alertes) et de box utiles
+              **Made in France** qui soulagent le quotidien.
+            </p>
+
+            <div className="mt-6 grid sm:grid-cols-2 gap-3">
+              {[
+                { t: "Pragmatisme", d: "Mesurer utile, agir vite" },
+                { t: "Bienveillance", d: "Aucune stigmatisation, données anonymisées" },
+                { t: "Ancrage local", d: "Producteurs & artisans français" },
+                { t: "Ouverture", d: "Déploiement multi-sites & international" },
+              ].map((c) => (
+                <Card key={c.t} className="bg-white shadow-sm border">
+                  <CardContent className="p-4">
+                    <p className="font-medium">{c.t}</p>
+                    <p className="text-sm text-foreground/70">{c.d}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="/contact"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-medium shadow hover:shadow-lg transition"
+                style={{ backgroundColor: brand.violet, color: "#fff" }}
+              >
+                Écrire à Lamia
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="/about#manifeste"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-medium border hover:shadow transition"
+                style={{ borderColor: brand.canard, color: brand.canard }}
+              >
+                Lire le manifeste
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Histoire (timeline) */}
+      <section id="manifeste" className="py-14 px-6">
         <div className="container mx-auto max-w-5xl">
           <div className="text-center mb-10">
             <Badge variant="outline">Notre Histoire</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mt-3">De l’expérience au terrain, à l’action</h2>
-            <p className="text-foreground/70 mt-2 max-w-3xl mx-auto">
-              Après <strong>15 ans de salariat</strong> et d’accompagnement d’équipes,
-              Lamia lance QVT Box en <strong>2024</strong> : une démarche lisible et utile, pensée avec et pour les salariés.
-            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -174,7 +258,7 @@ const AboutPage: React.FC = () => {
               {
                 year: "2024",
                 title: "Idée & cadrage",
-                text: "Un score QVT 1→15 compréhensible par tous et des actions concrètes.",
+                text: "Un score QVT 1→15 pour parler vrai, et des actions concrètes pour soutenir vraiment.",
               },
               {
                 year: "2025",
@@ -184,14 +268,14 @@ const AboutPage: React.FC = () => {
               {
                 year: "…",
                 title: "Déploiement international",
-                text: "Réseau de producteurs français, logistique export, support multi-sites.",
+                text: "Producteurs français, logistique export, support multi-sites.",
               },
             ].map((b) => (
               <Card key={b.year} className="card-professional">
                 <CardContent className="p-6">
                   <div className="text-primary font-bold text-sm">{b.year}</div>
-                  <h3 className="text-xl font-semibold mt-1">{b.title}</h3>
-                  <p className="text-sm text-foreground/70 mt-2">{b.text}</p>
+                  <HeadingFR as="h3" className="mb-1 text-2xl">{b.title}</HeadingFR>
+                  <p className="text-sm text-foreground/70">{b.text}</p>
                 </CardContent>
               </Card>
             ))}
@@ -208,8 +292,8 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Pour les entreprises (avec image) */}
-      <section id="entreprise" className="py-16 px-6">
+      {/* Pour les entreprises */}
+      <section className="py-16 px-6 bg-muted/40">
         <div className="container mx-auto max-w-6xl grid lg:grid-cols-2 gap-10 items-start">
           <div className="rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5">
             <img
@@ -220,16 +304,14 @@ const AboutPage: React.FC = () => {
             />
           </div>
 
-          <div className="space-y-5">
-            <h3 className="text-2xl md:text-3xl font-semibold" style={{ color: brand.canard }}>
-              Pour les entreprises
-            </h3>
+          <div>
+            <HeadingFR>Pour les entreprises</HeadingFR>
             <p className="text-foreground/80">
               L’app détecte les besoins, la box répond. Politique QVT tangible, mesurable,
               et appréciée. Marque employeur renforcée, absentéisme réduit, engagement accru.
             </p>
 
-            <div className="grid sm:grid-cols-2 gap-3">
+            <div className="grid sm:grid-cols-2 gap-3 mt-5">
               {[
                 { t: "Score QVT 1→15", d: "Question simple, insights actionnables" },
                 { t: "Alertes RPS", d: "Prévention en temps réel" },
@@ -245,30 +327,7 @@ const AboutPage: React.FC = () => {
               ))}
             </div>
 
-            <div className="rounded-2xl border bg-white p-5">
-              <div className="flex items-start gap-3">
-                <Building2 className="h-6 w-6" style={{ color: brand.violet }} />
-                <div className="space-y-2">
-                  <p className="font-semibold">Nos engagements</p>
-                  <ul className="space-y-1 text-sm text-foreground/80">
-                    <li className="flex gap-2">
-                      <ShieldCheck className="h-4 w-4 text-primary mt-0.5" />
-                      Respect RGPD, données anonymisées, éthique IA
-                    </li>
-                    <li className="flex gap-2">
-                      <Leaf className="h-4 w-4 text-primary mt-0.5" />
-                      Circuits courts, produits responsables, savoir-faire local
-                    </li>
-                    <li className="flex gap-2">
-                      <Megaphone className="h-4 w-4 text-primary mt-0.5" />
-                      Kit de communication interne (lancement & embarquement)
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3">
               <a
                 href="/contact"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-medium shadow hover:shadow-lg transition"
@@ -290,11 +349,11 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Preuve sociale / partenaires français */}
+      {/* Partenaires */}
       <section className="py-10 px-6">
         <div className="container mx-auto">
           <div className="text-center mb-6">
-            <p className="text-sm uppercase tracking-wider text-foreground/60">Partenaires & producteurs locaux</p>
+            <HeadingFR>Partenaires & producteurs locaux</HeadingFR>
           </div>
           <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-md">
             <img
@@ -307,8 +366,8 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Pour les fournisseurs (avec images de contenu) */}
-      <section id="fournisseurs" className="py-16 px-6 bg-muted/40">
+      {/* Fournisseurs */}
+      <section className="py-16 px-6">
         <div className="container mx-auto max-w-6xl grid lg:grid-cols-2 gap-10 items-start">
           <div className="rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5">
             <div className="grid grid-cols-2 gap-2 p-2 bg-white">
@@ -325,13 +384,7 @@ const AboutPage: React.FC = () => {
           </div>
 
           <div>
-            <div className="flex items-center gap-3 mb-5">
-              <Factory className="h-6 w-6" style={{ color: brand.violet }} />
-              <h3 className="text-2xl md:text-3xl font-semibold" style={{ color: brand.canard }}>
-                Pour nos fournisseurs partenaires
-              </h3>
-            </div>
-
+            <HeadingFR>Pour nos fournisseurs partenaires</HeadingFR>
             <p className="mb-6 text-foreground/80">
               QVT Box est une <strong>vitrine collective</strong> : une exigence sociale française
               + une qualité « Made in France » = un <strong>rayonnement international</strong>.
@@ -342,7 +395,7 @@ const AboutPage: React.FC = () => {
               {[
                 { title: "Accès marchés B2B", desc: "Grandes entreprises, ETI, administrations" },
                 { title: "Visibilité co-marque", desc: "Présence dans les box & médias QVT Box" },
-                { title: "Données marché", desc: "Tendances d’usage agrégées pour innover" },
+                { title: "Données marché", desc: "Tendances d’usage agrégées" },
               ].map((c) => (
                 <Card key={c.title} className="bg-white shadow-sm border">
                   <CardContent className="p-5">
@@ -373,7 +426,7 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Bande d’impact (statistiques) */}
+      {/* Bande d’impact */}
       <section className="py-12 px-6 bg-gradient-to-r from-primary to-secondary text-white">
         <div className="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[
@@ -390,7 +443,7 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Témoignage + image */}
+      {/* Témoignage */}
       <section className="py-16 px-6">
         <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <img
@@ -431,7 +484,7 @@ const AboutPage: React.FC = () => {
       {/* CTA final */}
       <section className="py-16 px-6 bg-primary">
         <div className="container mx-auto text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">Envie d’une QVT utile et sensible ?</h2>
+          <HeadingFR>Envie d’une QVT utile et sensible ?</HeadingFR>
           <p className="text-white/90 text-lg mb-8 max-w-3xl mx-auto">
             Lancez une démarche participative alignée ANACT : écoute, prévention, action.
             Une IA qui comprend — des gestes concrets qui soulagent.
