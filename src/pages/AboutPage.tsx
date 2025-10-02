@@ -17,12 +17,25 @@ import {
   Factory,
   ArrowRight,
   Users,
+  CheckCircle,
 } from "lucide-react";
 
+// ✅ Images présentes dans tes assets (déjà utilisées ailleurs)
+import heroTeam from "@/assets/hero-workplace-team.jpg";
+import qvtBoxImage from "@/assets/qvt-box-products.jpg";
+import teamPro from "@/assets/professional-team-meeting.jpg";
+import partnersLocal from "@/assets/partners-local-producers.webp";
+import shippingStation from "@/assets/shipping-station-parcel.webp";
+import boxPA from "@/assets/box-pouvoir-achat.webp";
+import imgAlimentaire from "@/assets/products-alimentaire.jpg";
+import imgHygiene from "@/assets/products-hygiene.jpg";
+import imgCosmetique from "@/assets/products-cosmetique.jpg";
+import imgSurprise from "@/assets/products-surprise.jpg";
+
 const brand = {
-  violet: "#8B5CF6", // primary accent (violet)
-  turquoise: "#00B0B9", // turquoise accent
-  canard: "#005B5F", // teal de ta charte
+  violet: "#8B5CF6",
+  turquoise: "#00B0B9",
+  canard: "#005B5F",
   noir: "#212121",
   blancCasse: "#F2F7F6",
 } as const;
@@ -32,123 +45,127 @@ const AboutPage: React.FC = () => {
     <div className="min-h-screen bg-background">
       <SEOHead
         title="À propos — Manifeste QVT Box"
-        description="QVT Box : une approche phygitale pour écouter, prévenir et agir. Manifeste entreprise & partenaires — IA émotionnelle + box utiles 100% Made in France."
+        description="QVT Box : IA qui écoute, box qui agissent. Une démarche phygitale française, utile et exportable. Découvrez notre manifeste et notre histoire."
         ogImage="/og-image.png"
         type="article"
       />
 
       <Navigation />
 
-      {/* HERO + Manifeste intégré */}
-      <section
-        className="relative pt-28 pb-16 px-6"
-        aria-labelledby="about-hero-title"
-        style={{
-          background: `radial-gradient(1200px 800px at 10% -10%, rgba(139,92,246,0.16), transparent 60%),
-                       radial-gradient(900px 600px at 90% 10%, rgba(0,176,185,0.12), transparent 60%),
-                       linear-gradient(180deg, ${brand.blancCasse}, #ffffff)`,
-        }}
-      >
-        {/* petites lucioles CSS (sans framer-motion) */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          {Array.from({ length: 18 }).map((_, i) => (
-            <span
-              key={i}
-              className="absolute h-2 w-2 rounded-full animate-pulse"
-              style={{
-                background: `radial-gradient(circle, ${brand.turquoise}, transparent 60%)`,
-                opacity: 0.35,
-                transform: `translate(${(Math.random() * 100).toFixed(2)}vw, ${(Math.random() * 40).toFixed(2)}vh) scale(${0.7 + Math.random() * 0.6})`,
-                animationDelay: `${i * 120}ms`,
-              }}
-            />
-          ))}
-        </div>
-
-        <div className="container mx-auto">
-          <div className="max-w-5xl mx-auto text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-5 shadow bg-white text-[color:var(--canard)]"
-                 style={{ color: brand.canard }}>
+      {/* HERO avec image + overlay pour lisibilité */}
+      <section className="relative pt-28 pb-16">
+        <img
+          src={heroTeam}
+          alt="Équipe au travail dans une ambiance positive"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/30" />
+        <div className="relative container mx-auto px-6">
+          <div className="max-w-5xl">
+            <div
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-5 shadow bg-white/90 text-[color:var(--canard)]"
+              style={{ color: brand.canard }}
+            >
               <Sparkles className="h-4 w-4" />
               Manifeste — « La luciole » QVT
             </div>
 
-            <h1 id="about-hero-title" className="text-4xl md:text-6xl font-extrabold leading-[1.08]">
-              <span className="block" style={{ color: brand.noir }}>
-                S’occuper des salariés :
-              </span>
-              <span className="block" style={{ color: brand.violet }}>
-                notre fierté française
-              </span>
-              <span className="block" style={{ color: brand.canard }}>
-                notre force exportable
-              </span>
+            <h1 className="text-4xl md:text-6xl font-extrabold leading-[1.06] text-white">
+              S’occuper des salariés :
+              <span className="block text-[color:#8B5CF6]">notre fierté française</span>
+              <span className="block text-[color:#00B0B9]">notre force exportable</span>
             </h1>
 
-            <p className="mt-6 text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
-              QVT Box transforme l’exigence sociale française en avantage compétitif.
-              Nous allions une application d’IA émotionnelle et des box utiles, fabriquées en France,
-              pour <strong>écouter</strong>, <strong>prévenir</strong> et <strong>agir concrètement</strong> au bénéfice des salariés.
+            <p className="mt-6 text-lg md:text-xl text-white/90 max-w-3xl">
+              QVT Box réunit une application d’<strong>écoute émotionnelle</strong> et des
+              <strong> box utiles</strong> 100% françaises. On mesure simplement, on prévient tôt,
+              on agit concrètement. Résultat : des équipes soutenues, un dialogue social vivant,
+              un impact immédiat.
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-3 justify-center">
+            <div className="mt-7 flex flex-wrap gap-3">
               <a
-                href="#entreprise"
-                className="px-5 py-3 rounded-2xl bg-white shadow hover:shadow-md transition text-sm font-medium"
+                href="/contact"
+                className="px-5 py-3 rounded-2xl font-medium shadow hover:shadow-lg transition bg-white text-primary"
               >
-                Pour les Entreprises
+                Nous contacter
               </a>
               <a
-                href="#fournisseurs"
-                className="px-5 py-3 rounded-2xl text-sm font-medium shadow hover:shadow-md transition"
-                style={{ backgroundColor: brand.violet, color: "#fff" }}
+                href="/auth"
+                className="px-5 py-3 rounded-2xl font-medium border hover:shadow transition text-white border-white"
               >
-                Pour les Fournisseurs
+                Commencer l’évaluation
               </a>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* 4 promesses clés */}
-          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-4">
-            {[
-              {
-                icon: <HeartHandshake className="h-5 w-5" />,
-                text:
-                  'Écouter vraiment les salariés (« Ça va ? » mesuré en score QVT 1→15)',
-              },
-              {
-                icon: <ShieldCheck className="h-5 w-5" />,
-                text: "Prévenir les RPS et agir rapidement (alertes, tendances anonymisées)",
-              },
-              {
-                icon: <Boxes className="h-5 w-5" />,
-                text: "Apporter des réponses concrètes via des box utiles, Made in France",
-              },
-              {
-                icon: <Globe2 className="h-5 w-5" />,
-                text: "Ouvrir un rayonnement international à nos partenaires",
-              },
-            ].map((item, idx) => (
-              <Card key={idx} className="bg-white/80 backdrop-blur border">
-                <CardContent className="p-4 flex gap-3">
-                  <span className="mt-1 text-[color:#00B0B9]">{item.icon}</span>
+      {/* 4 promesses avec mosaïque images */}
+      <section className="py-14 px-6">
+        <div className="container mx-auto grid lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              Écouter, prévenir, <span className="text-primary">agir</span>
+            </h2>
+            <p className="mt-3 text-foreground/80">
+              Notre approche phygitale : l’app détecte les besoins, la box répond.
+              Simple, lisible, responsabilisante — pour les salariés, les managers, les RH et le CSE.
+            </p>
+
+            <div className="mt-6 grid gap-3">
+              {[
+                {
+                  icon: <HeartHandshake className="h-5 w-5" />,
+                  text: 'Écoute sincère (« Ça va ? » → score QVT 1→15)',
+                },
+                {
+                  icon: <ShieldCheck className="h-5 w-5" />,
+                  text: "Alertes RPS et tendances anonymisées en temps réel",
+                },
+                {
+                  icon: <Boxes className="h-5 w-5" />,
+                  text: "Box utiles & locales : passer du discours à l’acte",
+                },
+                {
+                  icon: <Globe2 className="h-5 w-5" />,
+                  text: "Savoir-faire français qui rayonne à l’international",
+                },
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-3 p-4 rounded-2xl bg-white/80 backdrop-blur border">
+                  <span className="mt-0.5 text-[color:#00B0B9]">{item.icon}</span>
                   <p className="leading-relaxed text-foreground/90">{item.text}</p>
-                </CardContent>
-              </Card>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mosaïque visuelle 2x2 */}
+          <div className="grid grid-cols-2 gap-4">
+            {[qvtBoxImage, boxPA, imgAlimentaire, imgCosmetique].map((src, i) => (
+              <div key={i} className="rounded-2xl overflow-hidden shadow-lg ring-1 ring-black/5">
+                <img
+                  src={src}
+                  alt="Sélection visuelle QVT Box"
+                  className="w-full h-48 md:h-56 object-cover"
+                  loading="lazy"
+                />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Timeline – Lamia & la genèse (2024 -> …) */}
-      <section className="py-14 px-6">
+      {/* Histoire de Lamia + timeline + image pleine largeur */}
+      <section className="py-14 px-6 bg-muted/40">
         <div className="container mx-auto max-w-5xl">
           <div className="text-center mb-10">
             <Badge variant="outline">Notre Histoire</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mt-3">De l’expérience terrain à l’action</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mt-3">De l’expérience au terrain, à l’action</h2>
             <p className="text-foreground/70 mt-2 max-w-3xl mx-auto">
-              15 ans de salariat, d’accompagnement d’équipes et de dialogue social. En <strong>2024</strong>, Lamia lance QVT Box :
-              une démarche phygitale simple, utile et collective — pensée pour les salariés, les managers, les RH et les représentants du personnel.
+              Après <strong>15 ans de salariat</strong> et d’accompagnement d’équipes,
+              Lamia lance QVT Box en <strong>2024</strong> : une démarche lisible et utile, pensée avec et pour les salariés.
             </p>
           </div>
 
@@ -157,20 +174,17 @@ const AboutPage: React.FC = () => {
               {
                 year: "2024",
                 title: "Idée & cadrage",
-                text:
-                  "Après 15 ans de salariat et d’observation des besoins, conception d’un score QVT lisible (1→15) et d’actions concrètes.",
+                text: "Un score QVT 1→15 compréhensible par tous et des actions concrètes.",
               },
               {
                 year: "2025",
                 title: "Pilotes & itérations",
-                text:
-                  "Lancement des pilotes, co-conception avec des équipes. Première Box Pouvoir d’Achat (standard mensuelle).",
+                text: "Co-construction avec les équipes. Lancement de la Box Pouvoir d’Achat.",
               },
               {
                 year: "…",
                 title: "Déploiement international",
-                text:
-                  "Partenariats fournisseurs français, export, accompagnement multi-sites.",
+                text: "Réseau de producteurs français, logistique export, support multi-sites.",
               },
             ].map((b) => (
               <Card key={b.year} className="card-professional">
@@ -182,27 +196,44 @@ const AboutPage: React.FC = () => {
               </Card>
             ))}
           </div>
+
+          <div className="mt-10 rounded-3xl overflow-hidden ring-1 ring-black/5 shadow">
+            <img
+              src={teamPro}
+              alt="Réunion d'équipe autour de la transformation QVT"
+              className="w-full h-[320px] md:h-[420px] object-cover"
+              loading="lazy"
+            />
+          </div>
         </div>
       </section>
 
-      {/* Pour les entreprises */}
+      {/* Pour les entreprises (avec image) */}
       <section id="entreprise" className="py-16 px-6">
-        <div className="container mx-auto max-w-6xl grid md:grid-cols-2 gap-10 items-start">
+        <div className="container mx-auto max-w-6xl grid lg:grid-cols-2 gap-10 items-start">
+          <div className="rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5">
+            <img
+              src={shippingStation}
+              alt="Préparation et expédition soignée des Box"
+              className="w-full h-[360px] object-cover"
+              loading="lazy"
+            />
+          </div>
+
           <div className="space-y-5">
             <h3 className="text-2xl md:text-3xl font-semibold" style={{ color: brand.canard }}>
               Pour les entreprises
             </h3>
             <p className="text-foreground/80">
-              Une approche phygitale simple : l’app détecte les besoins, la box répond.
-              Résultat : une politique QVT tangible, mesurable et appréciée des équipes.
-              Marque employeur renforcée, absentéisme réduit, engagement accru.
+              L’app détecte les besoins, la box répond. Politique QVT tangible, mesurable,
+              et appréciée. Marque employeur renforcée, absentéisme réduit, engagement accru.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-3">
               {[
                 { t: "Score QVT 1→15", d: "Question simple, insights actionnables" },
                 { t: "Alertes RPS", d: "Prévention en temps réel" },
-                { t: "Dashboard RH/CSE", d: "Heatmaps & tendances anonymisées" },
+                { t: "Dashboard RH/CSE", d: "Tendances anonymisées, heatmaps" },
                 { t: "Box utiles", d: "Alimentaire / hygiène / ergonomie Made in France" },
               ].map((c) => (
                 <Card key={c.t} className="bg-white shadow-sm border">
@@ -213,29 +244,31 @@ const AboutPage: React.FC = () => {
                 </Card>
               ))}
             </div>
-          </div>
 
-          <div className="rounded-3xl p-6 bg-gradient-to-br from-white to-white/70 shadow-xl border">
-            <div className="flex items-center gap-3 mb-4">
-              <Building2 className="h-6 w-6" style={{ color: brand.violet }} />
-              <h4 className="text-xl font-semibold">Engagements QVT Box</h4>
+            <div className="rounded-2xl border bg-white p-5">
+              <div className="flex items-start gap-3">
+                <Building2 className="h-6 w-6" style={{ color: brand.violet }} />
+                <div className="space-y-2">
+                  <p className="font-semibold">Nos engagements</p>
+                  <ul className="space-y-1 text-sm text-foreground/80">
+                    <li className="flex gap-2">
+                      <ShieldCheck className="h-4 w-4 text-primary mt-0.5" />
+                      Respect RGPD, données anonymisées, éthique IA
+                    </li>
+                    <li className="flex gap-2">
+                      <Leaf className="h-4 w-4 text-primary mt-0.5" />
+                      Circuits courts, produits responsables, savoir-faire local
+                    </li>
+                    <li className="flex gap-2">
+                      <Megaphone className="h-4 w-4 text-primary mt-0.5" />
+                      Kit de communication interne (lancement & embarquement)
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
-            <ul className="space-y-3 text-foreground/90">
-              <li className="flex gap-3">
-                <ShieldCheck className="h-5 w-5" style={{ color: brand.canard }} />
-                <span>Respect RGPD, données anonymisées, éthique IA.</span>
-              </li>
-              <li className="flex gap-3">
-                <Leaf className="h-5 w-5" style={{ color: brand.canard }} />
-                <span>Produits responsables, circuits courts, fournisseurs français.</span>
-              </li>
-              <li className="flex gap-3">
-                <Megaphone className="h-5 w-5" style={{ color: brand.canard }} />
-                <span>Kit de communication interne fourni (lancement & embarquement).</span>
-              </li>
-            </ul>
 
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3">
               <a
                 href="/contact"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-medium shadow hover:shadow-lg transition"
@@ -257,10 +290,41 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Pour les fournisseurs */}
+      {/* Preuve sociale / partenaires français */}
+      <section className="py-10 px-6">
+        <div className="container mx-auto">
+          <div className="text-center mb-6">
+            <p className="text-sm uppercase tracking-wider text-foreground/60">Partenaires & producteurs locaux</p>
+          </div>
+          <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-md">
+            <img
+              src={partnersLocal}
+              alt="Producteurs et artisans partenaires en France"
+              className="w-full h-[260px] md:h-[320px] object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Pour les fournisseurs (avec images de contenu) */}
       <section id="fournisseurs" className="py-16 px-6 bg-muted/40">
-        <div className="container mx-auto max-w-6xl">
-          <div className="rounded-3xl p-8 shadow-xl bg-white/90 backdrop-blur border">
+        <div className="container mx-auto max-w-6xl grid lg:grid-cols-2 gap-10 items-start">
+          <div className="rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5">
+            <div className="grid grid-cols-2 gap-2 p-2 bg-white">
+              {[imgHygiene, imgSurprise, imgAlimentaire, imgCosmetique].map((src, i) => (
+                <img
+                  key={i}
+                  src={src}
+                  alt="Exemples de produits français"
+                  className="w-full h-40 object-cover rounded-xl"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          </div>
+
+          <div>
             <div className="flex items-center gap-3 mb-5">
               <Factory className="h-6 w-6" style={{ color: brand.violet }} />
               <h3 className="text-2xl md:text-3xl font-semibold" style={{ color: brand.canard }}>
@@ -269,8 +333,8 @@ const AboutPage: React.FC = () => {
             </div>
 
             <p className="mb-6 text-foreground/80">
-              QVT Box est une <strong>vitrine collective</strong> : en unifiant l’exigence sociale française
-              et la qualité « made in France », nous ouvrons à nos partenaires un <strong>rayonnement international</strong>.
+              QVT Box est une <strong>vitrine collective</strong> : une exigence sociale française
+              + une qualité « Made in France » = un <strong>rayonnement international</strong>.
               Chaque box exporte un morceau de notre savoir-faire vers de nouveaux marchés.
             </p>
 
@@ -309,28 +373,82 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Conclusion Manifeste */}
-      <section className="py-16 px-6">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h3 className="text-2xl md:text-3xl font-semibold mb-4" style={{ color: brand.canard }}>
-            Manifeste
-          </h3>
-          <p className="text-lg leading-relaxed text-foreground/90">
-            La France sait s’occuper de ses salariés. Cette exigence sociale est notre fierté —
-            et désormais notre <strong>force exportable</strong>. Avec QVT Box, nous la transformons en valeur :
-            une IA qui écoute, des actions concrètes qui soulagent, et un écosystème de fournisseurs français
-            qui rayonne à l’international. <strong>Entreprise par entreprise, box après box, nous faisons grandir
-            une économie de la considération.</strong>
-          </p>
+      {/* Bande d’impact (statistiques) */}
+      <section className="py-12 px-6 bg-gradient-to-r from-primary to-secondary text-white">
+        <div className="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {[
+            { k: "1–15", d: "Score QVT lisible" },
+            { k: "72h", d: "Déploiement pilote" },
+            { k: "100%", d: "Made in France" },
+            { k: "50+", d: "Pays desservis" },
+          ].map((s) => (
+            <div key={s.k} className="rounded-2xl bg-white/10 p-4">
+              <div className="text-2xl font-bold">{s.k}</div>
+              <div className="text-sm opacity-90">{s.d}</div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-          <div className="mt-6">
+      {/* Témoignage + image */}
+      <section className="py-16 px-6">
+        <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <img
+            src={qvtBoxImage}
+            alt="Produits QVT Box en situation"
+            className="rounded-2xl shadow-floating object-cover w-full h-96"
+            loading="lazy"
+          />
+
+          <div className="space-y-6">
+            <div className="card-professional p-8">
+              <blockquote className="text-lg italic text-foreground/90 mb-6">
+                « On a enfin une QVT qui parle vrai : on écoute simplement, on voit les tendances,
+                et surtout on agit. Les box font un bien fou. »
+              </blockquote>
+              <div className="border-t pt-4">
+                <p className="font-semibold text-foreground">Catherine Moreau</p>
+                <p className="text-sm text-foreground/60">DRH, TechnoServices (320 salariés)</p>
+              </div>
+            </div>
+
+            <ul className="space-y-2">
+              {[
+                "Export DUERP/CSV prêt à l’emploi",
+                "Alertes RPS automatiques et bienveillantes",
+                "Box Pouvoir d’Achat — standard mensuelle",
+              ].map((t) => (
+                <li key={t} className="flex items-start gap-2 text-sm text-foreground/85">
+                  <CheckCircle className="w-4 h-4 text-primary mt-0.5" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA final */}
+      <section className="py-16 px-6 bg-primary">
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl font-bold text-white mb-4">Envie d’une QVT utile et sensible ?</h2>
+          <p className="text-white/90 text-lg mb-8 max-w-3xl mx-auto">
+            Lancez une démarche participative alignée ANACT : écoute, prévention, action.
+            Une IA qui comprend — des gestes concrets qui soulagent.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
               href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-medium shadow hover:shadow-lg transition"
-              style={{ backgroundColor: brand.violet, color: "#fff" }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-medium shadow hover:shadow-lg transition bg-white text-primary"
             >
-              Demander une présentation
+              Nous contacter
               <ArrowRight className="h-5 w-5" />
+            </a>
+            <a
+              href="/auth"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-medium border hover:shadow transition text-white border-white"
+            >
+              Commencer l’évaluation
             </a>
           </div>
         </div>
