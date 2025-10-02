@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 
 // ✅ IMAGES (assure-toi qu’elles existent dans /src/assets)
-import heroImage from "@/assets/hero-workplace-team.jpg";
+import heroImage from "@/assets/qvt experience complete.png";
 import saasImage from "@/assets/saas-dashboard-pro.jpg";
 import partnersLocal from "@/assets/partners-local-producers.webp";
 import shippingStation from "@/assets/shipping-station-parcel.webp";
