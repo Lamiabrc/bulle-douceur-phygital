@@ -140,11 +140,11 @@ const NewIndex = () => {
               </Badge>
               <h1 className="font-inter text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.06] tracking-tight">
                 <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-                  La QVT qui demande : « Ça va ? »
+                  Une IA qui écoute
                 </span>
                 <br />
                 <span className="text-foreground">
-                  Et qui permet d’agir au bon moment, avec des preuves concrètes.
+                  des box qui agissent
                 </span>
               </h1>
               <p className="mt-5 text-lg text-foreground/70 max-w-xl">
