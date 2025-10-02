@@ -1,321 +1,337 @@
-// src/pages/About.tsx
+// src/pages/AboutPage.tsx
 import React from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { SEOHead } from "@/components/SEOHead";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Card, CardContent } from "@/components/ui/card";
 import {
-  Heart,
-  ShieldCheck,
   Sparkles,
-  Handshake,
-  Target,
-  Users,
-  Lightbulb,
-  Award,
-  BookOpen,
-  LineChart,
+  HeartHandshake,
+  ShieldCheck,
+  Boxes,
+  Globe2,
+  Building2,
   Leaf,
-  Globe,
+  Megaphone,
+  Factory,
+  ArrowRight,
+  Users,
 } from "lucide-react";
 
-// 🔄 Remplace par des assets existants si besoin
-import lamiaPhoto from "@/assets/lamia-portrait.jpg";
-import atelierExpedition from "@/assets/atelier-expedition.jpg";
-import atelierProduits from "@/assets/atelier-produits-francais.jpg";
+const brand = {
+  violet: "#8B5CF6", // primary accent (violet)
+  turquoise: "#00B0B9", // turquoise accent
+  canard: "#005B5F", // teal de ta charte
+  noir: "#212121",
+  blancCasse: "#F2F7F6",
+} as const;
 
-const About: React.FC = () => {
-  const values = [
-    { icon: Heart, title: "Humain d’abord", desc: "Écoute active, respect, et pragmatisme. La QVT n’est pas un slogan, c’est une relation." },
-    { icon: ShieldCheck, title: "Prévention RPS", desc: "Identifier tôt les signaux faibles et agir à temps, sans stigmatiser." },
-    { icon: LineChart, title: "Mesure utile", desc: "Un score QVCT clair (1–15), lisible par tous, pour décider vite et bien." },
-    { icon: Handshake, title: "Co-construction", desc: "RH, CSE, managers et salariés : chacun a une voix, chacun a un rôle." },
-    { icon: Leaf, title: "Made in France", desc: "Des box 100% françaises, à forte valeur perçue, sans greenwashing." },
-    { icon: Globe, title: "Impact à l’échelle", desc: "Livraison multi-sites et internationale, sans sacrifier la qualité." },
-  ];
-
-  // ✅ Temporalité corrigée — point de départ en 2024 (après ~15 ans de salariat)
-  const timeline = [
-    {
-      year: "2024",
-      title: "Déclic & concept",
-      desc: "Après ~15 ans de salariat, Lamia formalise une idée simple : rendre la QVCT lisible (score 1–15) et actionnable (box utiles, prévention RPS).",
-    },
-    {
-      year: "Fin 2024",
-      title: "Co-design & pilotes",
-      desc: "Entretiens terrain, ateliers managers/RH, premiers pilotes : cadrage du score, alertes, et des box thématiques 100% France.",
-    },
-    {
-      year: "Début 2025",
-      title: "Structuration",
-      desc: "QVT Box prend forme : maquette SaaS, premiers exports DUERP, chaîne logistique pour box (personnalisation, qualité, délais).",
-    },
-    {
-      year: "2025",
-      title: "Lancement & déploiement",
-      desc: "Licence SaaS Entreprise, réseau de partenaires locaux, international maîtrisé. Objectif : impact concret et mesurable.",
-    },
-  ];
-
-  const expertise = [
-    "QVCT & Prévention des RPS",
-    "Dialogue social & CSE",
-    "Onboarding managers",
-    "Baromètres bien-être courts",
-    "DUERP et obligations légales",
-    "Conception d’expériences salariés",
-  ];
-
-  const reasons = [
-    { title: "Lisibilité immédiate", desc: "Un score simple (1–15) — fini les rapports illisibles. Décidez vite." },
-    { title: "Action concrète", desc: "Des Box utiles et appréciées : reconnaissance, pouvoir d’achat, cohésion." },
-    { title: "Conformité maîtrisée", desc: "Export DUERP, confidentialité, collecte responsable — sans frictions." },
-  ];
-
+const AboutPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="À propos — Manifeste QVT Box"
+        description="QVT Box : une approche phygitale pour écouter, prévenir et agir. Manifeste entreprise & partenaires — IA émotionnelle + box utiles 100% Made in France."
+        ogImage="/og-image.png"
+        type="article"
+      />
+
       <Navigation />
 
-      {/* HERO */}
-      <section className="pt-24 pb-10 px-6 bg-gradient-to-b from-primary/10 via-background to-background">
+      {/* HERO + Manifeste intégré */}
+      <section
+        className="relative pt-28 pb-16 px-6"
+        aria-labelledby="about-hero-title"
+        style={{
+          background: `radial-gradient(1200px 800px at 10% -10%, rgba(139,92,246,0.16), transparent 60%),
+                       radial-gradient(900px 600px at 90% 10%, rgba(0,176,185,0.12), transparent 60%),
+                       linear-gradient(180deg, ${brand.blancCasse}, #ffffff)`,
+        }}
+      >
+        {/* petites lucioles CSS (sans framer-motion) */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {Array.from({ length: 18 }).map((_, i) => (
+            <span
+              key={i}
+              className="absolute h-2 w-2 rounded-full animate-pulse"
+              style={{
+                background: `radial-gradient(circle, ${brand.turquoise}, transparent 60%)`,
+                opacity: 0.35,
+                transform: `translate(${(Math.random() * 100).toFixed(2)}vw, ${(Math.random() * 40).toFixed(2)}vh) scale(${0.7 + Math.random() * 0.6})`,
+                animationDelay: `${i * 120}ms`,
+              }}
+            />
+          ))}
+        </div>
+
         <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
-            <div>
-              <Badge variant="secondary" className="mb-3">À propos</Badge>
-              <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
-                QVT Box — un projet utile, humain et <span className="text-primary">opérationnel</span>
-              </h1>
-              <p className="mt-3 text-foreground/70 text-lg">
-                Je m’appelle <strong>Lamia</strong>. Après ~15 ans de salariat, j’ai créé QVT Box pour rendre la QVCT
-                lisible et actionnable : <em>mesurer ce qui compte</em>, <em>prévenir les RPS</em> et <em>matérialiser la
-                reconnaissance</em> avec des box 100% Made in France.
-              </p>
-              <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                <Button asChild size="lg" className="whitespace-nowrap">
-                  <Link to="/contact">Parler à Lamia</Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="whitespace-nowrap">
-                  <Link to="/saas">Voir la licence SaaS</Link>
-                </Button>
-              </div>
-              <div className="mt-6 flex items-center gap-4 text-sm text-foreground/60">
-                <div className="inline-flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-primary" />
-                  Score QVCT 1–15
-                </div>
-                <div className="inline-flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-primary" />
-                  Export DUERP
-                </div>
-                <div className="inline-flex items-center gap-2">
-                  <Handshake className="w-4 h-4 text-primary" />
-                  Box utiles & françaises
-                </div>
-              </div>
+          <div className="max-w-5xl mx-auto text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-5 shadow bg-white text-[color:var(--canard)]"
+                 style={{ color: brand.canard }}>
+              <Sparkles className="h-4 w-4" />
+              Manifeste — « La luciole » QVT
             </div>
 
-            <div className="relative">
-              <div className="rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/5">
-                <img
-                  src={lamiaPhoto}
-                  alt="Lamia — fondatrice QVT Box"
-                  className="w-full h-[420px] object-cover"
-                  loading="lazy"
-                  decoding="async"
-                  onError={(e) => {
-                    // Fallback doux si l’asset n’existe pas encore
-                    (e.currentTarget as HTMLImageElement).style.display = "none";
-                  }}
-                />
-              </div>
-              <div className="pointer-events-none absolute -bottom-8 -left-10 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
-              <div className="pointer-events-none absolute -top-8 -right-10 h-28 w-28 rounded-full bg-secondary/20 blur-2xl" />
+            <h1 id="about-hero-title" className="text-4xl md:text-6xl font-extrabold leading-[1.08]">
+              <span className="block" style={{ color: brand.noir }}>
+                S’occuper des salariés :
+              </span>
+              <span className="block" style={{ color: brand.violet }}>
+                notre fierté française
+              </span>
+              <span className="block" style={{ color: brand.canard }}>
+                notre force exportable
+              </span>
+            </h1>
+
+            <p className="mt-6 text-lg md:text-xl text-foreground/80 max-w-3xl mx-auto">
+              QVT Box transforme l’exigence sociale française en avantage compétitif.
+              Nous allions une application d’IA émotionnelle et des box utiles, fabriquées en France,
+              pour <strong>écouter</strong>, <strong>prévenir</strong> et <strong>agir concrètement</strong> au bénéfice des salariés.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-3 justify-center">
+              <a
+                href="#entreprise"
+                className="px-5 py-3 rounded-2xl bg-white shadow hover:shadow-md transition text-sm font-medium"
+              >
+                Pour les Entreprises
+              </a>
+              <a
+                href="#fournisseurs"
+                className="px-5 py-3 rounded-2xl text-sm font-medium shadow hover:shadow-md transition"
+                style={{ backgroundColor: brand.violet, color: "#fff" }}
+              >
+                Pour les Fournisseurs
+              </a>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* VALEURS */}
-      <section className="py-10 px-6">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8">Notre manière de faire</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {values.map((v) => {
-              const Icon = v.icon;
-              return (
-                <Card key={v.title} className="bg-gradient-to-b from-muted/40 to-background transition">
-                  <CardContent className="p-6">
-                    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-                      <Icon className="w-6 h-6 text-primary" />
-                    </div>
-                    <CardTitle className="text-xl">{v.title}</CardTitle>
-                    <p className="text-sm text-foreground/70 mt-2">{v.desc}</p>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* HISTOIRE */}
-      <section className="py-12 px-6 bg-gradient-to-b from-secondary/10 to-transparent">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8">L’histoire en 4 étapes</h2>
-          <div className="grid md:grid-cols-4 gap-6">
-            {timeline.map((t) => (
-              <Card key={t.year}>
-                <CardHeader className="pb-2">
-                  <Badge variant="outline" className="text-xs">{t.year}</Badge>
-                  <CardTitle className="text-lg mt-1">{t.title}</CardTitle>
-                  <CardDescription>{t.desc}</CardDescription>
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ATELIER / MADE IN FRANCE */}
-      <section className="py-12 px-6">
-        <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div className="space-y-4">
-              <Badge variant="secondary">100% Made in France</Badge>
-              <h3 className="text-2xl font-semibold">Des box utiles, locales, et appréciées</h3>
-              <p className="text-foreground/70">
-                Nos box ne sont pas des goodies. Elles contiennent des produits <strong>utiles</strong> du quotidien
-                (pouvoir d’achat, mobilité, récupération, cohésion…), sourcés auprès d’artisans et de marques françaises.
-                L’objectif : un geste de reconnaissance <strong>concret</strong> et <strong>crédible</strong>.
-              </p>
-              <ul className="text-sm text-foreground/80 space-y-2">
-                <li className="flex items-start gap-2"><Target className="w-4 h-4 text-primary mt-0.5" /> Thématiques adaptées au terrain</li>
-                <li className="flex items-start gap-2"><Users className="w-4 h-4 text-primary mt-0.5" /> Personnalisation (logo, message, couleurs)</li>
-                <li className="flex items-start gap-2"><Globe className="w-4 h-4 text-primary mt-0.5" /> Multi-sites & international, qualité constante</li>
-              </ul>
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <Button asChild className="whitespace-nowrap">
-                  <Link to="/box">Voir les box</Link>
-                </Button>
-                <Button asChild variant="outline" className="whitespace-nowrap">
-                  <Link to="/international">Livraison internationale</Link>
-                </Button>
-              </div>
-            </div>
-
-            <div className="grid gap-4">
-              <div className="rounded-2xl overflow-hidden shadow-lg ring-1 ring-black/5">
-                <img
-                  src={atelierProduits}
-                  alt="Produits français sélectionnés pour les box"
-                  className="w-full h-[240px] object-cover"
-                  loading="lazy"
-                  decoding="async"
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                />
-              </div>
-              <div className="rounded-2xl overflow-hidden shadow-lg ring-1 ring-black/5">
-                <img
-                  src={atelierExpedition}
-                  alt="Atelier d’expédition — préparation des box QVT"
-                  className="w-full h-[240px] object-cover"
-                  loading="lazy"
-                  decoding="async"
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* EXPERTISE */}
-      <section className="py-12 px-6 bg-gradient-to-b from-primary/10 to-transparent">
-        <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div>
-              <Badge variant="secondary" className="mb-3">Expertise</Badge>
-              <h3 className="text-2xl font-semibold">Mon approche (Lamia)</h3>
-              <p className="text-foreground/70 mt-2">
-                Je privilégie le <strong>terrain</strong> et la <strong>lisibilité</strong>. Pas de promesse magique ni d’usine à gaz.
-                On mesure peu mais bien, on prévient sans stresser, on agit avec des gestes qui comptent.
-              </p>
-              <div className="grid sm:grid-cols-2 gap-3 mt-4">
-                {expertise.map((e) => (
-                  <Card key={e} className="border-dashed">
-                    <CardContent className="p-3 text-sm">{e}</CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-            <div className="space-y-4">
-              <Card>
-                <CardHeader className="pb-2">
-                  <BookOpen className="w-5 h-5 text-primary" />
-                  <CardTitle className="text-lg mt-2">Méthode</CardTitle>
-                  <CardDescription>Entretiens, baromètres courts, ateliers managériaux, plan d’action itératif.</CardDescription>
-                </CardHeader>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <Award className="w-5 h-5 text-primary" />
-                  <CardTitle className="text-lg mt-2">Qualité</CardTitle>
-                  <CardDescription>Confidentialité, conformité, et traçabilité — sans friction pour vos équipes.</CardDescription>
-                </CardHeader>
-              </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <Lightbulb className="w-5 h-5 text-primary" />
-                  <CardTitle className="text-lg mt-2">Concret</CardTitle>
-                  <CardDescription>Box utiles quand c’est pertinent — pas par principe, toujours avec sens.</CardDescription>
-                </CardHeader>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* RAISONS */}
-      <section className="py-12 px-6">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8">Pourquoi QVT Box ?</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {reasons.map((r) => (
-              <Card key={r.title} className="bg-gradient-to-b from-muted/40 to-background">
-                <CardContent className="p-6">
-                  <CardTitle className="text-lg">{r.title}</CardTitle>
-                  <p className="text-sm text-foreground/70 mt-2">{r.desc}</p>
+          {/* 4 promesses clés */}
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-4">
+            {[
+              {
+                icon: <HeartHandshake className="h-5 w-5" />,
+                text:
+                  'Écouter vraiment les salariés (« Ça va ? » mesuré en score QVT 1→15)',
+              },
+              {
+                icon: <ShieldCheck className="h-5 w-5" />,
+                text: "Prévenir les RPS et agir rapidement (alertes, tendances anonymisées)",
+              },
+              {
+                icon: <Boxes className="h-5 w-5" />,
+                text: "Apporter des réponses concrètes via des box utiles, Made in France",
+              },
+              {
+                icon: <Globe2 className="h-5 w-5" />,
+                text: "Ouvrir un rayonnement international à nos partenaires",
+              },
+            ].map((item, idx) => (
+              <Card key={idx} className="bg-white/80 backdrop-blur border">
+                <CardContent className="p-4 flex gap-3">
+                  <span className="mt-1 text-[color:#00B0B9]">{item.icon}</span>
+                  <p className="leading-relaxed text-foreground/90">{item.text}</p>
                 </CardContent>
               </Card>
             ))}
           </div>
-          <div className="text-center mt-8">
-            <Button asChild size="lg" className="whitespace-nowrap">
-              <Link to="/contact">Discuter de votre contexte</Link>
-            </Button>
+        </div>
+      </section>
+
+      {/* Timeline – Lamia & la genèse (2024 -> …) */}
+      <section className="py-14 px-6">
+        <div className="container mx-auto max-w-5xl">
+          <div className="text-center mb-10">
+            <Badge variant="outline">Notre Histoire</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mt-3">De l’expérience terrain à l’action</h2>
+            <p className="text-foreground/70 mt-2 max-w-3xl mx-auto">
+              15 ans de salariat, d’accompagnement d’équipes et de dialogue social. En <strong>2024</strong>, Lamia lance QVT Box :
+              une démarche phygitale simple, utile et collective — pensée pour les salariés, les managers, les RH et les représentants du personnel.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                year: "2024",
+                title: "Idée & cadrage",
+                text:
+                  "Après 15 ans de salariat et d’observation des besoins, conception d’un score QVT lisible (1→15) et d’actions concrètes.",
+              },
+              {
+                year: "2025",
+                title: "Pilotes & itérations",
+                text:
+                  "Lancement des pilotes, co-conception avec des équipes. Première Box Pouvoir d’Achat (standard mensuelle).",
+              },
+              {
+                year: "…",
+                title: "Déploiement international",
+                text:
+                  "Partenariats fournisseurs français, export, accompagnement multi-sites.",
+              },
+            ].map((b) => (
+              <Card key={b.year} className="card-professional">
+                <CardContent className="p-6">
+                  <div className="text-primary font-bold text-sm">{b.year}</div>
+                  <h3 className="text-xl font-semibold mt-1">{b.title}</h3>
+                  <p className="text-sm text-foreground/70 mt-2">{b.text}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA FINAL */}
-      <section className="py-16 px-6 bg-primary">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-            Construisons une QVCT utile, mesurable et durable
-          </h2>
-          <p className="text-white/90 mt-2 mb-6 max-w-3xl mx-auto">
-            Un échange de 20 minutes suffit pour poser les bases : vos enjeux, votre tempo, nos options.
+      {/* Pour les entreprises */}
+      <section id="entreprise" className="py-16 px-6">
+        <div className="container mx-auto max-w-6xl grid md:grid-cols-2 gap-10 items-start">
+          <div className="space-y-5">
+            <h3 className="text-2xl md:text-3xl font-semibold" style={{ color: brand.canard }}>
+              Pour les entreprises
+            </h3>
+            <p className="text-foreground/80">
+              Une approche phygitale simple : l’app détecte les besoins, la box répond.
+              Résultat : une politique QVT tangible, mesurable et appréciée des équipes.
+              Marque employeur renforcée, absentéisme réduit, engagement accru.
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-3">
+              {[
+                { t: "Score QVT 1→15", d: "Question simple, insights actionnables" },
+                { t: "Alertes RPS", d: "Prévention en temps réel" },
+                { t: "Dashboard RH/CSE", d: "Heatmaps & tendances anonymisées" },
+                { t: "Box utiles", d: "Alimentaire / hygiène / ergonomie Made in France" },
+              ].map((c) => (
+                <Card key={c.t} className="bg-white shadow-sm border">
+                  <CardContent className="p-4">
+                    <p className="font-medium">{c.t}</p>
+                    <p className="text-sm text-foreground/70">{c.d}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-3xl p-6 bg-gradient-to-br from-white to-white/70 shadow-xl border">
+            <div className="flex items-center gap-3 mb-4">
+              <Building2 className="h-6 w-6" style={{ color: brand.violet }} />
+              <h4 className="text-xl font-semibold">Engagements QVT Box</h4>
+            </div>
+            <ul className="space-y-3 text-foreground/90">
+              <li className="flex gap-3">
+                <ShieldCheck className="h-5 w-5" style={{ color: brand.canard }} />
+                <span>Respect RGPD, données anonymisées, éthique IA.</span>
+              </li>
+              <li className="flex gap-3">
+                <Leaf className="h-5 w-5" style={{ color: brand.canard }} />
+                <span>Produits responsables, circuits courts, fournisseurs français.</span>
+              </li>
+              <li className="flex gap-3">
+                <Megaphone className="h-5 w-5" style={{ color: brand.canard }} />
+                <span>Kit de communication interne fourni (lancement & embarquement).</span>
+              </li>
+            </ul>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="/contact"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-medium shadow hover:shadow-lg transition"
+                style={{ backgroundColor: brand.violet, color: "#fff" }}
+              >
+                Nous contacter
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="/auth"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-medium border hover:shadow transition"
+                style={{ borderColor: brand.canard, color: brand.canard }}
+              >
+                Commencer l’évaluation
+                <Users className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pour les fournisseurs */}
+      <section id="fournisseurs" className="py-16 px-6 bg-muted/40">
+        <div className="container mx-auto max-w-6xl">
+          <div className="rounded-3xl p-8 shadow-xl bg-white/90 backdrop-blur border">
+            <div className="flex items-center gap-3 mb-5">
+              <Factory className="h-6 w-6" style={{ color: brand.violet }} />
+              <h3 className="text-2xl md:text-3xl font-semibold" style={{ color: brand.canard }}>
+                Pour nos fournisseurs partenaires
+              </h3>
+            </div>
+
+            <p className="mb-6 text-foreground/80">
+              QVT Box est une <strong>vitrine collective</strong> : en unifiant l’exigence sociale française
+              et la qualité « made in France », nous ouvrons à nos partenaires un <strong>rayonnement international</strong>.
+              Chaque box exporte un morceau de notre savoir-faire vers de nouveaux marchés.
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-4">
+              {[
+                { title: "Accès marchés B2B", desc: "Grandes entreprises, ETI, administrations" },
+                { title: "Visibilité co-marque", desc: "Présence dans les box & médias QVT Box" },
+                { title: "Données marché", desc: "Tendances d’usage agrégées pour innover" },
+              ].map((c) => (
+                <Card key={c.title} className="bg-white shadow-sm border">
+                  <CardContent className="p-5">
+                    <p className="font-medium">{c.title}</p>
+                    <p className="text-sm text-foreground/70">{c.desc}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="mailto:contact@qvtbox.com?subject=Partenariat%20Fournisseur%20QVT%20Box"
+                className="px-5 py-3 rounded-2xl text-sm font-medium shadow hover:shadow-lg transition"
+                style={{ backgroundColor: brand.turquoise, color: "#fff" }}
+              >
+                Proposer un produit
+              </a>
+              <a
+                href="/contact"
+                className="px-5 py-3 rounded-2xl text-sm font-medium border hover:shadow transition"
+                style={{ borderColor: brand.violet, color: brand.violet }}
+              >
+                Demander le guide fournisseur (PDF)
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Conclusion Manifeste */}
+      <section className="py-16 px-6">
+        <div className="container mx-auto max-w-4xl text-center">
+          <h3 className="text-2xl md:text-3xl font-semibold mb-4" style={{ color: brand.canard }}>
+            Manifeste
+          </h3>
+          <p className="text-lg leading-relaxed text-foreground/90">
+            La France sait s’occuper de ses salariés. Cette exigence sociale est notre fierté —
+            et désormais notre <strong>force exportable</strong>. Avec QVT Box, nous la transformons en valeur :
+            une IA qui écoute, des actions concrètes qui soulagent, et un écosystème de fournisseurs français
+            qui rayonne à l’international. <strong>Entreprise par entreprise, box après box, nous faisons grandir
+            une économie de la considération.</strong>
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 whitespace-nowrap">
-              <Link to="/contact">Prendre contact</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary whitespace-nowrap">
-              <Link to="/box">Découvrir les box</Link>
-            </Button>
+
+          <div className="mt-6">
+            <a
+              href="/contact"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-medium shadow hover:shadow-lg transition"
+              style={{ backgroundColor: brand.violet, color: "#fff" }}
+            >
+              Demander une présentation
+              <ArrowRight className="h-5 w-5" />
+            </a>
           </div>
         </div>
       </section>
@@ -325,4 +341,4 @@ const About: React.FC = () => {
   );
 };
 
-export default About;
+export default AboutPage;
