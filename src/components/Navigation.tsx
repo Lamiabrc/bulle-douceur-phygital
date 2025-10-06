@@ -5,7 +5,7 @@ import { useUserRole } from "@/hooks/useUserRole";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useLanguage } from "@/hooks/useLanguage";
 import LanguageSelector from "@/components/LanguageSelector";
-import { Settings, Menu, X } from "lucide-react";
+import { Settings, Menu, X, Sparkles } from "lucide-react";
 
 const Navigation = () => {
   const location = useLocation();
@@ -25,8 +25,8 @@ const Navigation = () => {
   ];
 
   return (
-    // >>> Fond quasi opaque + blur + bordure pour contraste garanti
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-lg border-b border-primary/20 transition-all duration-300">
+      <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-primary via-secondary to-primary opacity-70" />
       <div className="container mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -35,6 +35,8 @@ const Navigation = () => {
             className="flex items-center space-x-3 hover:opacity-90 transition-all duration-200 group"
           >
             <div className="relative">
+              {/* Halo lumineux */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/40 to-secondary/40 blur-md opacity-60 group-hover:blur-xl transition-all duration-500" />
               <img
                 src="https://2d181cb9-4143-4c90-9e92-77eb836ddc8b.lovableproject.com/logo-qvt.jpeg"
                 alt="QVT Box Logo"
@@ -43,16 +45,13 @@ const Navigation = () => {
                   (e.currentTarget as HTMLImageElement).style.display = "none";
                 }}
               />
-              <div className="hidden relative w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary text-white font-bold text-[10px] items-center justify-center shadow-md">
-                QVT
-              </div>
             </div>
             <span className="text-xl font-inter font-bold text-foreground group-hover:text-primary transition-colors">
               QVT Box
             </span>
           </Link>
 
-          {/* Desktop nav */}
+          {/* Desktop Navigation */}
           <ul className="hidden md:flex items-center space-x-7">
             {navItems.map((item) => (
               <li key={item.path}>
@@ -60,7 +59,7 @@ const Navigation = () => {
                   to={item.path}
                   className={`font-montserrat text-sm transition-colors ${
                     location.pathname === item.path
-                      ? "text-primary"
+                      ? "text-primary font-semibold"
                       : "text-foreground/85 hover:text-primary"
                   }`}
                 >
@@ -69,11 +68,23 @@ const Navigation = () => {
               </li>
             ))}
 
+            {/* ZENA Voice (desktop only) */}
+            <li>
+              <Link
+                to="https://zena.qvtbox.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-medium px-3 py-2 rounded-md bg-gradient-to-r from-primary to-secondary text-white shadow-md hover:scale-[1.05] transition-all duration-300"
+              >
+                <Sparkles className="w-4 h-4 animate-pulse" />
+                ZENA Voice
+              </Link>
+            </li>
+
             {/* Langue + CTA */}
             <li className="flex items-center gap-3">
               <LanguageSelector currentLanguage={language} onLanguageChange={setLanguage} />
 
-              {/* CTA principal : Contact */}
               <Link
                 to="/contact"
                 className="bg-primary text-white px-5 py-2 rounded-md font-medium transition-colors hover:bg-primary/90 font-inter"
@@ -81,7 +92,6 @@ const Navigation = () => {
                 {t("nav.contact") || "Contact"}
               </Link>
 
-              {/* Espace compte / dashboard */}
               <Link
                 to={user ? "/dashboard" : "/auth"}
                 className="bg-secondary text-white px-5 py-2 rounded-md font-medium transition-colors hover:bg-secondary/90 font-inter"
@@ -89,7 +99,6 @@ const Navigation = () => {
                 {user ? t("nav.dashboard") : t("nav.account")}
               </Link>
 
-              {/* Admin */}
               {user && isAdmin && (
                 <Link
                   to="/admin"
@@ -103,13 +112,17 @@ const Navigation = () => {
             </li>
           </ul>
 
-          {/* Mobile: hamburger */}
+          {/* Mobile burger */}
           <button
             className="md:hidden p-2"
             onClick={() => setMobileMenuOpen((v) => !v)}
             aria-label="Menu"
           >
-            <Menu className="w-6 h-6 text-primary" />
+            {mobileMenuOpen ? (
+              <X className="w-6 h-6 text-primary" />
+            ) : (
+              <Menu className="w-6 h-6 text-primary" />
+            )}
           </button>
         </div>
 
@@ -145,6 +158,20 @@ const Navigation = () => {
                     {item.name}
                   </Link>
                 ))}
+
+                {/* ZENA mobile */}
+                <Link
+                  to="https://zena.qvtbox.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg 
+                             bg-gradient-to-r from-primary to-secondary text-white font-semibold 
+                             hover:scale-[1.03] transition-all"
+                >
+                  <Sparkles className="w-4 h-4 animate-pulse" />
+                  ZENA Voice
+                </Link>
               </div>
 
               <div className="flex flex-col space-y-3 pt-4 border-t border-border">
