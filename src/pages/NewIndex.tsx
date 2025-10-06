@@ -82,8 +82,6 @@ const NewIndex = () => {
     {
       badge: "Populaire",
       title: "Licence SaaS Entreprise",
-      price: "3 000 €",
-      unit: "/an",
       points: [
         "Dashboard RH complet",
         "Scores & tendances QVCT",
@@ -251,7 +249,7 @@ const NewIndex = () => {
         {/* ... contenu existant inchangé ... */}
       </section>
 
-      {/* 🌟 Section ZENA Voice */}
+      {/*  Section ZENA Voice */}
       <section className="relative py-20 px-6 text-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-secondary/10 to-transparent blur-3xl opacity-60 animate-breathe" />
         <div className="container mx-auto relative z-10 flex flex-col items-center">
@@ -280,7 +278,7 @@ const NewIndex = () => {
           >
             <span className="absolute inset-0 bg-gradient-to-r from-[#4FD1C5]/20 to-[#5B4B8A]/20 blur-2xl opacity-0 group-hover:opacity-100 transition duration-500"></span>
             <span className="relative w-3 h-3 bg-[#4FD1C5] rounded-full animate-pulse-glow shadow-lg" />
-            <span className="relative">💬 Parler à <strong>ZENA Voice</strong></span>
+            <span className="relative"> Parler à <strong>ZENA Voice</strong></span>
           </a>
         </div>
       </section>
