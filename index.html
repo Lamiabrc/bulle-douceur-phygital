@@ -1,225 +1,140 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
-    <meta name="color-scheme" content="light dark" />
-    <title>QVT Box — Box + App pour vos équipes</title>
-    <meta
-      name="description"
-      content="Box Pouvoir d’Achat + App QVCT : attention discrète, IA émotionnelle et pilotage DUERP/RPS. Découvrez ZENA Voice, l’IA bienveillante de QVT Box."
-    />
-    <meta name="author" content="QVT Box" />
-    <meta name="theme-color" content="#5B4B8A" />
+<!-- 🌟 SECTION ZENA VOICE -->
+<section id="zena-voice" class="zena-section">
+  <div class="zena-halo"></div>
+  <div class="zena-content">
+    <img src="/logo-qvt.jpeg" alt="Logo QVT Box" class="zena-logo" />
+    <h2 class="zena-title">Découvrez ZENA Voice</h2>
+    <p class="zena-text">
+      L’IA émotionnelle de QVT Box : une voix humaine, bienveillante et connectée à vos émotions.<br />
+      Parlez-lui, et laissez-la vous guider vers plus de sérénité au travail 💜
+    </p>
+    <a
+      href="https://zena.qvtbox.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="zena-button"
+    >
+      <span class="luciole"></span>
+      💬 Parler à ZENA Voice
+    </a>
+  </div>
+</section>
 
-    <!-- SEO -->
-    <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://qvtbox.com" />
+<style>
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.4);
+      opacity: 0.7;
+    }
+  }
 
-    <!-- Favicons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" href="/logo-qvt.jpeg" type="image/jpeg" />
+  @keyframes breathe {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+  }
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="QVT Box — Box + App pour vos équipes" />
-    <meta
-      property="og:description"
-      content="ZENA Voice, l’IA émotionnelle de QVT Box : une voix humaine et bienveillante pour vos salariés."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://qvtbox.com" />
-    <meta property="og:image" content="/og-image.png" />
+  .zena-section {
+    text-align: center;
+    padding: 90px 20px;
+    background: linear-gradient(
+      180deg,
+      rgba(91, 75, 138, 0.05),
+      rgba(79, 209, 197, 0.05)
+    );
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+    border-radius: 2rem;
+    margin-top: 80px;
+  }
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="QVT Box — ZENA Voice & Bien-être" />
-    <meta name="twitter:image" content="/og-image.png" />
+  .zena-halo {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translateX(-50%);
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(79, 209, 197, 0.25),
+      rgba(91, 75, 138, 0.2),
+      transparent 70%
+    );
+    filter: blur(60px);
+    z-index: 0;
+    animation: breathe 6s ease-in-out infinite;
+  }
 
-    <!-- Manifest PWA -->
-    <link rel="manifest" href="/manifest.webmanifest" />
+  .zena-content {
+    position: relative;
+    z-index: 2;
+  }
 
-    <!-- Polices -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+  .zena-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    animation: breathe 5s ease-in-out infinite;
+  }
 
-    <!-- Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-752B8V04TV"
-    ></script>
-    <script>
-      (function () {
-        const GA_ID = "G-752B8V04TV";
-        if (!GA_ID) return;
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-          dataLayer.push(arguments);
-        }
-        window.gtag = gtag;
-        gtag("js", new Date());
-        gtag("config", GA_ID, { send_page_view: false });
-      })();
-    </script>
+  .zena-title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #5b4b8a, #4fd1c5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-    <!-- Styles internes pour la section ZENA Voice -->
-    <style>
-      @keyframes pulse {
-        0%, 100% {
-          transform: scale(1);
-          opacity: 1;
-        }
-        50% {
-          transform: scale(1.4);
-          opacity: 0.7;
-        }
-      }
+  .zena-text {
+    color: #333;
+    max-width: 680px;
+    margin: 0 auto 30px;
+    font-family: "Inter", sans-serif;
+    line-height: 1.6;
+    font-size: 1.1rem;
+  }
 
-      @keyframes breathe {
-        0%, 100% {
-          transform: scale(1);
-          opacity: 1;
-        }
-        50% {
-          transform: scale(1.05);
-          opacity: 0.9;
-        }
-      }
+  .zena-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #5b4b8a, #4fd1c5);
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    font-family: "Montserrat", sans-serif;
+    box-shadow: 0 4px 25px rgba(91, 75, 138, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
 
-      .zena-section {
-        text-align: center;
-        padding: 90px 20px;
-        background: linear-gradient(
-          180deg,
-          rgba(91, 75, 138, 0.05),
-          rgba(79, 209, 197, 0.05)
-        );
-        backdrop-filter: blur(8px);
-        position: relative;
-        overflow: hidden;
-      }
+  .zena-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 35px rgba(91, 75, 138, 0.4);
+  }
 
-      .zena-halo {
-        position: absolute;
-        left: 50%;
-        top: 30%;
-        transform: translateX(-50%);
-        width: 260px;
-        height: 260px;
-        border-radius: 50%;
-        background: radial-gradient(
-          circle,
-          rgba(79, 209, 197, 0.25),
-          rgba(91, 75, 138, 0.2),
-          transparent 70%
-        );
-        filter: blur(60px);
-        z-index: 0;
-        animation: breathe 6s ease-in-out infinite;
-      }
-
-      .zena-content {
-        position: relative;
-        z-index: 2;
-      }
-
-      .zena-logo {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        margin-bottom: 20px;
-        animation: breathe 5s ease-in-out infinite;
-      }
-
-      .zena-title {
-        font-family: "Montserrat", sans-serif;
-        font-weight: 700;
-        font-size: 2.2rem;
-        margin-bottom: 10px;
-        background: linear-gradient(90deg, #5b4b8a, #4fd1c5);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .zena-text {
-        color: #333;
-        max-width: 680px;
-        margin: 0 auto 30px;
-        font-family: "Inter", sans-serif;
-        line-height: 1.6;
-        font-size: 1.1rem;
-      }
-
-      .zena-button {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 14px 28px;
-        border-radius: 50px;
-        background: linear-gradient(90deg, #5b4b8a, #4fd1c5);
-        color: white;
-        font-weight: 600;
-        text-decoration: none;
-        font-family: "Montserrat", sans-serif;
-        box-shadow: 0 4px 25px rgba(91, 75, 138, 0.3);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .zena-button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 35px rgba(91, 75, 138, 0.4);
-      }
-
-      .luciole {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: #4fd1c5;
-        box-shadow: 0 0 10px #4fd1c5, 0 0 30px #4fd1c5;
-        animation: pulse 2s infinite;
-      }
-    </style>
-  </head>
-
-  <body>
-    <noscript>QVT Box nécessite JavaScript pour fonctionner correctement.</noscript>
-    <div id="root"></div>
-
-    <!-- 🌟 SECTION ZENA VOICE -->
-    <section id="zena-voice" class="zena-section">
-      <div class="zena-halo"></div>
-      <div class="zena-content">
-        <img src="/logo-qvt.jpeg" alt="Logo QVT Box" class="zena-logo" />
-        <h2 class="zena-title">Découvrez ZENA Voice</h2>
-        <p class="zena-text">
-          L’IA émotionnelle de QVT Box : une voix humaine, bienveillante et
-          connectée à vos émotions.<br />
-          Parlez-lui, et laissez-la vous guider vers plus de sérénité au travail 💜
-        </p>
-        <a
-          href="https://zena.qvtbox.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="zena-button"
-        >
-          <span class="luciole"></span>
-          💬 Parler à ZENA Voice
-        </a>
-      </div>
-    </section>
-
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+  .luciole {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #4fd1c5;
+    box-shadow: 0 0 10px #4fd1c5, 0 0 30px #4fd1c5;
+    animation: pulse 2s infinite;
+  }
+</style>
