@@ -1,53 +1,70 @@
-// src/components/Hero.tsx
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BarChart3, Gift, ShieldCheck, ArrowRight } from "lucide-react";
+import { BarChart3, Gift, ShieldCheck, ArrowRight, Sparkles } from "lucide-react";
 import heroImage from "@/assets/hero-workplace.jpg";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[86vh] flex items-center justify-center pt-24 px-6 overflow-hidden">
-      {/* Background */}
-      <div
-        className="absolute inset-0 -z-10"
-        aria-hidden="true"
-      >
+    <section className="relative min-h-[88vh] flex items-center justify-center pt-24 px-6 overflow-hidden">
+      {/* Background image + gradient */}
+      <div className="absolute inset-0 -z-10" aria-hidden="true">
         <img
           src={heroImage}
-          alt=""
-          className="w-full h-full object-cover opacity-80"
+          alt="Collaborateurs en situation de travail sereine"
+          className="w-full h-full object-cover opacity-85"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/60 to-background" />
       </div>
 
-      <div className="container mx-auto">
+      {/* Halo de lucioles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-2 h-2 bg-secondary rounded-full animate-firefly"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 4}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="container mx-auto relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Eyebrow */}
           <div className="mb-4 flex items-center justify-center gap-3">
-            <Badge variant="secondary" className="whitespace-nowrap">Né en 2024</Badge>
-            <span className="text-sm text-foreground/60">
-              après ~15 ans de salariat — par Lamia
+            <Badge variant="secondary" className="whitespace-nowrap">
+              Né en 2024
+            </Badge>
+            <span className="text-sm text-foreground/70">
+              après 15 ans de salariat — par <span className="font-semibold">Lamia</span>
             </span>
           </div>
 
           {/* Headline */}
           <h1 className="font-inter text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-foreground">
-            Mesurer ce qui compte.<br className="hidden md:block" />
-            Prévenir à temps.<br className="hidden md:block" />
-            <span className="text-primary">Reconnaître vraiment.</span>
+            Mesurer ce qui compte.
+            <br className="hidden md:block" />
+            Prévenir à temps.
+            <br className="hidden md:block" />
+            <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-breathe">
+              Reconnaître vraiment.
+            </span>
           </h1>
 
           {/* Subheadline */}
-          <p className="mt-5 text-lg md:text-xl text-foreground/80 font-light max-w-3xl mx-auto">
-            QVT Box rend la QVCT lisible (score 1–15), déclenche des alertes RPS utiles
-            et matérialise la reconnaissance grâce à des box 100% Made in France.
-            Clair, actionnable, et respectueux des équipes.
+          <p className="mt-5 text-lg md:text-xl text-foreground/80 font-light max-w-3xl mx-auto leading-relaxed">
+            QVT Box rend la QVCT lisible (score 1–15), déclenche des alertes bienveillantes
+            et transforme la reconnaissance en gestes concrets — grâce à des box 100% Made in France.
           </p>
 
-          {/* CTAs */}
+          {/* CTA principale */}
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" className="whitespace-nowrap">
+            <Button asChild size="lg" className="whitespace-nowrap shadow-lg hover:scale-[1.02] transition-transform">
               <Link to="/saas">
                 <BarChart3 className="w-5 h-5" />
                 <span>Demander une démo SaaS</span>
@@ -62,15 +79,30 @@ const Hero = () => {
             </Button>
           </div>
 
-          {/* Trust row */}
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+          {/* ZENA Voice CTA */}
+          <div className="mt-10">
+            <Link
+              to="https://zena.qvtbox.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-full 
+                         bg-gradient-to-r from-primary/90 to-secondary/90 text-white 
+                         font-medium shadow-lg hover:scale-[1.05] transition-all duration-300"
+            >
+              <Sparkles className="w-4 h-4 animate-pulse" />
+              <span>Parler à <strong>ZENA Voice</strong></span>
+            </Link>
+          </div>
+
+          {/* Trust Row */}
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
             <div className="rounded-xl border bg-background/70 p-4">
               <div className="text-sm text-foreground/60">Score QVCT</div>
-              <div className="text-lg font-semibold">Clair 1–15</div>
+              <div className="text-lg font-semibold text-primary">Lisible 1–15</div>
             </div>
             <div className="rounded-xl border bg-background/70 p-4">
               <div className="text-sm text-foreground/60">Prévention RPS</div>
-              <div className="text-lg font-semibold">Alertes utiles</div>
+              <div className="text-lg font-semibold text-secondary">Alertes bienveillantes</div>
             </div>
             <div className="rounded-xl border bg-background/70 p-4">
               <div className="flex items-center gap-2 text-sm text-foreground/60">
