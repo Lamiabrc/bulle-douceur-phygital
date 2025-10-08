@@ -19,6 +19,7 @@ const Navigation = () => {
     { name: t("nav.home"), path: "/" },
     { name: t("nav.offer"), path: "/box" },
     { name: t("nav.saas"), path: "/saas" },
+    { name: t("nav.manifesto"), path: "/manifeste" },
     { name: t("nav.international"), path: "/international" },
     { name: t("nav.about"), path: "/about" },
     { name: t("nav.contact"), path: "/contact" },
@@ -38,12 +39,9 @@ const Navigation = () => {
               {/* Halo lumineux */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/40 to-secondary/40 blur-md opacity-60 group-hover:blur-xl transition-all duration-500" />
               <img
-                src="https://2d181cb9-4143-4c90-9e92-77eb836ddc8b.lovableproject.com/logo-qvt.jpeg"
+                src="/logo-qvt.jpeg"
                 alt="QVT Box Logo"
                 className="relative w-10 h-10 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.display = "none";
-                }}
               />
             </div>
             <span className="text-xl font-inter font-bold text-foreground group-hover:text-primary transition-colors">

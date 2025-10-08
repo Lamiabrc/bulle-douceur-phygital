@@ -47,19 +47,20 @@ const Hero = () => {
 
           {/* Headline */}
           <h1 className="font-inter text-3xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-foreground">
-            Mesurer ce qui compte.
+            S'occuper des salariés :
             <br className="hidden md:block" />
-            Prévenir à temps.
+            <span className="text-primary">notre fierté française</span>
             <br className="hidden md:block" />
             <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-breathe">
-              Reconnaître vraiment.
+              notre force exportable
             </span>
           </h1>
 
           {/* Subheadline */}
           <p className="mt-5 text-lg md:text-xl text-foreground/80 font-light max-w-3xl mx-auto leading-relaxed">
-            QVT Box rend la QVCT lisible (score 1–15), déclenche des alertes bienveillantes
-            et transforme la reconnaissance en gestes concrets — grâce à des box 100% Made in France.
+            QVT Box transforme l'excellence sociale française en avantage compétitif. 
+            Nous allions une application d'IA émotionnelle et des box utiles, fabriquées en France, 
+            pour <strong>écouter</strong>, <strong>prévenir</strong> et <strong>agir concrètement</strong> au bénéfice des salariés.
           </p>
 
           {/* CTA principale */}

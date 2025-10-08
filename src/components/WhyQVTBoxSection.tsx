@@ -7,14 +7,34 @@ const WhyQVTBoxSection = () => {
             Pourquoi <span className="text-primary">QVT Box</span> ?
           </h2>
           
-          <div className="card-bubble p-8 md:p-12 text-left">
+          <div className="card-bubble p-8 md:p-12 text-left space-y-6">
             <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-light">
-              Les salariés vivent la réalité du travail : plannings serrés, réorganisations, pénibilité, pression… 
-              Les managers de proximité manquent souvent de moyens pour soutenir leurs équipes.
+              La France sait s'occuper de ses salariés. Cette exigence sociale est notre <strong className="text-primary">fierté</strong> — 
+              et désormais notre <strong className="text-secondary">force exportable</strong>.
             </p>
-            <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-light mt-6">
-              <span className="text-primary font-medium">QVT Box</span> aide à transformer ces défis en solutions visibles et humaines : 
-              des box pour soulager et reconnaître, et un SaaS pour suivre et prévenir.
+            <p className="text-lg md:text-xl text-foreground/80 leading-relaxed font-light">
+              <span className="text-primary font-semibold">QVT Box</span> transforme cette valeur en action concrète :
+            </p>
+            <ul className="space-y-3 text-base md:text-lg text-foreground/80">
+              <li className="flex items-start gap-3">
+                <span className="text-primary mt-1">•</span>
+                <span><strong>Écouter vraiment</strong> les salariés ("Ça va ?" mesuré en score QVT 1→15)</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-secondary mt-1">•</span>
+                <span><strong>Prévenir les RPS</strong> et agir rapidement (alertes, tendances anonymisées)</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary mt-1">•</span>
+                <span><strong>Apporter des réponses concrètes</strong> via des box utiles, Made in France (&lt; 10 €)</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-secondary mt-1">•</span>
+                <span><strong>Ouvrir un rayonnement international</strong> à nos fournisseurs partenaires</span>
+              </li>
+            </ul>
+            <p className="text-base md:text-lg text-foreground/70 italic pt-4 border-t border-border/50">
+              Entreprise par entreprise, box après box, nous faisons grandir une économie de la considération.
             </p>
           </div>
           
