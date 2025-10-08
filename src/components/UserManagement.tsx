@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/components/ui/use-toast';
 import { Shield, User, Crown, Trash2, UserPlus } from 'lucide-react';
-import { UserRole } from '@/hooks/useUserRole';
+import type { UserRole } from '@/hooks/useUserRole';
 
 // Only use roles that exist in the database
 type DatabaseUserRole = 'admin' | 'user';

@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';
 import { useCategories } from '@/hooks/useProducts';
-import { useSearchFilters, SearchFilters } from '@/hooks/useProductSearch';
+import { useSearchFilters, type SearchFilters } from '@/hooks/useProductSearch';
 import { Search, Filter, X, Star } from 'lucide-react';
 
 interface ProductSearchProps {

@@ -1,5 +1,5 @@
 // src/contexts/CartContext.tsx
-import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from 'react';
 
 interface CartItem {
   id: string;

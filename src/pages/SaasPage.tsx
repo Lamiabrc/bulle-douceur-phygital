@@ -275,11 +275,11 @@ const SaaS: React.FC = () => {
                   )}
 
                   <CardHeader className="text-center pb-4">
-                    <div className="flex justify-center mb-4">
-                      <div className="p-3 bg-primary/10 rounded-full">
-                        <Icon className="text-primary" size={24} />
-                      </div>
-                    </div>
+              <div className="flex justify-center mb-4">
+                <div className="p-3 bg-primary/10 rounded-full">
+                  <Icon className="text-primary w-6 h-6" />
+                </div>
+              </div>
                     <CardTitle className="text-xl">{plan.name}</CardTitle>
                     <CardDescription>{plan.description}</CardDescription>
 

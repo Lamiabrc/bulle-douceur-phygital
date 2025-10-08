@@ -31,48 +31,66 @@ const translations = {
     "nav.dashboard": "Mon Tableau de Bord",
     "nav.account": "Mon Espace",
 
+    // Hero principal
     "hero.tagline": "« Sortez de votre bulle, on veille sur vous »",
-    "hero.description":
-      "Solutions phygitales B2B pour améliorer la Qualité de Vie au Travail. Nous combinons attention quotidienne et outils de prévention pour vos équipes.",
-    "hero.cta.quote": "Demander un devis",
-    "hero.cta.callback": "Être recontacté",
+    "hero.description": "QVT Box combine mesure QVCT + prévention RPS + actions terrain. Une seule licence, un accompagnement utile, des résultats concrets.",
+    "hero.cta.contact": "Demander un devis",
+    "hero.cta.demo": "Voir la démo",
 
+    // Value props
+    "value.measure.title": "Mesure QVCT simple",
+    "value.measure.desc": "Un score clair (1–15), des tendances 7/30j, des signaux faibles détectés.",
+    "value.prevention.title": "Prévention RPS",
+    "value.prevention.desc": "Alertes bienveillantes + Export DUERP prêt pour vos obligations.",
+    "value.actions.title": "Actions concrètes",
+    "value.actions.desc": "Box utiles 100% Made in France, pour passer du discours à l'acte.",
+
+    // Comment ça marche
+    "how.step1.title": "Installez la licence",
+    "how.step1.desc": "Espace sécurisé par entreprise. Onboardez vos équipes en quelques minutes.",
+    "how.step2.title": "Mesurez & surveillez",
+    "how.step2.desc": "Check-ins courts, indicateurs anonymisés, alertes automatiques.",
+    "how.step3.title": "Agissez utile",
+    "how.step3.desc": "Déployez des Box ciblées (en option) quand c'est pertinent — pas par défaut.",
+    "how.title": "Comment ça marche ?",
+
+    // Offre simplifiée
     "offer.title": "Notre Offre Complète",
-    "offer.subtitle":
-      "Trois familles de solutions pour répondre à tous les besoins de vos équipes",
-    "offer.box.title": "Box & Produits",
-    "offer.box.subtitle": "Solutions physiques",
-    "offer.box.description":
-      "Box thématiques et événementielles, produits français artisanaux pour le soutien quotidien des équipes",
+    "offer.license.title": "Licence SaaS Entreprise",
+    "offer.license.badge": "Populaire",
+    "offer.license.point1": "Dashboard RH complet",
+    "offer.license.point2": "Scores & tendances QVCT",
+    "offer.license.point3": "Alertes RPS automatiques",
+    "offer.license.point4": "Export DUERP (PDF/CSV)",
+    "offer.license.point5": "Support inclus",
+    "offer.license.cta": "Nous contacter",
 
-    "offer.saas.title": "Licence SaaS Entreprise",
-    "offer.saas.subtitle": "Outil numérique exclusif",
-    "offer.saas.description":
-      "Application QVT réservée aux entreprises sous forme de licence pour la prévention RPS et le suivi QVCT",
-    "offer.saas.warning":
-      "⚠️ L'application QVT Box est réservée aux entreprises sous forme de licence",
+    "offer.boxes.title": "Box QVT (à la demande)",
+    "offer.boxes.badge": "Option",
+    "offer.boxes.price": "39,90 €",
+    "offer.boxes.unit": "HT / box",
+    "offer.boxes.point1": "Produits français 100%",
+    "offer.boxes.point2": "4 thématiques (alimentaire, hygiène, bien-être, surprise)",
+    "offer.boxes.point3": "Livraison en entreprise",
+    "offer.boxes.point4": "Personnalisation possible",
+    "offer.boxes.cta": "Découvrir les box",
 
     "offer.boutique.title": "Boutique & Partenariats",
-    "offer.boutique.subtitle": "Réseau local",
-    "offer.boutique.description":
-      "Sélection de partenaires locaux et boutique en ligne pour compléter votre offre bien-être",
+    "offer.boutique.badge": "Bientôt",
+    "offer.boutique.point1": "Partenaires locaux vérifiés",
+    "offer.boutique.point2": "Produits artisanaux",
+    "offer.boutique.point3": "Accompagnement CSE",
+    "offer.boutique.cta": "En savoir plus",
 
-    "pricing.title": "Tarifs Indicatifs",
-    "pricing.subtitle":
-      "Des solutions adaptées à tous les budgets et toutes les tailles d'entreprise",
-    "pricing.saas.note": "3 000 € /an + Box (coût supplémentaire)",
-    "pricing.recommended": "Recommandé",
-
+    // Demo
     "demo.title": "Licence Entreprise – Démo",
-    "demo.description":
-      "Chaque entreprise dispose de son propre espace sécurisé. Les RH peuvent ajouter leurs salariés, suivre les indicateurs QVT et recevoir des alertes.",
-    "demo.no_individual":
-      "QVT Box ne vend pas l'application aux particuliers.",
+    "demo.description": "Chaque entreprise dispose de son propre espace sécurisé. Les RH peuvent ajouter leurs salariés, suivre les indicateurs QVT et recevoir des alertes.",
+    "demo.no_individual": "QVT Box ne vend pas l'application aux particuliers.",
     "demo.cta": "Recevoir une démo de la licence",
 
+    // Contact
     "contact.title": "Contactez-nous",
-    "contact.subtitle":
-      "Parlons de vos besoins en qualité de vie au travail",
+    "contact.subtitle": "Parlons de vos besoins en qualité de vie au travail",
     "contact.form.name": "Nom",
     "contact.form.company": "Entreprise",
     "contact.form.email": "Email",
@@ -81,25 +99,31 @@ const translations = {
     "contact.form.offer": "Type d'offre souhaitée",
     "contact.form.message": "Message",
     "contact.form.send": "Envoyer",
+    
+    // Footer CTA
+    "cta.title": "Prêt à améliorer la QVT ?",
+    "cta.description": "Parlons de votre projet. Démo gratuite, sans engagement.",
+    "cta.button": "Demander une démo",
 
+    // Boxes
     "boxes.title": "Nos Box Exceptionnelles",
-    "boxes.subtitle":
-      "Offrez à vos équipes un cadeau exceptionnel : une box française expédiée directement dans votre entreprise",
+    "boxes.subtitle": "Offrez à vos équipes un cadeau exceptionnel : une box française expédiée directement dans votre entreprise",
     "boxes.thematic": "Box Thématiques",
     "boxes.events": "Box Événementielles",
     "boxes.customization": "Options de Personnalisation",
-    "boxes.international.title": "Cadeau Exceptionnel International",
-    "boxes.international.description":
-      "Offrez l'excellence française à vos équipes internationales. Nos box sont expédiées dans le monde entier avec le même niveau de qualité et d'attention.",
     "boxes.cta.quote": "Demander un devis pour cette box",
     "boxes.cta.order": "Commander cette box",
     "boxes.cta.international": "Demander un devis international",
 
+    // International
     "international.title": "QVT Box International",
     "international.subtitle": "L'excellence française exportée dans le monde entier",
     "international.hero.title": "Vos Équipes Internationales Méritent le Meilleur",
-    "international.hero.description":
-      "QVT Box étend son savoir-faire au-delà des frontières. Offrez à vos collaborateurs internationaux l'authenticité et la qualité des produits français, avec la même attention et le même professionnalisme.",
+    "international.hero.description": "QVT Box étend son savoir-faire au-delà des frontières. Offrez à vos collaborateurs internationaux l'authenticité et la qualité des produits français, avec la même attention et le même professionnalisme.",
+
+    // Pricing
+    "pricing.title": "Tarifs Indicatifs",
+    "pricing.subtitle": "Des solutions adaptées à tous les budgets et toutes les tailles d'entreprise",
   },
   en: {
     "nav.home": "Home",
@@ -112,47 +136,66 @@ const translations = {
     "nav.dashboard": "My Dashboard",
     "nav.account": "My Account",
 
+    // Main hero
     "hero.tagline": "« Get out of your bubble, we're watching over you »",
-    "hero.description":
-      "Phygital B2B solutions to improve Workplace Quality of Life. We combine daily attention and prevention tools for your teams.",
-    "hero.cta.quote": "Request a quote",
-    "hero.cta.callback": "Get called back",
+    "hero.description": "QVT Box combines QWL measurement + RPS prevention + field actions. One license, practical support, concrete results.",
+    "hero.cta.contact": "Request a quote",
+    "hero.cta.demo": "See demo",
 
+    // Value props
+    "value.measure.title": "Simple QWL Measurement",
+    "value.measure.desc": "Clear score (1-15), 7/30-day trends, early warning signals detected.",
+    "value.prevention.title": "RPS Prevention",
+    "value.prevention.desc": "Caring alerts + Ready-made DUERP export for your compliance.",
+    "value.actions.title": "Concrete Actions",
+    "value.actions.desc": "Useful 100% Made in France boxes to move from talk to action.",
+
+    // How it works
+    "how.step1.title": "Install the license",
+    "how.step1.desc": "Secure space per company. Onboard your teams in minutes.",
+    "how.step2.title": "Measure & monitor",
+    "how.step2.desc": "Short check-ins, anonymized indicators, automatic alerts.",
+    "how.step3.title": "Act usefully",
+    "how.step3.desc": "Deploy targeted boxes (optional) when relevant — not by default.",
+    "how.title": "How does it work?",
+
+    // Simplified offer
     "offer.title": "Our Complete Offer",
-    "offer.subtitle":
-      "Three solution families to meet all your team needs",
-    "offer.box.title": "Boxes & Products",
-    "offer.box.subtitle": "Physical solutions",
-    "offer.box.description":
-      "Thematic and event boxes, French artisanal products for daily team support",
+    "offer.license.title": "Enterprise SaaS License",
+    "offer.license.badge": "Popular",
+    "offer.license.point1": "Complete HR dashboard",
+    "offer.license.point2": "QWL scores & trends",
+    "offer.license.point3": "Automatic RPS alerts",
+    "offer.license.point4": "DUERP Export (PDF/CSV)",
+    "offer.license.point5": "Support included",
+    "offer.license.cta": "Contact us",
 
-    "offer.saas.title": "Enterprise SaaS License",
-    "offer.saas.subtitle": "Exclusive digital tool",
-    "offer.saas.description":
-      "QVT application reserved for companies under license for RPS prevention and QVCT monitoring",
-    "offer.saas.warning":
-      "⚠️ The QVT Box application is reserved for companies under license",
+    "offer.boxes.title": "QWL Boxes (on-demand)",
+    "offer.boxes.badge": "Option",
+    "offer.boxes.price": "€39.90",
+    "offer.boxes.unit": "excl. VAT / box",
+    "offer.boxes.point1": "100% French products",
+    "offer.boxes.point2": "4 themes (food, hygiene, wellness, surprise)",
+    "offer.boxes.point3": "Company delivery",
+    "offer.boxes.point4": "Customization available",
+    "offer.boxes.cta": "Discover boxes",
 
     "offer.boutique.title": "Shop & Partnerships",
-    "offer.boutique.subtitle": "Local network",
-    "offer.boutique.description":
-      "Selection of local partners and online shop to complement your wellness offer",
+    "offer.boutique.badge": "Coming soon",
+    "offer.boutique.point1": "Verified local partners",
+    "offer.boutique.point2": "Artisanal products",
+    "offer.boutique.point3": "CSE support",
+    "offer.boutique.cta": "Learn more",
 
-    "pricing.title": "Indicative Pricing",
-    "pricing.subtitle":
-      "Solutions adapted to all budgets and company sizes",
-    "pricing.saas.note": "€3,000 /year + Box (additional cost)",
-    "pricing.recommended": "Recommended",
-
+    // Demo
     "demo.title": "Enterprise License – Demo",
-    "demo.description":
-      "Each company has its own secure space. HR can add employees, monitor QVT indicators and receive alerts.",
-    "demo.no_individual":
-      "QVT Box does not sell the application to individuals.",
+    "demo.description": "Each company has its own secure space. HR can add employees, monitor QWL indicators and receive alerts.",
+    "demo.no_individual": "QVT Box does not sell the application to individuals.",
     "demo.cta": "Get a license demo",
 
+    // Contact
     "contact.title": "Contact Us",
-    "contact.subtitle": "Let's talk about your QWL needs",
+    "contact.subtitle": "Let's talk about your workplace quality of life needs",
     "contact.form.name": "Name",
     "contact.form.company": "Company",
     "contact.form.email": "Email",
@@ -162,24 +205,30 @@ const translations = {
     "contact.form.message": "Message",
     "contact.form.send": "Send",
 
+    // Footer CTA
+    "cta.title": "Ready to improve QWL?",
+    "cta.description": "Let's talk about your project. Free demo, no commitment.",
+    "cta.button": "Request a demo",
+
+    // Boxes
     "boxes.title": "Our Exceptional Boxes",
-    "boxes.subtitle":
-      "Offer your teams an exceptional gift: a French box shipped directly to your company",
+    "boxes.subtitle": "Offer your teams an exceptional gift: a French box shipped directly to your company",
     "boxes.thematic": "Thematic Boxes",
     "boxes.events": "Event Boxes",
     "boxes.customization": "Customization Options",
-    "boxes.international.title": "Exceptional International Gift",
-    "boxes.international.description":
-      "Offer French excellence to your international teams. Our boxes ship worldwide with the same level of quality and attention.",
     "boxes.cta.quote": "Request a quote for this box",
     "boxes.cta.order": "Order this box",
     "boxes.cta.international": "Request international quote",
 
+    // International
     "international.title": "QVT Box International",
     "international.subtitle": "French excellence exported worldwide",
     "international.hero.title": "Your International Teams Deserve the Best",
-    "international.hero.description":
-      "QVT Box extends its expertise beyond borders. Offer authenticity and quality of French products with the same attention and professionalism.",
+    "international.hero.description": "QVT Box extends its expertise beyond borders. Offer your international colleagues the authenticity and quality of French products with the same attention and professionalism.",
+
+    // Pricing
+    "pricing.title": "Indicative Pricing",
+    "pricing.subtitle": "Solutions adapted to all budgets and company sizes",
   },
 } as const;
 

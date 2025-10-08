@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useCart } from '@/hooks/useCart';
-import { Product, ProductVariant } from '@/hooks/useProducts';
+import { type Product, type ProductVariant } from '@/hooks/useProducts';
 import { Star, ShoppingCart, Heart, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
 

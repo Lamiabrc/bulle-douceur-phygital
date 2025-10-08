@@ -46,9 +46,7 @@ export const useSafeToast = (): ToastAPI => {
 
     return {
       toast: safeToast,
-      // @ts-expect-error: compat shadcn/use-toast
       dismiss: api.dismiss ?? (() => {}),
-      // @ts-expect-error: compat shadcn/use-toast
       toasts: api.toasts ?? [],
     };
   } catch {

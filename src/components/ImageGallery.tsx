@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { useImageStorage, StorageImage } from '@/hooks/useImageStorage';
+import { useImageStorage, type StorageImage } from '@/hooks/useImageStorage';
 import { useToast } from '@/hooks/use-toast';
 import {
   AlertDialog,
