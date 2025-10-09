@@ -26,6 +26,7 @@ import saasImage from "@/assets/saas-dashboard-pro.jpg";
 import partnersLocal from "@/assets/partners-local-producers.webp";
 import shippingStation from "@/assets/shipping-station-parcel.webp";
 import boxPAA from "@/assets/box-pouvoir-achat.webp";
+import qvtLogo from "@/assets/qvtbox-logo.png";
 
 const NewIndex = () => {
   const { t } = useLanguage();
@@ -128,16 +129,22 @@ const NewIndex = () => {
             }`}
           >
             <div>
-              <Badge className="mb-4 bg-primary/15 text-primary hover:bg-primary/20">
-                {t("hero.tagline")}
-              </Badge>
-              <h1 className="font-inter text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.06] tracking-tight">
+              <div className="flex items-center gap-4 mb-6">
+                <img src={qvtLogo} alt="QVT Box Logo" className="w-16 h-16 rounded-full shadow-lg" />
+                <Badge className="bg-primary/15 text-primary hover:bg-primary/20">
+                  {t("hero.tagline")}
+                </Badge>
+              </div>
+              
+              <h1 className="font-inter text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight mb-4">
                 <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
                   QVT Box
                 </span>
-                <br />
-                <span className="text-foreground">{t("hero.description")}</span>
               </h1>
+              
+              <p className="text-xl text-foreground/80 mb-7 font-medium">
+                {t("hero.description")}
+              </p>
 
               <div className="mt-7 flex gap-3">
                 <Button
@@ -175,6 +182,63 @@ const NewIndex = () => {
               <div className="absolute -bottom-8 -left-10 h-40 w-40 rounded-full bg-primary/20 blur-3xl" />
               <div className="absolute -top-8 -right-10 h-28 w-28 rounded-full bg-secondary/20 blur-2xl" />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/*  Section ZENA Voice - Météo Émotionnelle */}
+      <section className="relative py-16 px-6 text-center overflow-hidden bg-gradient-to-b from-secondary/5 to-transparent">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-secondary/10 to-transparent blur-3xl opacity-40" />
+        <div className="container mx-auto relative z-10 max-w-4xl">
+          <div className="flex flex-col items-center">
+            <video
+              src="/zena-avatar.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-40 h-40 mb-6 rounded-full shadow-2xl object-cover ring-4 ring-primary/20"
+            />
+            
+            <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
+              {t("nav.account") === "My Account" ? (
+                <>Comment savez-vous que vos salariés sont heureux<br />quand vous ne les voyez jamais ?</>
+              ) : (
+                <>Comment savez-vous que vos salariés sont heureux<br />quand vous ne les voyez jamais ?</>
+              )}
+            </h2>
+            
+            <p className="text-lg text-foreground/70 max-w-2xl mx-auto mb-3">
+              {t("nav.account") === "My Account" 
+                ? "When your teams are not in front of a PC..."
+                : "Quand vos équipes ne sont pas devant un PC..."
+              }
+            </p>
+            
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 mb-6">
+              <Activity className="w-5 h-5 text-primary" />
+              <span className="text-base font-semibold text-foreground">
+                {t("nav.account") === "My Account" 
+                  ? "Discover the Emotional Weather of your company"
+                  : "Découvrez la Météo Émotionnelle de votre entreprise"
+                }
+              </span>
+            </div>
+            
+            <a
+              href="https://zena.qvtbox.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-full 
+                         bg-gradient-to-r from-[#5B4B8A] to-[#4FD1C5] text-white font-bold text-lg
+                         shadow-xl hover:shadow-2xl hover:scale-[1.05] transition-all duration-300 ease-out"
+            >
+              <span className="relative w-2.5 h-2.5 bg-[#4FD1C5] rounded-full animate-pulse" />
+              <Sparkles className="w-5 h-5" />
+              <span className="relative">
+                {t("nav.account") === "My Account" ? "Talk to ZENA" : "Parler à ZENA"}
+              </span>
+            </a>
           </div>
         </div>
       </section>
@@ -248,45 +312,6 @@ const NewIndex = () => {
         </div>
       </section>
 
-      {/*  Section ZENA Voice */}
-      <section className="relative py-14 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-secondary/10 to-transparent blur-3xl opacity-60" />
-        <div className="container mx-auto relative z-10 flex flex-col items-center">
-          <video
-            src="/zena-avatar.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-32 h-32 mb-4 rounded-full shadow-lg object-cover"
-          />
-          <h2 className="text-2xl md:text-3xl font-extrabold mb-2">
-            {t("nav.account") === "My Account" ? "Discover" : "Découvrez"}{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-              ZENA Voice
-            </span>
-          </h2>
-          <p className="text-foreground/80 max-w-xl mx-auto mb-6 text-base">
-            {t("nav.account") === "My Account" 
-              ? "Your emotional AI companion at work 💜"
-              : "Votre IA émotionnelle au travail 💜"
-            }
-          </p>
-          <a
-            href="https://zena.qvtbox.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-full 
-                       bg-gradient-to-r from-[#5B4B8A] to-[#4FD1C5] text-white font-semibold 
-                       shadow-lg hover:scale-[1.05] transition-all duration-300 ease-out"
-          >
-            <span className="relative w-2 h-2 bg-[#4FD1C5] rounded-full animate-pulse" />
-            <span className="relative text-sm">
-              {t("nav.account") === "My Account" ? "Talk to ZENA" : "Parler à ZENA"}
-            </span>
-          </a>
-        </div>
-      </section>
 
       {/* Partenaires */}
       <section className="py-10 px-6">

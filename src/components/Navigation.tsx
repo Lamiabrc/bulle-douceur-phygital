@@ -39,7 +39,7 @@ const Navigation = () => {
               {/* Halo lumineux */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/40 to-secondary/40 blur-md opacity-60 group-hover:blur-xl transition-all duration-500" />
               <img
-                src="/logo-qvt.jpeg"
+                src="/qvt-box-logo.png"
                 alt="QVT Box Logo"
                 className="relative w-10 h-10 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform"
               />
@@ -131,7 +131,7 @@ const Navigation = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             <div
-              className="fixed right-0 top-0 h-full w-80 bg-background shadow-xl p-6"
+              className="fixed right-0 top-0 h-full w-80 bg-background shadow-xl p-6 border-l border-border"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-6">
