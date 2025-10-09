@@ -193,7 +193,7 @@ const ContactPage = () => {
                       </div>
                       <div>
                         <h3 className="font-semibold text-lg text-foreground">Email</h3>
-                        <p className="text-foreground/70">contact@qvtbox.fr / lamia.brechet@outlook.fr</p>
+                        <p className="text-foreground/70">contact@qvtbox.com / lamia.brechet@outlook.fr</p>
                       </div>
                     </div>
                   </CardContent>

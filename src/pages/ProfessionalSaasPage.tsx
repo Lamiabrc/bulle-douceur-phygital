@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import AlertDashboard from "@/components/AlertDashboard";
 import EvaluationForm from "@/components/EvaluationForm";
+import EmotionalWeatherMap from "@/components/EmotionalWeatherMap";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -416,6 +417,21 @@ const ProfessionalSaasPage = () => {
           </div>
         </section>
       )}
+
+      {/* Météo Émotionnelle */}
+      <section className="py-20 px-6 section-professional">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-foreground mb-4 font-inter">
+              Visualisez l'ambiance de <span className="text-primary">votre entreprise</span>
+            </h2>
+            <p className="text-xl text-foreground/70 max-w-4xl mx-auto font-lato">
+              Dashboard en temps réel de la météo émotionnelle par département
+            </p>
+          </div>
+          <EmotionalWeatherMap />
+        </div>
+      </section>
 
       {/* Témoignage */}
       <section className="py-16 px-6 bg-background">

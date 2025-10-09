@@ -29,7 +29,7 @@ import boxPAA from "@/assets/box-pouvoir-achat.webp";
 import qvtLogo from "@/assets/qvtbox-logo.png";
 
 const NewIndex = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [heroRef, heroVisible] = useScrollReveal();
   const [valueRef, valueVisible] = useStaggeredReveal(3, 160);
   const [howRef, howVisible] = useStaggeredReveal(3, 160);
@@ -201,15 +201,15 @@ const NewIndex = () => {
             />
             
             <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
-              {t("nav.account") === "My Account" ? (
-                <>Comment savez-vous que vos salariés sont heureux<br />quand vous ne les voyez jamais ?</>
+              {language === "en" ? (
+                <>How do you know your employees are happy<br />when you never see them?</>
               ) : (
                 <>Comment savez-vous que vos salariés sont heureux<br />quand vous ne les voyez jamais ?</>
               )}
             </h2>
             
             <p className="text-lg text-foreground/70 max-w-2xl mx-auto mb-3">
-              {t("nav.account") === "My Account" 
+              {language === "en" 
                 ? "When your teams are not in front of a PC..."
                 : "Quand vos équipes ne sont pas devant un PC..."
               }
@@ -218,7 +218,7 @@ const NewIndex = () => {
             <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 mb-6">
               <Activity className="w-5 h-5 text-primary" />
               <span className="text-base font-semibold text-foreground">
-                {t("nav.account") === "My Account" 
+                {language === "en" 
                   ? "Discover the Emotional Weather of your company"
                   : "Découvrez la Météo Émotionnelle de votre entreprise"
                 }
@@ -236,7 +236,7 @@ const NewIndex = () => {
               <span className="relative w-2.5 h-2.5 bg-[#4FD1C5] rounded-full animate-pulse" />
               <Sparkles className="w-5 h-5" />
               <span className="relative">
-                {t("nav.account") === "My Account" ? "Talk to ZENA" : "Parler à ZENA"}
+                {language === "en" ? "Talk to ZENA" : "Parler à ZENA"}
               </span>
             </a>
           </div>
@@ -317,7 +317,7 @@ const NewIndex = () => {
       <section className="py-10 px-6">
         <div className="container mx-auto text-center">
           <p className="text-sm uppercase tracking-wider text-foreground/60 mb-4">
-            {t("nav.account") === "My Account" ? "Local Partners" : "Partenaires locaux"}
+            {language === "en" ? "Local Partners" : "Partenaires locaux"}
           </p>
           <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-md">
             <img
@@ -350,7 +350,7 @@ const NewIndex = () => {
             {t("offer.title")}
           </h2>
           <p className="text-lg text-foreground/70 mb-10">
-            {t("nav.account") === "My Account" 
+            {language === "en" 
               ? "License to measure & prevent. Boxes as an option to act."
               : "Licence pour mesurer & prévenir. Box en option pour agir."
             }

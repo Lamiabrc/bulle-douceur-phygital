@@ -33,20 +33,17 @@ const Navigation = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center space-x-3 hover:opacity-90 transition-all duration-200 group"
+            className="flex items-center hover:opacity-90 transition-all duration-200 group"
           >
             <div className="relative">
               {/* Halo lumineux */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/40 to-secondary/40 blur-md opacity-60 group-hover:blur-xl transition-all duration-500" />
               <img
                 src="/qvt-box-logo.png"
-                alt="QVT Box Logo"
-                className="relative w-10 h-10 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform"
+                alt="QVT Box"
+                className="relative w-12 h-12 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform"
               />
             </div>
-            <span className="text-xl font-inter font-bold text-foreground group-hover:text-primary transition-colors">
-              QVT Box
-            </span>
           </Link>
 
           {/* Desktop Navigation */}

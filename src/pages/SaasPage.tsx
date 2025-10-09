@@ -2,6 +2,7 @@
 import React, { useMemo, useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import EmotionalWeatherMap from "@/components/EmotionalWeatherMap";
 import {
   Card,
   CardContent,
@@ -431,6 +432,17 @@ const SaaS: React.FC = () => {
               </div>
             </CardContent>
           </Card>
+        </div>
+      </section>
+
+      {/* Météo Émotionnelle */}
+      <section className="py-10 px-6">
+        <div className="container mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold mb-2">Visualisez l'ambiance de votre entreprise</h2>
+            <p className="text-muted-foreground">Dashboard en temps réel de la météo émotionnelle par département</p>
+          </div>
+          <EmotionalWeatherMap />
         </div>
       </section>
 
