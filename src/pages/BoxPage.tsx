@@ -18,6 +18,14 @@ import {
   Award,
   Heart,
   Gift,
+  Truck,
+  Clock,
+  Euro,
+  RefreshCw,
+  Phone,
+  FileCheck,
+  Star,
+  HelpCircle,
 } from "lucide-react";
 
 import qvtBoxImage from "@/assets/qvt-box-products.jpg";
@@ -40,9 +48,88 @@ const FEATURED_BOX = {
     "Astuces budget & organisation",
     "Produit surprise de terroir",
   ],
+  detailedFeatures: [
+    "4 à 6 produits français par box selon préférences",
+    "Valeur réelle: 45-60€ de produits",
+    "Livraison incluse partout en France",
+    "Personnalisation via questionnaire mensuel",
+    "Accès plateforme d'avantages partenaires",
+    "Newsletter mensuelle avec astuces économies",
+  ],
   badge: "Standard mensuelle",
   icon: Gift,
 } as const;
+
+const GUARANTEES = [
+  {
+    icon: Shield,
+    title: "100% Made in France",
+    description: "Tous nos produits sont sourcés auprès d'artisans et producteurs français certifiés",
+  },
+  {
+    icon: FileCheck,
+    title: "Conformité URSSAF",
+    description: "Solutions parfaitement conformes à la réglementation sociale et fiscale en vigueur",
+  },
+  {
+    icon: Star,
+    title: "Satisfaction garantie",
+    description: "Engagement qualité avec possibilité d'échange si un produit ne convient pas",
+  },
+  {
+    icon: RefreshCw,
+    title: "Flexibilité totale",
+    description: "Modification ou annulation de l'abonnement possible à tout moment sans frais",
+  },
+] as const;
+
+const SUBSCRIPTION_OPTIONS = [
+  {
+    name: "Engagement 12 mois",
+    price: "29€/mois",
+    saving: "Économie de 18%",
+    features: ["Meilleur tarif", "Livraison prioritaire", "Support dédié", "Accès plateforme illimité"],
+  },
+  {
+    name: "Engagement 6 mois",
+    price: "32€/mois",
+    saving: "Économie de 10%",
+    features: ["Tarif avantageux", "Livraison standard", "Support email", "Accès plateforme"],
+  },
+  {
+    name: "Sans engagement",
+    price: "35€/mois",
+    saving: "Flexible",
+    features: ["Stop à tout moment", "Livraison standard", "Support email", "Accès plateforme"],
+  },
+] as const;
+
+const FAQ_ITEMS = [
+  {
+    question: "Comment fonctionne la personnalisation ?",
+    answer: "Chaque mois, vos salariés reçoivent un questionnaire leur permettant d'indiquer leurs préférences parmi différentes catégories (alimentaire, hygiène, cosmétique, etc.). Nous composons ensuite les box en fonction des choix majoritaires de votre équipe.",
+  },
+  {
+    question: "Quel est le délai de livraison ?",
+    answer: "Les box sont expédiées entre le 1er et le 10 de chaque mois. La livraison prend 2-4 jours ouvrés en France métropolitaine. Pour les DOM-TOM, prévoir 5-8 jours ouvrés.",
+  },
+  {
+    question: "Puis-je commander pour une équipe en télétravail ?",
+    answer: "Absolument ! Nous pouvons livrer directement au domicile de chaque collaborateur ou regrouper les envois sur plusieurs sites. Contactez-nous pour organiser la logistique adaptée à votre organisation.",
+  },
+  {
+    question: "Les box sont-elles conformes aux règles URSSAF ?",
+    answer: "Oui, nos solutions sont parfaitement conformes à la réglementation en vigueur. Nous fournissons tous les justificatifs nécessaires pour votre comptabilité et vos déclarations sociales.",
+  },
+  {
+    question: "Peut-on essayer avant de s'engager ?",
+    answer: "Oui ! Nous proposons une box découverte au tarif unique de 35€ pour tester le concept avec votre équipe avant de souscrire un abonnement.",
+  },
+  {
+    question: "Proposez-vous des box pour les grandes entreprises ?",
+    answer: "Oui, nous accompagnons des entreprises de 10 à 1000+ salariés. Pour les grandes structures, nous proposons des tarifs dégressifs et un accompagnement dédié.",
+  },
+] as const;
 
 const THEMATIC_BOXES = [
   {
@@ -273,6 +360,34 @@ const NewBoxPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Garanties */}
+      <section className="py-16 px-6 bg-gradient-to-b from-secondary/5 to-transparent" aria-labelledby="guarantees-title">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 id="guarantees-title" className="text-3xl font-bold text-foreground mb-3 font-inter">
+              Nos <span className="text-primary">garanties</span>
+            </h2>
+            <p className="text-foreground/70 font-lato">Qualité, conformité et transparence</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {GUARANTEES.map((g) => {
+              const Icon = g.icon;
+              return (
+                <Card key={g.title} className="card-professional text-center p-6">
+                  <CardContent className="space-y-3">
+                    <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                      <Icon className="w-7 h-7 text-primary" aria-hidden="true" />
+                    </div>
+                    <h3 className="font-bold text-lg font-inter">{g.title}</h3>
+                    <p className="text-sm text-foreground/70 font-lato">{g.description}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* Mise en avant */}
       <section id="featured" className="py-10 px-6 bg-background" aria-labelledby="featured-title">
         <div className="container mx-auto">
@@ -291,13 +406,26 @@ const NewBoxPage: React.FC = () => {
                   <p className="text-foreground/70 mb-4">{FEATURED_BOX.subtitle}</p>
                   <p className="text-foreground/80 mb-6">{FEATURED_BOX.description}</p>
 
-                  <div className="grid sm:grid-cols-2 gap-2 mb-6">
-                    {FEATURED_BOX.contents.map((c) => (
-                      <div key={c} className="flex items-start gap-2 text-sm">
-                        <CheckCircle className="w-4 h-4 text-secondary mt-0.5" aria-hidden="true" />
-                        {c}
-                      </div>
-                    ))}
+                  <div className="mb-6">
+                    <h4 className="font-semibold mb-3 text-foreground">Contenu mensuel :</h4>
+                    <div className="grid sm:grid-cols-2 gap-2 mb-4">
+                      {FEATURED_BOX.contents.map((c) => (
+                        <div key={c} className="flex items-start gap-2 text-sm">
+                          <CheckCircle className="w-4 h-4 text-secondary mt-0.5" aria-hidden="true" />
+                          {c}
+                        </div>
+                      ))}
+                    </div>
+                    <details className="mt-4">
+                      <summary className="cursor-pointer text-primary font-medium text-sm hover:underline">
+                        Voir les détails complets →
+                      </summary>
+                      <ul className="mt-3 space-y-2 pl-4">
+                        {FEATURED_BOX.detailedFeatures.map((f) => (
+                          <li key={f} className="text-sm text-foreground/70 list-disc">{f}</li>
+                        ))}
+                      </ul>
+                    </details>
                   </div>
 
                   <div
@@ -451,6 +579,105 @@ const NewBoxPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Options d'abonnement */}
+      <section className="py-16 px-6 bg-gradient-to-b from-primary/5 to-transparent" aria-labelledby="subscription-title">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 id="subscription-title" className="text-3xl font-bold text-foreground mb-3 font-inter">
+              Formules d'<span className="text-primary">abonnement</span>
+            </h2>
+            <p className="text-foreground/70 font-lato max-w-2xl mx-auto">
+              Choisissez la formule adaptée à votre budget et vos besoins
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {SUBSCRIPTION_OPTIONS.map((option, idx) => (
+              <Card key={option.name} className={`card-professional ${idx === 0 ? 'ring-2 ring-primary' : ''}`}>
+                <CardContent className="p-6">
+                  {idx === 0 && (
+                    <Badge className="mb-3 bg-primary text-white">Le plus populaire</Badge>
+                  )}
+                  <h3 className="text-xl font-bold mb-2 font-inter">{option.name}</h3>
+                  <div className="mb-4">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-3xl font-bold text-primary">{option.price}</span>
+                      <span className="text-sm text-foreground/60">par salarié</span>
+                    </div>
+                    <Badge variant="outline" className="mt-2">{option.saving}</Badge>
+                  </div>
+                  <ul className="space-y-2 mb-6">
+                    {option.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2 text-sm">
+                        <CheckCircle className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Button asChild className={idx === 0 ? 'w-full btn-primary' : 'w-full btn-outline'}>
+                    <Link to="/contact">Choisir cette formule</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <p className="text-sm text-foreground/60 font-lato">
+              💡 <strong>Besoin d'une solution sur-mesure ?</strong>{" "}
+              <Link to="/contact" className="text-primary hover:underline">
+                Contactez-nous
+              </Link>{" "}
+              pour un devis personnalisé
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Livraison et support */}
+      <section className="py-16 px-6 bg-background" aria-labelledby="logistics-title">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 id="logistics-title" className="text-3xl font-bold text-foreground mb-3 font-inter">
+              Livraison & <span className="text-secondary">accompagnement</span>
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <Card className="card-professional text-center p-6">
+              <CardContent className="space-y-4">
+                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Truck className="w-8 h-8 text-secondary" />
+                </div>
+                <h3 className="text-xl font-bold font-inter">Livraison flexible</h3>
+                <p className="text-sm text-foreground/70 font-lato">
+                  Sur site, au domicile ou en point relais. Livraison gratuite dès 10 box.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="card-professional text-center p-6">
+              <CardContent className="space-y-4">
+                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Clock className="w-8 h-8 text-secondary" />
+                </div>
+                <h3 className="text-xl font-bold font-inter">Délais garantis</h3>
+                <p className="text-sm text-foreground/70 font-lato">
+                  Expédition entre le 1er et 10 du mois. Livraison en 2-4 jours ouvrés.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="card-professional text-center p-6">
+              <CardContent className="space-y-4">
+                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Phone className="w-8 h-8 text-secondary" />
+                </div>
+                <h3 className="text-xl font-bold font-inter">Support réactif</h3>
+                <p className="text-sm text-foreground/70 font-lato">
+                  Équipe dédiée disponible par email, téléphone et chat du lundi au vendredi.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Processus participatif */}
       <section className="py-20 px-6 section-professional" ref={processRef} aria-labelledby="process-title">
         <div className="container mx-auto">
@@ -512,6 +739,51 @@ const NewBoxPage: React.FC = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-16 px-6 bg-background" aria-labelledby="faq-title">
+        <div className="container mx-auto max-w-4xl">
+          <div className="text-center mb-12">
+            <h2 id="faq-title" className="text-3xl font-bold text-foreground mb-3 font-inter">
+              Questions <span className="text-primary">fréquentes</span>
+            </h2>
+            <p className="text-foreground/70 font-lato">Tout ce que vous devez savoir sur nos box</p>
+          </div>
+          <div className="space-y-4">
+            {FAQ_ITEMS.map((item, idx) => (
+              <Card key={idx} className="card-professional">
+                <CardContent className="p-6">
+                  <details className="group">
+                    <summary className="flex items-start gap-3 cursor-pointer list-none">
+                      <HelpCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                      <div className="flex-1">
+                        <h3 className="font-bold text-lg font-inter group-open:text-primary transition-colors">
+                          {item.question}
+                        </h3>
+                      </div>
+                      <ArrowRight className="w-5 h-5 text-foreground/40 transition-transform group-open:rotate-90" />
+                    </summary>
+                    <div className="mt-4 pl-8 text-foreground/70 font-lato leading-relaxed">
+                      {item.answer}
+                    </div>
+                  </details>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <p className="text-foreground/70 font-lato mb-4">
+              Vous avez d'autres questions ?
+            </p>
+            <Button asChild variant="outline" size="lg">
+              <Link to="/contact">
+                <Phone className="w-5 h-5 mr-2" />
+                Contactez notre équipe
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
