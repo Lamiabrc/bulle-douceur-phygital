@@ -22,7 +22,7 @@ type LanguageContextType = {
 const translations = {
   fr: {
     "nav.home": "Accueil",
-    "nav.offer": "Notre Offre",
+    "nav.offer": "Les Box",
     "nav.saas": "Licence SaaS",
     "nav.manifesto": "Manifeste",
     "nav.about": "À propos",
@@ -128,7 +128,7 @@ const translations = {
   },
   en: {
     "nav.home": "Home",
-    "nav.offer": "Our Offer",
+    "nav.offer": "The Boxes",
     "nav.saas": "SaaS License",
     "nav.manifesto": "Manifesto",
     "nav.about": "About",
