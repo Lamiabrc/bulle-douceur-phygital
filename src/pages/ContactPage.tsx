@@ -12,12 +12,14 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Phone, Mail, MapPin, MessageCircle, Send, BarChart3 } from "lucide-react";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const CONTACT_EMAIL = "lamia.brechet@outlook.fr";
 const FORM_ENDPOINT = `https://formsubmit.co/ajax/${encodeURIComponent(CONTACT_EMAIL)}`;
 const isBrowser = typeof window !== "undefined";
 
 const ContactPage = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     nom: "",
     email: "",
@@ -97,8 +99,8 @@ const ContactPage = () => {
 
       trackFormSubmission("contact", true);
       toast({
-        title: "Demande envoyée ✅",
-        description: "Merci ! Nous vous recontactons rapidement pour votre devis ou démo.",
+        title: t("contact.toast.success.title"),
+        description: t("contact.toast.success.desc"),
       });
 
       // Reset
@@ -115,9 +117,8 @@ const ContactPage = () => {
     } catch (error) {
       trackFormSubmission("contact", false, [String(error)]);
       toast({
-        title: "Envoi impossible",
-        description:
-          "Désolé, une erreur est survenue. Réessayez ou écrivez-nous directement : lamia.brechet@outlook.fr",
+        title: t("contact.toast.error.title"),
+        description: t("contact.toast.error.desc"),
         variant: "destructive",
       });
       // Fallback mailto si l’API est bloquée (proxy, CORS…)
@@ -145,12 +146,9 @@ const ContactPage = () => {
         <div className="container mx-auto">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 font-inter">
-              Demandez votre <span className="text-primary">devis personnalisé</span>
+              {t("contact.hero.title")} <span className="text-primary">{t("contact.hero.title.highlight")}</span>
             </h1>
-            <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-lato leading-relaxed">
-              Nos experts QVT vous accompagnent dans la mise en place de solutions sur mesure
-              pour améliorer la qualité de vie au travail de vos collaborateurs.
-            </p>
+            <p className="text-xl text-foreground/70 max-w-3xl mx-auto font-lato leading-relaxed">{t("contact.hero.subtitle")}</p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12">

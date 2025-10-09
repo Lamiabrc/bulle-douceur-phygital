@@ -2,12 +2,14 @@ import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Factory, Building2, Globe2, HeartHandshake, ShieldCheck, Leaf, Boxes, Megaphone } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { useLanguage } from "@/hooks/useLanguage";
 import boxPremiumImage from "@/assets/box-premium-export-packaging.webp";
 import partnersImage from "@/assets/partners-local-producers.webp";
 import boxLineupImage from "@/assets/box-lineup-table.webp";
 import localProductsImage from "@/assets/local-products-boutique.jpg";
 
 export default function QVTBoxManifest() {
+  const { t } = useLanguage();
   const brand = {
     violet: "#8B5CF6",
     turquoise: "#00B0B9",
@@ -78,15 +80,15 @@ export default function QVTBoxManifest() {
                 whileHover={{ scale: 1.05 }}
               >
                 <Sparkles className="h-3 w-3" />
-                La luciole QVT
+                {t("manifest.hero.badge")}
               </motion.div>
               <h2 className="text-2xl sm:text-4xl font-bold leading-tight" style={{color: brand.noir}}>
-                S'occuper des salariés :
-                <span className="block" style={{color: brand.violet}}>notre fierté française</span>
-                <span className="block" style={{color: brand.canard}}>notre force exportable</span>
+                {t("manifest.hero.title1")}
+                <span className="block" style={{color: brand.violet}}>{t("manifest.hero.title2")}</span>
+                <span className="block" style={{color: brand.canard}}>{t("manifest.hero.title3")}</span>
               </h2>
               <p className="mt-4 text-sm opacity-90" style={{color: brand.noir}}>
-                QVT Box transforme l'excellence sociale française en avantage compétitif.
+                {t("manifest.hero.description")}
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
                 <motion.a 
@@ -96,7 +98,7 @@ export default function QVTBoxManifest() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Entreprise pilote
+                  {t("manifest.hero.cta1")}
                 </motion.a>
                 <motion.a 
                   href="#cta-fournisseur" 
@@ -105,7 +107,7 @@ export default function QVTBoxManifest() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Fournisseur partenaire
+                  {t("manifest.hero.cta2")}
                 </motion.a>
               </div>
             </motion.div>
@@ -132,9 +134,9 @@ export default function QVTBoxManifest() {
         <section className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
           <div className="grid md:grid-cols-3 gap-4">
             {[
-              { icon: <HeartHandshake className="h-4 w-4" />, text: "Écouter les salariés", img: partnersImage },
-              { icon: <ShieldCheck className="h-4 w-4" />, text: "Prévenir les RPS", img: boxLineupImage },
-              { icon: <Boxes className="h-4 w-4" />, text: "Box Made in France", img: localProductsImage },
+              { icon: <HeartHandshake className="h-4 w-4" />, text: t("manifest.key1"), img: partnersImage },
+              { icon: <ShieldCheck className="h-4 w-4" />, text: t("manifest.key2"), img: boxLineupImage },
+              { icon: <Boxes className="h-4 w-4" />, text: t("manifest.key3"), img: localProductsImage },
             ].map((item, idx) => (
               <motion.div 
                 key={idx} 

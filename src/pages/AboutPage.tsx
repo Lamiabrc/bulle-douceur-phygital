@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { useLanguage } from "@/hooks/useLanguage";
 import {
   Sparkles,
   HeartHandshake,
@@ -78,6 +79,8 @@ function HeadingFR({
 }
 
 const AboutPage: React.FC = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
@@ -138,8 +141,10 @@ const AboutPage: React.FC = () => {
       <section className="py-14 px-6">
         <div className="container mx-auto grid lg:grid-cols-2 gap-10 items-center">
           <div>
-            <HeadingFR>Écouter, prévenir, agir</HeadingFR>
+            <HeadingFR>{t("about.promises.title")}</HeadingFR>
             <p className="text-foreground/80">
+              {t("about.promises.description")}
+            </p>
               Notre approche phygitale : l’app détecte les besoins, la box répond.
               Simple, lisible, responsabilisante — pour salariés, managers, RH et CSE.
             </p>
