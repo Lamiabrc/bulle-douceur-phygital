@@ -249,38 +249,40 @@ const NewIndex = () => {
       </section>
 
       {/*  Section ZENA Voice */}
-      <section className="relative py-20 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-secondary/10 to-transparent blur-3xl opacity-60 animate-breathe" />
+      <section className="relative py-14 px-6 text-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/10 via-secondary/10 to-transparent blur-3xl opacity-60" />
         <div className="container mx-auto relative z-10 flex flex-col items-center">
-          <img
-            src="/logo-qvt.jpeg"
-            alt="Logo QVT Box"
-            className="w-24 h-24 mb-6 rounded-full shadow-lg animate-breathe"
+          <video
+            src="/zena-avatar.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-32 h-32 mb-4 rounded-full shadow-lg object-cover"
           />
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-3">
+          <h2 className="text-2xl md:text-3xl font-extrabold mb-2">
             {t("nav.account") === "My Account" ? "Discover" : "Découvrez"}{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
               ZENA Voice
             </span>
           </h2>
-          <p className="text-foreground/80 max-w-2xl mx-auto mb-8 text-lg">
+          <p className="text-foreground/80 max-w-xl mx-auto mb-6 text-base">
             {t("nav.account") === "My Account" 
-              ? "QVT Box's emotional AI — a human, caring voice connected to your emotions. Talk to it and let it guide you to more serenity at work 💜"
-              : "L'IA émotionnelle de QVT Box — une voix humaine, bienveillante et connectée à vos émotions. Parlez-lui, et laissez-la vous guider vers plus de sérénité au travail 💜"
+              ? "Your emotional AI companion at work 💜"
+              : "Votre IA émotionnelle au travail 💜"
             }
           </p>
           <a
             href="https://zena.qvtbox.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-full 
+            className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-full 
                        bg-gradient-to-r from-[#5B4B8A] to-[#4FD1C5] text-white font-semibold 
-                       shadow-lg hover:scale-[1.05] transition-all duration-300 ease-out overflow-hidden"
+                       shadow-lg hover:scale-[1.05] transition-all duration-300 ease-out"
           >
-            <span className="absolute inset-0 bg-gradient-to-r from-[#4FD1C5]/20 to-[#5B4B8A]/20 blur-2xl opacity-0 group-hover:opacity-100 transition duration-500"></span>
-            <span className="relative w-3 h-3 bg-[#4FD1C5] rounded-full animate-pulse-glow shadow-lg" />
-            <span className="relative">
-              {t("nav.account") === "My Account" ? "Talk to" : "Parler à"} <strong>ZENA Voice</strong>
+            <span className="relative w-2 h-2 bg-[#4FD1C5] rounded-full animate-pulse" />
+            <span className="relative text-sm">
+              {t("nav.account") === "My Account" ? "Talk to ZENA" : "Parler à ZENA"}
             </span>
           </a>
         </div>

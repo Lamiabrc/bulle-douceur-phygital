@@ -9,7 +9,7 @@ import { CheckCircle, Gift, Star, Globe, Package } from "lucide-react";
 // ------------------------------------
 // ✅ IMPORTS IMAGES (assure-toi qu'elles existent)
 // Thématiques
-import imgPAA from "@/assets/box-pouvoir-achat.webp";                  // Pouvoir d’Achat (TOP de page)
+import imgPAA from "@/assets/box-pouvoir-achat.webp";                  // Pouvoir d'Achat (TOP de page)
 import imgFocus from "@/assets/box-bien-etre-anti-stress.webp";        // Focus & Reset
 import imgMobilite from "@/assets/box-mobilite-terrain.webp";          // Mobilité & Terrain
 import imgPenibilite from "@/assets/box-penibilite-recuperation.webp"; // Pénibilité & Récupération
@@ -31,7 +31,7 @@ const BoxCatalog = () => {
   // -------------------- BOX THÉMATIQUES (Pouvoir d'Achat en premier) --------------------
   const thematicBoxes = [
     {
-      name: "Pouvoir d’Achat",
+      name: "Pouvoir d'Achat",
       price: "34,90 €",
       description: "Produits utiles du quotidien & coups de pouce concrets pour vos équipes.",
       image: imgPAA,
@@ -187,101 +187,65 @@ const BoxCatalog = () => {
 
   return (
     <section
-      className="py-20 px-6 bg-gradient-to-br from-background via-primary/5 to-secondary/10"
+      className="py-12 px-6"
       ref={catalogRef}
     >
       <div className="container mx-auto">
-        <div className={`text-center mb-16 scroll-reveal ${catalogVisible ? "visible" : ""}`}>
-          <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6 font-inter">
-            Nos <span className="text-primary">Box Exceptionnelles</span>
+        <div className={`text-center mb-10 scroll-reveal ${catalogVisible ? "visible" : ""}`}>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3 font-inter">
+            Nos <span className="text-primary">Box QVT</span>
           </h2>
-          <p className="text-xl text-foreground/70 max-w-4xl mx-auto font-lato mb-8 leading-relaxed">
-            Offrez à vos équipes un cadeau d’impact : des box utiles, 100% Made in France, envoyées au bon moment.
+          <p className="text-base text-foreground/70 max-w-2xl mx-auto mb-4">
+            100% Made in France • Livrées prêtes à offrir
           </p>
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl px-4 py-2">
-            <span role="img" aria-label="Made in France">🇫🇷</span>
-            <p className="text-sm font-semibold text-foreground">
-              100% Made in France • Artisanat Local • Impact Mesurable
-            </p>
-          </div>
         </div>
 
         {/* ---------- Thématiques (PAA en premier) ---------- */}
-        <div className="mb-20">
-          <h3 className="text-3xl font-bold text-center mb-12 font-inter">
+        <div className="mb-12">
+          <h3 className="text-2xl font-bold text-center mb-6 font-inter">
             Box <span className="text-primary">Thématiques</span>
           </h3>
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-6">
             {thematicBoxes.map((box) => (
               <Card
                 key={box.name}
-                className="card-professional overflow-hidden hover:shadow-floating transition-all duration-300 group"
+                className="overflow-hidden hover:shadow-lg transition-all duration-300 group"
               >
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-36 overflow-hidden">
                   <img
                     src={box.image}
                     alt={`Box ${box.name}`}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     loading="lazy"
-                    decoding="async"
-                    width={1200}
-                    height={240}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute top-4 left-4 flex gap-2">
-                    <Badge className="bg-primary text-white inline-flex items-center gap-1">
-                      <span role="img" aria-label="Made in France">🇫🇷</span>
-                      Made in France
+                  <div className="absolute top-3 left-3">
+                    <Badge className="bg-primary text-white text-xs">
+                      🇫🇷 Made in France
                     </Badge>
-                    {box.customizable && (
-                      <Badge variant="outline" className="bg-white/90">
-                        Personnalisable
-                      </Badge>
-                    )}
-                    {"premium" in box && (box as any).premium && (
-                      <Badge className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white">
-                        Premium
-                      </Badge>
-                    )}
                   </div>
-
-                  <div className="absolute bottom-4 left-4">
-                    <h4 className="text-xl font-bold text-white mb-1">{box.name}</h4>
-                    <p className="text-white/80 text-sm">{box.description}</p>
-                  </div>
-                  <div className="absolute bottom-4 right-4">
-                    <div className="bg-white/90 px-3 py-1 rounded-full">
-                      <span className="font-bold text-primary">{box.price}</span>
+                  <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+                    <div>
+                      <h4 className="text-lg font-bold text-white">{box.name}</h4>
+                      <p className="text-white/80 text-xs">{box.description}</p>
+                    </div>
+                    <div className="bg-white/90 px-2 py-1 rounded">
+                      <span className="font-bold text-primary text-sm">{box.price}</span>
                     </div>
                   </div>
                 </div>
 
-                <CardContent className="p-6">
-                  <div className="mb-4">
-                    <h5 className="font-semibold mb-2 text-foreground">Contenu de la box :</h5>
-                    <div className="grid gap-2">
-                      {box.contents.map((item) => (
-                        <div key={item} className="flex items-center text-sm text-foreground/70">
-                          <CheckCircle className="w-4 h-4 text-primary mr-2 flex-shrink-0" />
-                          {item}
-                        </div>
-                      ))}
-                    </div>
+                <CardContent className="p-4">
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {box.benefits.map((benefit) => (
+                      <Badge key={benefit} variant="secondary" className="text-xs">
+                        {benefit}
+                      </Badge>
+                    ))}
                   </div>
 
-                  <div className="mb-4">
-                    <h5 className="font-semibold mb-2 text-foreground">Bénéfices :</h5>
-                    <div className="flex flex-wrap gap-2">
-                      {box.benefits.map((benefit) => (
-                        <Badge key={benefit} variant="secondary" className="text-xs">
-                          {benefit}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  <Button asChild className="w-full">
-                    <Link to="/contact">Demander un devis pour cette box</Link>
+                  <Button asChild size="sm" className="w-full">
+                    <Link to="/contact">Demander un devis</Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -290,51 +254,37 @@ const BoxCatalog = () => {
         </div>
 
         {/* ---------- Événementielles ---------- */}
-        <div className="mb-20">
-          <h3 className="text-3xl font-bold text-center mb-12 font-inter">
+        <div className="mb-12">
+          <h3 className="text-2xl font-bold text-center mb-6 font-inter">
             Box <span className="text-secondary">Événementielles</span>
           </h3>
-        <div className="grid lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-4">
             {eventBoxes.map((box) => (
               <Card
                 key={box.name}
-                className="card-professional text-center hover:shadow-floating transition-all duration-300 group"
+                className="text-center hover:shadow-lg transition-all duration-300 group"
               >
-                <div className="relative h-32 overflow-hidden">
+                <div className="relative h-28 overflow-hidden">
                   <img
                     src={box.image}
                     alt={box.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     loading="lazy"
-                    decoding="async"
-                    width={900}
-                    height={128}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   <div className="absolute bottom-2 right-2">
-                    <div className="bg-white/90 px-2 py-1 rounded">
-                      <span className="font-bold text-secondary text-sm">{box.price}</span>
+                    <div className="bg-white/90 px-2 py-0.5 rounded text-xs">
+                      <span className="font-bold text-secondary">{box.price}</span>
                     </div>
                   </div>
                 </div>
 
-                <CardContent className="p-4">
-                  <h4 className="font-bold text-lg text-foreground mb-2">{box.name}</h4>
-                  <p className="text-foreground/70 text-sm mb-4">{box.description}</p>
+                <CardContent className="p-3">
+                  <h4 className="font-bold text-sm text-foreground mb-1">{box.name}</h4>
+                  <p className="text-foreground/70 text-xs mb-3">{box.description}</p>
 
-                  <div className="mb-4">
-                    <div className="grid gap-1">
-                      {box.contents.map((item) => (
-                        <div key={item} className="flex items-center text-xs text-foreground/60">
-                          <Gift className="w-3 h-3 text-secondary mr-2 flex-shrink-0" />
-                          {item}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <Button asChild variant="outline" size="sm" className="w-full">
-                    <Link to="/contact">Commander cette box</Link>
+                  <Button asChild variant="outline" size="sm" className="w-full text-xs h-8">
+                    <Link to="/contact">Commander</Link>
                   </Button>
                 </CardContent>
               </Card>
@@ -342,89 +292,51 @@ const BoxCatalog = () => {
           </div>
         </div>
 
-        {/* ---------- SECTION EXPORT (TOUT EN BAS) ---------- */}
-        <div className="mt-24">
-          <h3 className="text-3xl font-bold text-center mb-6 font-inter">
+        {/* ---------- SECTION EXPORT ---------- */}
+        <div className="mt-12">
+          <h3 className="text-2xl font-bold text-center mb-4 font-inter">
             Box <span className="text-secondary">Premium Export</span>
           </h3>
-          <p className="text-center text-foreground/80 max-w-3xl mx-auto mb-10">
-            Nous livrons **dans le monde entier** des <strong>box cadeaux salariés 100% Made in France</strong>, avec un
-            **impact salarié luxueux et unique**. Packaging renforcé, formalités douanières simplifiées, et suivi
-            de livraison pour une expérience sans friction.
+          <p className="text-center text-foreground/80 max-w-2xl mx-auto mb-6 text-sm">
+            Livraison internationale avec packaging renforcé et formalités douanières simplifiées.
           </p>
 
-          <Card className="card-professional overflow-hidden hover:shadow-floating transition-all duration-300 group max-w-5xl mx-auto">
-            <div className="relative h-64 overflow-hidden">
+          <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 group max-w-4xl mx-auto">
+            <div className="relative h-48 overflow-hidden">
               <img
                 src={imgExport}
-                alt="Box Premium Export — packaging renforcé et expédition internationale"
+                alt="Box Premium Export"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
-                decoding="async"
-                width={1600}
-                height={320}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <div className="absolute top-4 left-4 flex gap-2">
-                <Badge className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white">Premium</Badge>
-                <Badge className="bg-primary text-white inline-flex items-center gap-1">
-                  <span role="img" aria-label="Made in France">🇫🇷</span>
-                  Made in France
-                </Badge>
-                <Badge variant="outline" className="bg-white/90">International</Badge>
+              <div className="absolute top-3 left-3 flex gap-2">
+                <Badge className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-xs">Premium</Badge>
+                <Badge className="bg-primary text-white text-xs">🇫🇷 Made in France</Badge>
               </div>
-              <div className="absolute bottom-4 left-4 right-4">
-                <h4 className="text-2xl font-bold text-white mb-2">Cadeau salarié haut de gamme, partout dans le monde</h4>
-                <p className="text-white/85 text-sm">
-                  Produits premium, message personnalisé multilingue, option tracking & preuve de livraison.
+              <div className="absolute bottom-3 left-3 right-3">
+                <h4 className="text-xl font-bold text-white mb-1">Export mondial</h4>
+                <p className="text-white/85 text-xs">
+                  Produits premium • Tracking • Service dédié
                 </p>
               </div>
             </div>
 
-            <CardContent className="p-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h5 className="font-semibold mb-2 text-foreground">Contenu premium :</h5>
-                  <div className="grid gap-2">
-                    {[
-                      "Sélection premium (bien-être + gourmandises)",
-                      "Protection colis renforcée",
-                      "Message personnalisé multilingue",
-                      "Finitions soignées (sceau, ruban, papier de soie)",
-                    ].map((item) => (
-                      <div key={item} className="flex items-center text-sm text-foreground/70">
-                        <CheckCircle className="w-4 h-4 text-secondary mr-2 flex-shrink-0" />
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h5 className="font-semibold mb-2 text-foreground">Atouts logistiques :</h5>
-                  <div className="grid gap-2">
-                    {[
-                      "Étiquette douane & conformité",
-                      "Options de suivi & preuve de livraison",
-                      "Réseau export multi-pays / multi-sites",
-                      "Service client dédié",
-                    ].map((item) => (
-                      <div key={item} className="flex items-center text-sm text-foreground/70">
-                        <CheckCircle className="w-4 h-4 text-secondary mr-2 flex-shrink-0" />
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+            <CardContent className="p-4">
+              <div className="flex flex-wrap gap-2 mb-4">
+                {["Protection renforcée", "Suivi international", "Douane simplifiée", "Message multilingue"].map((item) => (
+                  <Badge key={item} variant="secondary" className="text-xs">
+                    {item}
+                  </Badge>
+                ))}
               </div>
 
-              <div className="mt-6">
-                <Button asChild size="lg" className="w-full inline-flex items-center justify-center gap-2 whitespace-nowrap">
-                  <Link to="/contact">
-                    <Globe className="w-5 h-5" />
-                    Demander un devis Export (monde entier)
-                  </Link>
-                </Button>
-              </div>
+              <Button asChild size="sm" className="w-full">
+                <Link to="/contact">
+                  <Globe className="w-4 h-4 mr-2" />
+                  Demander un devis Export
+                </Link>
+              </Button>
             </CardContent>
           </Card>
         </div>
