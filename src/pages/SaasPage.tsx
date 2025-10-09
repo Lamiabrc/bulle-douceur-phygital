@@ -172,22 +172,22 @@ const SaaS: React.FC = () => {
       </div>
 
       {/* HERO / DEMO */}
-      <section className="py-12 px-6">
+      <section className="py-8 px-6">
         <div className="container mx-auto">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">
+            <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight">
               Mesurez, prévenez, <span className="text-primary">agissez</span>
             </h1>
-            <p className="mt-3 text-foreground/70">
+            <p className="mt-2 text-foreground/70 text-sm">
               Score QVCT lisible (1–15), alertes RPS automatiques, export DUERP prêt.
             </p>
           </div>
 
-          <div className="mt-8 relative rounded-3xl overflow-hidden shadow-2xl ring-1 ring-black/5">
+          <div className="mt-6 relative rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
             <img
               src={saasImage}
               alt="Dashboard QVT Box — démonstration"
-              className="w-full h-[360px] object-cover"
+              className="w-full h-[280px] object-cover"
               loading="lazy"
               decoding="async"
               width={1400}
@@ -196,8 +196,8 @@ const SaaS: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-background/10 via-transparent to-transparent" />
           </div>
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <Button asChild size="lg" className="inline-flex items-center gap-2 whitespace-nowrap">
+          <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+            <Button asChild className="inline-flex items-center gap-2 whitespace-nowrap">
               <Link to="/contact">
                 <BarChart3 className="w-5 h-5" />
                 <span>Recevoir une démo</span>
@@ -206,7 +206,6 @@ const SaaS: React.FC = () => {
             </Button>
             <Button
               asChild
-              size="lg"
               variant="outline"
               className="inline-flex items-center gap-2 whitespace-nowrap"
             >
@@ -217,10 +216,10 @@ const SaaS: React.FC = () => {
       </section>
 
       {/* PRICING + CURRENCY TOGGLE */}
-      <section className="py-10 px-6">
+      <section className="py-8 px-6">
         <div className="container mx-auto">
-          <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold">Tarifs transparents</h2>
+          <div className="text-center mb-4">
+            <h2 className="text-2xl font-bold">Tarifs transparents</h2>
             <p className="text-muted-foreground">
               Choisissez le plan adapté à votre organisation
             </p>
@@ -334,9 +333,9 @@ const SaaS: React.FC = () => {
       </section>
 
       {/* ROI CALCULATOR */}
-      <section className="py-10 px-6">
+      <section className="py-8 px-6">
         <div className="container mx-auto">
-          <Card className="max-w-5xl mx-auto">
+          <Card className="max-w-4xl mx-auto">
             <CardHeader>
               <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
@@ -436,10 +435,10 @@ const SaaS: React.FC = () => {
       </section>
 
       {/* Météo Émotionnelle */}
-      <section className="py-10 px-6">
+      <section className="py-8 px-6">
         <div className="container mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-2">Visualisez l'ambiance de votre entreprise</h2>
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold mb-2">Visualisez l'ambiance de votre entreprise</h2>
             <p className="text-muted-foreground">Dashboard en temps réel de la météo émotionnelle par département</p>
           </div>
           <EmotionalWeatherMap />
@@ -447,10 +446,10 @@ const SaaS: React.FC = () => {
       </section>
 
       {/* Rassurance */}
-      <section className="py-10 px-6">
+      <section className="py-8 px-6">
         <div className="container mx-auto">
-          <Card className="max-w-5xl mx-auto bg-gradient-to-r from-primary/5 to-secondary/5">
-            <CardContent className="p-6">
+          <Card className="max-w-4xl mx-auto bg-gradient-to-r from-primary/5 to-secondary/5">
+            <CardContent className="p-4">
               <div className="flex flex-col items-center text-center gap-2">
                 <Shield className="text-primary" />
                 <h3 className="text-xl font-semibold">Garanties & Sécurité</h3>

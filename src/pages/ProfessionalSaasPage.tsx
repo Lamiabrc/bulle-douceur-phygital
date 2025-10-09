@@ -164,20 +164,20 @@ const ProfessionalSaasPage = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-6 bg-gradient-hero" ref={heroRef}>
+      <section className="pt-20 pb-12 px-6 bg-gradient-hero" ref={heroRef}>
         <div className="container mx-auto">
-          <div className={`grid lg:grid-cols-2 gap-12 items-center scroll-reveal ${heroVisible ? 'visible' : ''}`}>
+          <div className={`grid lg:grid-cols-2 gap-8 items-center scroll-reveal ${heroVisible ? 'visible' : ''}`}>
             <div>
               <div className="flex items-center gap-2 mb-6">
                 <Shield className="w-8 h-8 text-primary" />
                 <Badge variant="outline">Conforme INRS • RGPD • Code du Travail</Badge>
               </div>
               
-              <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 font-inter">
+              <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-4 font-inter">
                 SaaS <span className="text-primary">Prévention RPS</span>
               </h1>
               
-              <div className="card-professional p-6 mb-8">
+              <div className="card-professional p-4 mb-6">
                 <p className="text-lg text-foreground leading-relaxed font-lato mb-4">
                   <span className="text-primary font-medium">Prévenir les risques, ce n'est pas une option mais une obligation légale.</span>
                 </p>
@@ -187,15 +187,15 @@ const ProfessionalSaasPage = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <Link to={user ? "/dashboard" : "/auth"}>
-                  <Button className="btn-primary text-lg px-8 py-4 font-inter button-hover">
+                  <Button className="btn-primary px-6 py-3 font-inter button-hover">
                     <BarChart3 className="w-5 h-5 mr-2" />
                     Demander une démo SaaS
                   </Button>
                 </Link>
                 <Link to="/engagements">
-                  <Button variant="outline" className="text-lg px-8 py-4 font-inter button-hover">
+                  <Button variant="outline" className="px-6 py-3 font-inter button-hover">
                     Voir les références légales
                   </Button>
                 </Link>
@@ -215,10 +215,10 @@ const ProfessionalSaasPage = () => {
       </section>
 
       {/* Statistiques RPS */}
-      <section className="py-16 px-6 bg-background">
+      <section className="py-12 px-6 bg-background">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4 font-inter">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-foreground mb-3 font-inter">
               L'urgence des <span className="text-primary">Risques Psychosociaux</span>
             </h2>
             <p className="text-lg text-foreground/70 font-lato">
@@ -247,10 +247,10 @@ const ProfessionalSaasPage = () => {
       </section>
 
       {/* Fonctionnalités */}
-      <section className="py-20 px-6 section-professional" ref={featuresRef}>
+      <section className="py-12 px-6 section-professional" ref={featuresRef}>
         <div className="container mx-auto">
-          <div className={`text-center mb-16 scroll-reveal ${featuresVisible.has(0) ? 'visible' : ''}`}>
-            <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
+          <div className={`text-center mb-10 scroll-reveal ${featuresVisible.has(0) ? 'visible' : ''}`}>
+            <h2 className="text-3xl font-bold text-foreground mb-4 font-inter">
               Fonctionnalités <span className="text-secondary">Professionnelles</span>
             </h2>
             <p className="text-xl text-foreground/70 max-w-4xl mx-auto font-lato">
@@ -298,10 +298,10 @@ const ProfessionalSaasPage = () => {
       </section>
 
       {/* Cas d'usage par rôle */}
-      <section className="py-20 px-6 bg-background" ref={useCasesRef}>
+      <section className="py-12 px-6 bg-background" ref={useCasesRef}>
         <div className="container mx-auto">
-          <div className={`text-center mb-16 scroll-reveal ${useCasesVisible.has(0) ? 'visible' : ''}`}>
-            <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
+          <div className={`text-center mb-10 scroll-reveal ${useCasesVisible.has(0) ? 'visible' : ''}`}>
+            <h2 className="text-3xl font-bold text-foreground mb-4 font-inter">
               Pour chaque <span className="text-secondary">acteur de l'entreprise</span>
             </h2>
           </div>
@@ -342,10 +342,10 @@ const ProfessionalSaasPage = () => {
       </section>
 
       {/* Conformité réglementaire */}
-      <section className="py-20 px-6 section-professional">
+      <section className="py-12 px-6 section-professional">
         <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold text-foreground mb-4 font-inter">
               Conformité <span className="text-primary">Réglementaire</span>
             </h2>
             <p className="text-xl text-foreground/70 max-w-4xl mx-auto font-lato">
@@ -383,10 +383,10 @@ const ProfessionalSaasPage = () => {
 
       {/* Démo interactive */}
       {user && (
-        <section className="py-20 px-6 bg-background">
+        <section className="py-12 px-6 bg-background">
           <div className="container mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-bold text-foreground mb-4 font-inter">
                 Testez la <span className="text-primary">plateforme</span>
               </h2>
               <p className="text-xl text-foreground/70 max-w-4xl mx-auto font-lato">
@@ -419,10 +419,10 @@ const ProfessionalSaasPage = () => {
       )}
 
       {/* Météo Émotionnelle */}
-      <section className="py-20 px-6 section-professional">
+      <section className="py-12 px-6 section-professional">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4 font-inter">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-foreground mb-3 font-inter">
               Visualisez l'ambiance de <span className="text-primary">votre entreprise</span>
             </h2>
             <p className="text-xl text-foreground/70 max-w-4xl mx-auto font-lato">

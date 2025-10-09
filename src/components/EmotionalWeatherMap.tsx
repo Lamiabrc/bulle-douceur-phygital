@@ -52,19 +52,19 @@ const EmotionalWeatherMap = () => {
   };
 
   return (
-    <Card className="bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f1420] border-cyan-500/20 shadow-2xl overflow-hidden">
-      <CardHeader className="text-center pb-6">
-        <CardTitle className="text-3xl md:text-4xl font-bold text-white mb-2 tracking-wide">
+    <Card className="bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#0f1420] border-cyan-500/20 shadow-xl overflow-hidden">
+      <CardHeader className="text-center pb-3">
+        <CardTitle className="text-2xl md:text-3xl font-bold text-white mb-1 tracking-wide">
           {language === "en" ? "EMOTIONAL WEATHER" : "MÉTÉO ÉMOTIONNELLE"}
         </CardTitle>
-        <CardTitle className="text-2xl md:text-3xl font-light text-cyan-400/80 tracking-wider">
+        <CardTitle className="text-xl md:text-2xl font-light text-cyan-400/80 tracking-wider">
           {language === "en" ? "OF THE COMPANY" : "DE L'ENTREPRISE"}
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="px-6 pb-8">
+      <CardContent className="px-4 pb-6">
         {/* Carte de France stylisée */}
-        <div className="relative w-full aspect-square max-w-2xl mx-auto mb-8">
+        <div className="relative w-full aspect-square max-w-lg mx-auto mb-6">
           {/* Fond étoilé */}
           <div className="absolute inset-0">
             {Array.from({ length: 30 }).map((_, i) => (
@@ -134,38 +134,38 @@ const EmotionalWeatherMap = () => {
         </div>
 
         {/* Légende */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="flex items-center gap-3 bg-white/5 rounded-lg p-3 backdrop-blur-sm border border-cyan-500/20">
-            <Cloud className="w-6 h-6 text-cyan-400 flex-shrink-0" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="flex items-center gap-2 bg-white/5 rounded-lg p-2 backdrop-blur-sm border border-cyan-500/20">
+            <Cloud className="w-5 h-5 text-cyan-400 flex-shrink-0" />
             <div>
-              <p className="text-white font-semibold text-sm">{language === "en" ? "FATIGUE" : "FATIGUE"}</p>
+              <p className="text-white font-semibold text-xs">{language === "en" ? "FATIGUE" : "FATIGUE"}</p>
             </div>
           </div>
           
-          <div className="flex items-center gap-3 bg-white/5 rounded-lg p-3 backdrop-blur-sm border border-purple-500/20">
-            <Flame className="w-6 h-6 text-purple-400 flex-shrink-0" />
+          <div className="flex items-center gap-2 bg-white/5 rounded-lg p-2 backdrop-blur-sm border border-purple-500/20">
+            <Flame className="w-5 h-5 text-purple-400 flex-shrink-0" />
             <div>
-              <p className="text-white font-semibold text-sm">{language === "en" ? "DEMOTIVATION" : "DÉMOTIVATION"}</p>
+              <p className="text-white font-semibold text-xs">{language === "en" ? "DEMOTIVATION" : "DÉMOTIVATION"}</p>
             </div>
           </div>
           
-          <div className="flex items-center gap-3 bg-white/5 rounded-lg p-3 backdrop-blur-sm border border-cyan-500/20">
-            <Battery className="w-6 h-6 text-cyan-400 flex-shrink-0" />
+          <div className="flex items-center gap-2 bg-white/5 rounded-lg p-2 backdrop-blur-sm border border-cyan-500/20">
+            <Battery className="w-5 h-5 text-cyan-400 flex-shrink-0" />
             <div>
-              <p className="text-white font-semibold text-sm">Production</p>
+              <p className="text-white font-semibold text-xs">Production</p>
             </div>
           </div>
           
-          <div className="flex items-center gap-3 bg-white/5 rounded-lg p-3 backdrop-blur-sm border border-cyan-500/20">
-            <Zap className="w-6 h-6 text-cyan-400 flex-shrink-0" />
+          <div className="flex items-center gap-2 bg-white/5 rounded-lg p-2 backdrop-blur-sm border border-cyan-500/20">
+            <Zap className="w-5 h-5 text-cyan-400 flex-shrink-0" />
             <div>
-              <p className="text-white font-semibold text-sm">Stress</p>
+              <p className="text-white font-semibold text-xs">Stress</p>
             </div>
           </div>
         </div>
 
         {/* Footer info */}
-        <div className="mt-6 text-center">
+        <div className="mt-4 text-center">
           <Badge variant="outline" className="text-cyan-400 border-cyan-400/30 bg-cyan-400/5">
             {language === "en" ? "EXHAUSTION — EMOTIONAL BALANCE" : "ÉPUISEMENT — ÉQUILIBRE ÉMOTIONNEL"}
           </Badge>
