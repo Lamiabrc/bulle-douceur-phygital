@@ -256,7 +256,7 @@ const AboutPage: React.FC = () => {
               {
                 title: "Écoute quotidienne",
                 desc: "Zéna capte chaque jour les signaux émotionnels des collaborateurs via des check-ins doux et anonymes.",
-                img: "/images/about-listen-daily.jpg",
+                img: "/images/about-listen-daily.mp4",
               },
               {
                 title: "Prévention intelligente",
