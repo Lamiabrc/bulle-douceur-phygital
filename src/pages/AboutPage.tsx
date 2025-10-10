@@ -35,6 +35,7 @@ const brand = {
   canard: "#005B5F",
 };
 
+// 🇫🇷 Heading tricolore
 function HeadingFR({
   children,
   as: Tag = "h2",
@@ -125,19 +126,30 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* PROMESSES */}
-      <section className="relative py-16 px-6 bg-gradient-to-b from-[#F2F7F6] via-white to-[#E9FAF8]">
-        <div className="container mx-auto grid lg:grid-cols-2 gap-10 items-center">
+      {/* ÉCOUTER, PRÉVENIR, AGIR */}
+      <section className="relative py-20 px-6 bg-gradient-to-b from-[#F2F7F6] via-white to-[#E9FAF8] overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute w-64 h-64 bg-[#8B5CF6]/10 rounded-full blur-3xl top-20 left-10" />
+          <div className="absolute w-80 h-80 bg-[#00B0B9]/10 rounded-full blur-3xl bottom-10 right-10" />
+        </div>
+
+        <div className="relative container mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <HeadingFR>{t("about.promises.title")}</HeadingFR>
-            <p className="text-foreground/80 mb-4">{t("about.promises.description")}</p>
-            <p className="text-foreground/80 mb-6">{t("about.promises.approach")}</p>
+
+            <p className="text-foreground/80 mb-4 text-lg">
+              {t("about.promises.description")}
+            </p>
+
+            <p className="text-foreground/80 mb-6 italic">
+              {t("about.promises.approach")}
+            </p>
 
             <p className="text-lg text-[color:#005B5F] font-semibold mb-4">
               {t("about.promises.commitment")}
             </p>
 
-            <div className="mt-6 grid gap-3">
+            <div className="grid gap-3">
               {[
                 { icon: <HeartHandshake className="h-5 w-5" />, text: t("about.promises.feature1") },
                 { icon: <ShieldCheck className="h-5 w-5" />, text: t("about.promises.feature2") },
@@ -146,7 +158,7 @@ const AboutPage: React.FC = () => {
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-3 p-5 rounded-2xl bg-white shadow-floating border border-transparent hover:border-[#00B0B9]/50 transition-transform hover:-translate-y-1"
+                  className="flex items-start gap-3 p-5 rounded-2xl bg-white/80 backdrop-blur-md border border-transparent hover:border-[#00B0B9]/50 shadow-sm hover:shadow-md transition-transform hover:-translate-y-1"
                 >
                   <span className="mt-0.5 text-[color:#00B0B9]">{item.icon}</span>
                   <p className="leading-relaxed text-foreground/90">{item.text}</p>
@@ -156,9 +168,17 @@ const AboutPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            {[qvtBoxImage, boxPA, imgAlimentaire, imgCosmetique].map((src, i) => (
-              <div key={i} className="rounded-2xl overflow-hidden shadow-lg ring-1 ring-black/5">
-                <img src={src} alt={t("about.promises.galleryAlt")} className="w-full h-48 md:h-56 object-cover" loading="lazy" />
+            {[qvtBoxImage, imgAlimentaire, imgHygiene, imgCosmetique].map((src, i) => (
+              <div
+                key={i}
+                className="rounded-2xl overflow-hidden shadow-lg ring-1 ring-black/5 hover:scale-[1.02] transition-transform duration-300"
+              >
+                <img
+                  src={src}
+                  alt="QVT Box visuels bien-être"
+                  className="w-full h-48 md:h-56 object-cover"
+                  loading="lazy"
+                />
               </div>
             ))}
           </div>
@@ -180,15 +200,15 @@ const AboutPage: React.FC = () => {
           <div>
             <HeadingFR>{t("about.founder.title")}</HeadingFR>
             <p className="text-foreground/80 leading-relaxed mb-6">
-              Fondatrice de QVT Box, Lamia Bréchet incarne une vision simple : 
-              <strong> replacer l’humain et l’émotion au cœur de la performance.</strong> 
-              Après plus de dix ans dans le monde de l’entreprise et du pilotage opérationnel, 
+              Fondatrice de QVT Box, Lamia Bréchet incarne une vision simple :
+              <strong> replacer l’humain et l’émotion au cœur de la performance.</strong>
+              Après plus de dix ans dans le monde de l’entreprise et du pilotage opérationnel,
               elle décide de créer une solution qui allie IA émotionnelle, impact social et Made in France.
             </p>
 
             <div className="p-5 rounded-2xl bg-white/70 backdrop-blur-md border-l-4 border-[color:#00B0B9] shadow-inner mb-6">
               <p className="text-[color:#005B5F] italic">
-                « Je crois profondément qu’écouter, c’est déjà agir. QVT Box est née de ce besoin : 
+                « Je crois profondément qu’écouter, c’est déjà agir. QVT Box est née de ce besoin :
                 aider les entreprises à mieux comprendre ce que leurs collaborateurs ne disent pas toujours. »
               </p>
             </div>
@@ -216,7 +236,148 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ... le reste de tes sections (manifeste, entreprises, partenaires, etc.) inchangé ... */}
+      {/* ÉCOUTER & PRÉVENIR */}
+      <section className="relative py-20 px-6 bg-gradient-to-b from-white via-[#F2F7F6] to-[#E9FAF8] overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute w-72 h-72 bg-[#00B0B9]/10 rounded-full blur-3xl top-10 left-10" />
+          <div className="absolute w-64 h-64 bg-[#8B5CF6]/10 rounded-full blur-3xl bottom-10 right-10" />
+        </div>
+
+        <div className="relative container mx-auto max-w-6xl text-center">
+          <HeadingFR>Écouter & Prévenir</HeadingFR>
+          <p className="text-foreground/80 text-lg max-w-3xl mx-auto mb-12">
+            Chaque émotion compte. QVT Box transforme l’écoute des salariés en un levier de prévention et d’action concrète.
+            Grâce à nos outils IA et nos box phygitales, nous accompagnons vos équipes avant que la fatigue, le stress ou la
+            démotivation ne s’installent.
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Écoute quotidienne",
+                desc: "Zéna capte chaque jour les signaux émotionnels des collaborateurs via des check-ins doux et anonymes.",
+                img: "/images/about-listen-daily.jpg",
+              },
+              {
+                title: "Prévention intelligente",
+                desc: "L’IA identifie les tendances émotionnelles et propose des actions ciblées pour éviter le décrochage.",
+                img: "/images/about-prevention-ai.jpg",
+              },
+              {
+                title: "Action concrète",
+                desc: "Chaque recommandation peut être accompagnée d’une Box bien-être adaptée : alimentation, relaxation, cohésion ou motivation.",
+                img: "/images/about-box-action.jpg",
+              },
+            ].map((item, i) => (
+              <Card
+                key={i}
+                className="bg-white/80 backdrop-blur-md shadow-floating border hover:shadow-lg transition-transform hover:-translate-y-1"
+              >
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className="w-full h-48 object-cover rounded-t-2xl"
+                  loading="lazy"
+                />
+                <CardContent className="p-6 text-left">
+                  <p className="font-semibold text-[color:#005B5F] text-lg mb-2">{item.title}</p>
+                  <p className="text-sm text-foreground/80 leading-relaxed">{item.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PARLER À ZÉNA */}
+      <section className="relative py-20 px-6 bg-gradient-to-r from-[#8B5CF6]/10 via-[#00B0B9]/10 to-[#8B5CF6]/10 backdrop-blur-lg overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute w-96 h-96 bg-white/20 rounded-full blur-3xl top-20 left-1/3 animate-pulse" />
+        </div>
+
+        <div className="container mx-auto max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/30">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="/images/zena-ai-avatar.jpg"
+              className="w-full h-[420px] object-cover"
+            >
+              <source src="/videos/zena-intro.mp4" type="video/mp4" />
+              Votre navigateur ne prend pas en charge la lecture vidéo.
+            </video>
+
+            <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-sm text-[color:#005B5F] shadow">
+              👂 Votre voix compte
+            </div>
+          </div>
+
+          <div>
+            <HeadingFR>Parlez à Zéna</HeadingFR>
+            <p className="text-foreground/80 mb-4 text-lg">
+              Zéna est bien plus qu’une IA : c’est une présence bienveillante, un miroir émotionnel pour les salariés et un allié stratégique pour les entreprises.
+            </p>
+
+            <div className="p-5 rounded-2xl bg-white/80 backdrop-blur-md border-l-4 border-[color:#00B0B9] shadow-inner mb-6">
+              <p className="italic text-[color:#005B5F]">
+                Elle écoute chaque collaborateur avec empathie, recueille ses ressentis au fil des jours et génère une météo émotionnelle vivante de votre organisation.
+              </p>
+            </div>
+
+            <ul className="space-y-3 mb-8 text-foreground/80">
+              {[
+                "Suivi émotionnel quotidien et personnalisé.",
+                "Détection précoce du stress, de la démotivation ou du désengagement.",
+                "Météo émotionnelle d’entreprise visualisée en temps réel.",
+                "Suggestions de Box et d’actions bien-être adaptées aux besoins détectés.",
+              ].map((b, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <CheckCircle className="w-4 h-4 text-[color:#00B0B9] mt-0.5" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="/zena"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-medium shadow hover:shadow-lg transition"
+                style={{ backgroundColor: brand.violet, color: "#fff" }}
+              >
+                Découvrir Zéna
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="/contact"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-medium border hover:shadow transition"
+                style={{ borderColor: brand.canard, color: brand.canard }}
+              >
+                Demander une démonstration
+                <Users className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PARTENAIRES */}
+      <section className="py-10 px-6">
+        <div className="container mx-auto">
+          <div className="text-center mb-6">
+            <HeadingFR>{t("about.partners.title")}</HeadingFR>
+          </div>
+          <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-md">
+            <img
+              src={partnersLocal}
+              alt={t("about.partners.imageAlt")}
+              className="w-full h-[260px] md:h-[320px] object-cover"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>
