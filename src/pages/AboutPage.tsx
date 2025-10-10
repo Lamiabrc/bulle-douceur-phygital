@@ -179,8 +179,8 @@ const AboutPage: React.FC = () => {
           {/* Vidéos des trois piliers */}
           <div className="grid grid-cols-2 gap-4">
             {[
-              "/videos/about-listen-daily.mp4",
-              "/videos/about-prevention-ai.mp4",
+              "/images/about-listen-daily.mp4",
+              "/images/about-prevention-ai.jpg",
               boxEquilibre,
               boxRelax,
             ].map((src, i) =>
@@ -225,8 +225,8 @@ const AboutPage: React.FC = () => {
             <p className="text-foreground/80 leading-relaxed mb-6">
               Fondatrice de QVT Box, Lamia Bréchet incarne une vision simple :
               <strong> replacer l’humain et l’émotion au cœur de la performance.</strong>
-              Après plus de dix ans dans le pilotage opérationnel, elle crée une solution qui allie IA émotionnelle,
-              impact social et savoir-faire français.
+              Après plus de dix ans dans de salariat, elle crée une solution qui allie IA émotionnelle,
+              impact social et soutien aux salariés.
             </p>
 
             <div className="p-5 rounded-2xl bg-white/70 backdrop-blur-md border-l-4 border-[color:#00B0B9] shadow-inner mb-6">
@@ -272,10 +272,10 @@ const AboutPage: React.FC = () => {
               muted
               loop
               playsInline
-              poster="/images/zena-ai-avatar.jpg"
+              poster="/images/zena-ai-avatar.mp4"
               className="w-full h-[420px] object-cover"
             >
-              <source src="/videos/zena-ai-intro.mp4" type="video/mp4" />
+              <source src="/images/zena-ai-intro.mp4" type="video/mp4" />
               Votre navigateur ne prend pas en charge la lecture vidéo.
             </video>
             <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-sm text-[color:#005B5F] shadow">
