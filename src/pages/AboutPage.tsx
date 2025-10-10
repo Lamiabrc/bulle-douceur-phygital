@@ -272,10 +272,10 @@ const AboutPage: React.FC = () => {
               muted
               loop
               playsInline
-              poster="/images/zena-ai-avatar.mp4"
+              poster="/images/zena-avatar.mp4"
               className="w-full h-[420px] object-cover"
             >
-              <source src="/images/zena-ai-intro.mp4" type="video/mp4" />
+              <source src="/images/zena-intro.mp4" type="video/mp4" />
               Votre navigateur ne prend pas en charge la lecture vidéo.
             </video>
             <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-sm text-[color:#005B5F] shadow">
