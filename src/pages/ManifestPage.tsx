@@ -10,6 +10,7 @@ import {
   Leaf,
   Boxes,
   Megaphone,
+  CheckCircle, // ✅ ajouté pour corriger l’erreur
 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -88,7 +89,8 @@ export default function QVTBoxManifest() {
                 whileHover={{ scale: 1.05 }}
               >
                 <Sparkles className="h-3 w-3" />
-                {t("manifest.hero.badge") || "Manifeste Entreprises & Partenaires"}
+                {t("manifest.hero.badge") ||
+                  "Manifeste Entreprises & Partenaires"}
               </motion.div>
 
               <h2
