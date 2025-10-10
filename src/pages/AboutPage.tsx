@@ -1,9 +1,7 @@
-// src/pages/AboutPage.tsx
 import React from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguage";
 import {
@@ -17,17 +15,18 @@ import {
   CheckCircle,
 } from "lucide-react";
 
+// --- IMAGES / VIDÉOS ---
 import heroTeam from "@/assets/hero-workplace-team.jpg";
-import qvtBoxImage from "@/assets/qvt-box-products.jpg";
 import teamPro from "@/assets/professional-team-meeting.jpg";
 import partnersLocal from "@/assets/partners-local-producers.webp";
 import shippingStation from "@/assets/shipping-station-parcel.webp";
-import boxPA from "@/assets/box-pouvoir-achat.webp";
-import imgAlimentaire from "@/assets/products-alimentaire.jpg";
-import imgHygiene from "@/assets/products-hygiene.jpg";
-import imgCosmetique from "@/assets/products-cosmetique.jpg";
-import imgSurprise from "@/assets/products-surprise.jpg";
 import lamiaPortrait from "@/assets/lamia-portrait.jpg";
+
+// --- NOUVELLES IMAGES BOX ---
+import boxEquilibre from "@/assets/box-equilibre.jpg";
+import boxCohesion from "@/assets/box-cohesion.jpg";
+import boxPouvoirAchat from "@/assets/box-pouvoir-achat.webp";
+import boxRelax from "@/assets/box-relax.jpg";
 
 const brand = {
   violet: "#8B5CF6",
@@ -35,7 +34,7 @@ const brand = {
   canard: "#005B5F",
 };
 
-// 🇫🇷 Heading tricolore
+// --- Titre tricolore ---
 function HeadingFR({
   children,
   as: Tag = "h2",
@@ -54,8 +53,6 @@ function HeadingFR({
             "linear-gradient(90deg, #2563EB 0%, #ffffff 50%, #DC2626 100%)",
           WebkitBackgroundClip: "text",
           color: "transparent",
-          textShadow:
-            "0 0 1px rgba(0,0,0,0.07), 0 0 12px rgba(255,255,255,0.35)",
         }}
       >
         {children}
@@ -99,7 +96,6 @@ const AboutPage: React.FC = () => {
               <Sparkles className="h-4 w-4" />
               {t("about.hero.badge")}
             </div>
-
             <HeadingFR as="h1" className="mb-2">
               {t("about.hero.title")}
             </HeadingFR>
@@ -107,7 +103,6 @@ const AboutPage: React.FC = () => {
             <p className="mt-4 text-lg md:text-xl text-white/90 max-w-3xl">
               {t("about.hero.description")}
             </p>
-
             <div className="mt-7 flex flex-wrap gap-3">
               <a
                 href="/contact"
@@ -138,23 +133,37 @@ const AboutPage: React.FC = () => {
             <HeadingFR>{t("about.promises.title")}</HeadingFR>
 
             <p className="text-foreground/80 mb-4 text-lg">
-              {t("about.promises.description")}
+              QVT Box repose sur une conviction : la qualité de vie au travail ne se décrète pas, elle se cultive.
+              Notre solution associe intelligence émotionnelle et actions concrètes pour un mieux-être durable.
             </p>
 
             <p className="text-foreground/80 mb-6 italic">
-              {t("about.promises.approach")}
+              Notre approche phygitale : l’app détecte les besoins, la Box répond.
+              Simple, lisible et responsabilisante — pour salariés, managers, RH et CSE.
             </p>
 
             <p className="text-lg text-[color:#005B5F] font-semibold mb-4">
-              {t("about.promises.commitment")}
+              Chaque émotion compte. L’IA écoute, la Box agit, l’entreprise évolue.
             </p>
 
             <div className="grid gap-3">
               {[
-                { icon: <HeartHandshake className="h-5 w-5" />, text: t("about.promises.feature1") },
-                { icon: <ShieldCheck className="h-5 w-5" />, text: t("about.promises.feature2") },
-                { icon: <Boxes className="h-5 w-5" />, text: t("about.promises.feature3") },
-                { icon: <Globe2 className="h-5 w-5" />, text: t("about.promises.feature4") },
+                {
+                  icon: <HeartHandshake className="h-5 w-5" />,
+                  text: "💬 Une écoute continue grâce à Zéna, IA émotionnelle qui mesure les ressentis sans intrusion.",
+                },
+                {
+                  icon: <ShieldCheck className="h-5 w-5" />,
+                  text: "🧠 Une prévention proactive : détection des signaux faibles et météo émotionnelle de l’entreprise.",
+                },
+                {
+                  icon: <Boxes className="h-5 w-5" />,
+                  text: "🎁 Des réponses concrètes via les Box Made in France : bien-être, cohésion, pouvoir d’achat et équilibre.",
+                },
+                {
+                  icon: <Globe2 className="h-5 w-5" />,
+                  text: "🌍 Une démarche durable et humaine qui soutient artisans, territoires et santé mentale au travail.",
+                },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -167,20 +176,34 @@ const AboutPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Vidéos des trois piliers */}
           <div className="grid grid-cols-2 gap-4">
-            {[qvtBoxImage, imgAlimentaire, imgHygiene, imgCosmetique].map((src, i) => (
-              <div
-                key={i}
-                className="rounded-2xl overflow-hidden shadow-lg ring-1 ring-black/5 hover:scale-[1.02] transition-transform duration-300"
-              >
-                <img
+            {[
+              "/videos/about-listen-daily.mp4",
+              "/videos/about-prevention-ai.mp4",
+              boxEquilibre,
+              boxRelax,
+            ].map((src, i) =>
+              src.endsWith(".mp4") ? (
+                <video
+                  key={i}
                   src={src}
-                  alt="QVT Box visuels bien-être"
-                  className="w-full h-48 md:h-56 object-cover"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="rounded-2xl shadow-lg ring-1 ring-black/5 object-cover h-48 md:h-56 w-full"
+                />
+              ) : (
+                <img
+                  key={i}
+                  src={src}
+                  alt="QVT Box visuel"
+                  className="rounded-2xl shadow-lg ring-1 ring-black/5 object-cover h-48 md:h-56 w-full"
                   loading="lazy"
                 />
-              </div>
-            ))}
+              )
+            )}
           </div>
         </div>
       </section>
@@ -198,12 +221,12 @@ const AboutPage: React.FC = () => {
           </div>
 
           <div>
-            <HeadingFR>{t("about.founder.title")}</HeadingFR>
+            <HeadingFR>La fondatrice</HeadingFR>
             <p className="text-foreground/80 leading-relaxed mb-6">
               Fondatrice de QVT Box, Lamia Bréchet incarne une vision simple :
               <strong> replacer l’humain et l’émotion au cœur de la performance.</strong>
-              Après plus de dix ans dans le monde de l’entreprise et du pilotage opérationnel,
-              elle décide de créer une solution qui allie IA émotionnelle, impact social et Made in France.
+              Après plus de dix ans dans le pilotage opérationnel, elle crée une solution qui allie IA émotionnelle,
+              impact social et savoir-faire français.
             </p>
 
             <div className="p-5 rounded-2xl bg-white/70 backdrop-blur-md border-l-4 border-[color:#00B0B9] shadow-inner mb-6">
@@ -236,60 +259,7 @@ const AboutPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ÉCOUTER & PRÉVENIR */}
-      <section className="relative py-20 px-6 bg-gradient-to-b from-white via-[#F2F7F6] to-[#E9FAF8] overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute w-72 h-72 bg-[#00B0B9]/10 rounded-full blur-3xl top-10 left-10" />
-          <div className="absolute w-64 h-64 bg-[#8B5CF6]/10 rounded-full blur-3xl bottom-10 right-10" />
-        </div>
-
-        <div className="relative container mx-auto max-w-6xl text-center">
-          <HeadingFR>Écouter & Prévenir</HeadingFR>
-          <p className="text-foreground/80 text-lg max-w-3xl mx-auto mb-12">
-            Chaque émotion compte. QVT Box transforme l’écoute des salariés en un levier de prévention et d’action concrète.
-            Grâce à nos outils IA et nos box phygitales, nous accompagnons vos équipes avant que la fatigue, le stress ou la
-            démotivation ne s’installent.
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Écoute quotidienne",
-                desc: "Zéna capte chaque jour les signaux émotionnels des collaborateurs via des check-ins doux et anonymes.",
-                img: "/images/about-listen-daily.mp4",
-              },
-              {
-                title: "Prévention intelligente",
-                desc: "L’IA identifie les tendances émotionnelles et propose des actions ciblées pour éviter le décrochage.",
-                img: "/images/about-prevention-ai.jpg",
-              },
-              {
-                title: "Action concrète",
-                desc: "Chaque recommandation peut être accompagnée d’une Box bien-être adaptée : alimentation, relaxation, cohésion ou motivation.",
-                img: "/images/about-box-action.jpg",
-              },
-            ].map((item, i) => (
-              <Card
-                key={i}
-                className="bg-white/80 backdrop-blur-md shadow-floating border hover:shadow-lg transition-transform hover:-translate-y-1"
-              >
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="w-full h-48 object-cover rounded-t-2xl"
-                  loading="lazy"
-                />
-                <CardContent className="p-6 text-left">
-                  <p className="font-semibold text-[color:#005B5F] text-lg mb-2">{item.title}</p>
-                  <p className="text-sm text-foreground/80 leading-relaxed">{item.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PARLER À ZÉNA */}
+      {/* ZÉNA */}
       <section className="relative py-20 px-6 bg-gradient-to-r from-[#8B5CF6]/10 via-[#00B0B9]/10 to-[#8B5CF6]/10 backdrop-blur-lg overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <div className="absolute w-96 h-96 bg-white/20 rounded-full blur-3xl top-20 left-1/3 animate-pulse" />
@@ -305,10 +275,9 @@ const AboutPage: React.FC = () => {
               poster="/images/zena-ai-avatar.jpg"
               className="w-full h-[420px] object-cover"
             >
-              <source src="/videos/zena-intro.mp4" type="video/mp4" />
+              <source src="/videos/zena-ai-intro.mp4" type="video/mp4" />
               Votre navigateur ne prend pas en charge la lecture vidéo.
             </video>
-
             <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full text-sm text-[color:#005B5F] shadow">
               👂 Votre voix compte
             </div>
@@ -366,12 +335,12 @@ const AboutPage: React.FC = () => {
       <section className="py-10 px-6">
         <div className="container mx-auto">
           <div className="text-center mb-6">
-            <HeadingFR>{t("about.partners.title")}</HeadingFR>
+            <HeadingFR>Nos partenaires</HeadingFR>
           </div>
           <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-md">
             <img
               src={partnersLocal}
-              alt={t("about.partners.imageAlt")}
+              alt="Partenaires locaux"
               className="w-full h-[260px] md:h-[320px] object-cover"
               loading="lazy"
             />
