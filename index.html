@@ -2,187 +2,41 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
-    <meta name="color-scheme" content="light dark" />
-
-    <title>QVT Box — Box + App QVCT pour vos équipes</title>
-
-    <!-- ✅ SEO -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="QVT Box associe une App QVCT intelligente et des Box Made in France pour le bien-être des équipes : prévention RPS, DUERP, reconnaissance et pouvoir d'achat."
+      content="QVT Box — la solution phygitale qui mesure et améliore la qualité de vie au travail grâce à l’IA émotionnelle et aux box bien-être Made in France."
     />
-    <meta name="author" content="QVT Box" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://qvtbox.com/" />
+    <meta name="theme-color" content="#005B5F" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <title>QVT Box — Sortez de votre bulle, on veille sur vous</title>
 
-    <!-- ✅ Thème -->
-    <meta name="theme-color" content="#5B4B8A" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-    <!-- ✅ Favicons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" href="/logo-qvt.jpeg" type="image/jpeg" />
-
-    <!-- ✅ PWA -->
-    <link rel="manifest" href="/manifest.webmanifest" />
-
-    <!-- ✅ Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <!-- Google Fonts : Inter -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
-    <!-- ✅ Open Graph -->
-    <meta property="og:title" content="QVT Box — App + Box QVCT pour vos équipes" />
-    <meta
-      property="og:description"
-      content="L’innovation phygitale du bien-être au travail : une App intelligente reliée à des Box bien-être Made in France."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://qvtbox.com" />
-    <meta property="og:image" content="/og-image.png" />
-    <meta property="og:locale" content="fr_FR" />
-
-    <!-- ✅ Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="QVT Box — App + Box QVCT pour vos équipes" />
-    <meta
-      name="twitter:description"
-      content="Une approche phygitale du bien-être : App + Box pour vos équipes, vos RH et votre DUERP."
-    />
-    <meta name="twitter:image" content="/og-image.png" />
-    <meta name="twitter:creator" content="@QVTBox" />
-
-    <!-- ✅ Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-752B8V04TV"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", import.meta?.env?.VITE_GA_ID || "G-752B8V04TV", {
-        send_page_view: true,
-      });
-    </script>
-
-    <!-- ✅ Styles de fond et de transition -->
-    <style>
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-        min-height: 100%;
-        height: auto;
-        font-family: "Montserrat", "Inter", sans-serif;
-        background: radial-gradient(
-            circle at 50% 30%,
-            rgba(91, 75, 138, 0.08),
-            transparent 60%
-          ),
-          linear-gradient(180deg, #f2f7f6 0%, #e9f9f5 100%);
-        color: #212121;
-        overflow-x: hidden;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      .bubbles {
-        position: fixed;
-        inset: 0;
-        overflow: hidden;
-        z-index: -1;
-      }
-
-      .bubble {
-        position: absolute;
-        bottom: -150px;
-        background: radial-gradient(
-          circle at 30% 30%,
-          rgba(79, 209, 197, 0.25),
-          rgba(91, 75, 138, 0.15)
-        );
-        border-radius: 50%;
-        animation: rise 20s infinite ease-in;
-      }
-
-      @keyframes rise {
-        0% {
-          transform: translateY(0) scale(0.8);
-          opacity: 0.6;
-        }
-        100% {
-          transform: translateY(-110vh) scale(1.3);
-          opacity: 0;
-        }
-      }
-
-      h1 {
-        font-size: 2.5rem;
-        color: #5b4b8a;
-        font-weight: 800;
-        margin-bottom: 0.5rem;
-      }
-
-      p {
-        color: #4b5e8a;
-        font-size: 1.1rem;
-        max-width: 600px;
-        margin: 0 auto;
-      }
-
-      footer {
-        margin-top: 3rem;
-        text-align: center;
-        font-size: 0.85rem;
-        color: #6b7280;
-      }
-
-      @media (max-width: 600px) {
-        h1 {
-          font-size: 1.8rem;
-        }
-        p {
-          font-size: 1rem;
-        }
-      }
-    </style>
+    <!-- Tailwind + Styles -->
+    <script type="module" crossorigin src="/src/main.tsx"></script>
   </head>
 
-  <body>
-    <!-- 🌈 Fond bulles -->
-    <div class="bubbles">
-      <div class="bubble" style="left: 5%; width: 80px; height: 80px; animation-delay: 0s"></div>
-      <div class="bubble" style="left: 25%; width: 40px; height: 40px; animation-delay: 2s"></div>
-      <div class="bubble" style="left: 50%; width: 100px; height: 100px; animation-delay: 4s"></div>
-      <div class="bubble" style="left: 70%; width: 60px; height: 60px; animation-delay: 6s"></div>
-      <div class="bubble" style="left: 85%; width: 90px; height: 90px; animation-delay: 8s"></div>
-    </div>
+  <body
+    class="font-sans bg-white text-gray-900 antialiased min-h-screen flex flex-col"
+  >
+    <div id="root" class="flex-1"></div>
 
-    <!-- 🌸 Fallback avant React -->
-    <div id="root">
-      <main style="padding: 3rem 1rem; text-align: center">
-        <h1>QVT Box</h1>
-        <p>
-          Sortir de votre bulle, c’est déjà mieux travailler 💜<br />
-          La Box + App QVCT pour vos équipes — bienveillance, prévention et action.
-        </p>
-      </main>
-    </div>
-
-    <footer>
-      © 2025 QVT Box — Solutions phygitales B2B pour la Qualité de Vie au Travail
+    <footer
+      class="mt-20 border-t border-gray-200 text-center py-8 text-sm text-gray-500 bg-gray-50"
+    >
+      <p>© 2025 QVT Box — Tous droits réservés</p>
+      <p class="mt-2">
+        <a href="/mentions-legales" class="hover:underline">Mentions légales</a>
+        •
+        <a href="/politique-confidentialite" class="hover:underline"
+          >Politique de confidentialité</a
+        >
+      </p>
     </footer>
-
-    <!-- ✅ React -->
-    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
