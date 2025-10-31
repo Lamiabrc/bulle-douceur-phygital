@@ -1,7 +1,9 @@
+// vite.config.ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import path from 'path'
 
+// ✅ Configuration stable pour Vite 5 + React + Tailwind
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -10,13 +12,12 @@ export default defineConfig({
     },
   },
   css: {
-    // ❌ supprime toute référence vers postcss.config.cjs
-    // Vite le charge automatiquement
+    // Vite détecte automatiquement postcss.config.cjs
   },
   server: {
     port: 5173,
   },
+  optimizeDeps: {
+    exclude: ['sucrase'], // empêche Sucrase de parser le CSS
+  },
 })
-optimizeDeps: {
-  exclude: ['sucrase']
-}
