@@ -1,23 +1,31 @@
-// vite.config.ts
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import path from 'path'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
+import path from "path";
+import { componentTagger } from "lovable-tagger";
 
-// ✅ Configuration stable pour Vite 5 + React + Tailwind
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
+export default defineConfig(({ mode }) => {
+  const isDev = mode === "development";
+  return {
+    server: { host: "::", port: 8080, strictPort: false },
+    preview: { port: 8080 },
+    plugins: [
+      react(),
+      mode === 'development' && componentTagger(),
+    ].filter(Boolean),
+    resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+    build: {
+      sourcemap: isDev,
+      chunkSizeWarningLimit: 1200,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            react: ["react", "react-dom", "react-router-dom"],
+            ui: ["lucide-react"],
+            data: ["@tanstack/react-query"]
+          }
+        }
+      }
     },
-  },
-  css: {
-    // Vite détecte automatiquement postcss.config.cjs
-  },
-  server: {
-    port: 5173,
-  },
-  optimizeDeps: {
-    exclude: ['sucrase'], // empêche Sucrase de parser le CSS
-  },
-})
+    esbuild: { drop: isDev ? [] : ["console", "debugger"] }
+  };
+});

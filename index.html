@@ -2,41 +2,94 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <title>QVT Box — Box + App pour vos équipes</title>
     <meta
       name="description"
-      content="QVT Box — la solution phygitale qui mesure et améliore la qualité de vie au travail grâce à l’IA émotionnelle et aux box bien-être Made in France."
+      content="Box Pouvoir d’Achat + App QVCT : attention discrète, pilotage DUERP/RPS."
     />
-    <meta name="theme-color" content="#005B5F" />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-    <title>QVT Box — Sortez de votre bulle, on veille sur vous</title>
+    <meta name="author" content="QVT Box" />
+    <meta name="theme-color" content="#8B5CF6" />
 
-    <!-- Google Fonts : Inter -->
+    <!-- SEO -->
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="/" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" href="/logo-qvt.jpeg" type="image/jpeg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Polices (préconnect + chargement) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Tailwind + Styles -->
-    <script type="module" crossorigin src="/src/main.tsx"></script>
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content="QVT Box — Box + App pour vos équipes" />
+    <meta
+      property="og:description"
+      content="Box Pouvoir d’Achat + App QVCT : attention discrète, pilotage DUERP/RPS."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="/og-image.png" />
+
+    <!-- Google Analytics (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-752B8V04TV"
+    ></script>
+    <script>
+      (function () {
+        const GA_ID =
+          (typeof import !== "undefined" &&
+            import.meta &&
+            import.meta.env &&
+            import.meta.env.VITE_GA_ID) ||
+          "G-752B8V04TV"; // fallback à ton ID fourni
+
+        if (!GA_ID) return;
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        window.gtag = gtag;
+
+        // (Optionnel) Consent Mode v2 par défaut en "denied" — à ouvrir si tu as une CMP
+        // gtag('consent', 'default', {
+        //   ad_user_data: 'denied',
+        //   ad_personalization: 'denied',
+        //   ad_storage: 'denied',
+        //   analytics_storage: 'denied',
+        // });
+
+        gtag("js", new Date());
+        gtag("config", GA_ID, { send_page_view: false });
+      })();
+    </script>
   </head>
 
-  <body
-    class="font-sans bg-white text-gray-900 antialiased min-h-screen flex flex-col"
-  >
-    <div id="root" class="flex-1"></div>
-
-    <footer
-      class="mt-20 border-t border-gray-200 text-center py-8 text-sm text-gray-500 bg-gray-50"
-    >
-      <p>© 2025 QVT Box — Tous droits réservés</p>
-      <p class="mt-2">
-        <a href="/mentions-legales" class="hover:underline">Mentions légales</a>
-        •
-        <a href="/politique-confidentialite" class="hover:underline"
-          >Politique de confidentialité</a
-        >
-      </p>
-    </footer>
+  <body>
+    <noscript>QVT Box nécessite JavaScript pour fonctionner correctement.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
