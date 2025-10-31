@@ -1,9 +1,8 @@
-// vite.config.ts
-import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react-swc'
 import path from 'path'
 
-// ✅ Configuration compatible Node 20 + Vite 5 + React + Tailwind
+// ✅ Config compatible avec Vite 5 + React 18 + SWC
 export default defineConfig({
   plugins: [react()],
   resolve: {
