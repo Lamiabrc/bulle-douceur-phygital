@@ -1,15 +1,8 @@
-/* ----------------------------------------------------
-   QVT Box – Styles globaux
-   Compatible Vite + Tailwind + shadcn/ui
-   ---------------------------------------------------- */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* --------------------------
-   Structure et fondations
--------------------------- */
+/* Global styles - QVT Box clean setup */
 
 html,
 body {
@@ -20,32 +13,25 @@ body {
   @apply flex flex-col min-h-screen;
 }
 
-/* --------------------------
-   Liens & éléments interactifs
--------------------------- */
-
+/* Links */
 a {
   @apply text-primary hover:text-primary/80 transition-colors duration-200;
 }
 
+/* Buttons */
 button {
   @apply font-semibold rounded-lg px-4 py-2 transition-colors duration-200;
 }
 
-/* Boutons principaux */
 .btn-primary {
   @apply bg-primary text-white hover:bg-primary/90;
 }
 
-/* Boutons secondaires */
 .btn-secondary {
   @apply border border-primary text-primary hover:bg-primary/5;
 }
 
-/* --------------------------
-   Titres & texte
--------------------------- */
-
+/* Headings */
 h1,
 h2,
 h3,
@@ -55,22 +41,12 @@ h6 {
   @apply font-semibold text-gray-900;
 }
 
-h1 {
-  @apply text-4xl md:text-5xl mb-4;
-}
-
-h2 {
-  @apply text-3xl md:text-4xl mb-3;
-}
-
+/* Paragraphs */
 p {
   @apply text-gray-700 leading-relaxed;
 }
 
-/* --------------------------
-   Layout & sections
--------------------------- */
-
+/* Layout */
 section {
   @apply w-full py-16 px-6;
 }
@@ -79,47 +55,11 @@ section {
   @apply max-w-6xl mx-auto;
 }
 
-/* --------------------------
-   Bordures, cartes & blocs
--------------------------- */
-
-.border-default {
-  @apply border border-gray-200 rounded-xl;
-}
-
-.card {
-  @apply bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200;
-}
-
-/* --------------------------
-   Pied de page
--------------------------- */
-
+/* Footer */
 footer {
   @apply mt-20 border-t border-gray-200 bg-gray-50 text-gray-500 text-sm text-center py-8;
 }
 
 footer a {
   @apply hover:underline;
-}
-
-/* --------------------------
-   Animations douces
--------------------------- */
-
-.fade-in {
-  @apply transition-opacity duration-700 ease-in-out opacity-0;
-}
-.fade-in.visible {
-  @apply opacity-100;
-}
-
-/* --------------------------
-   Utilitaires spécifiques QVT Box
--------------------------- */
-
-/* Accent "luciole" – halo doux turquoise */
-.luciole {
-  background: radial-gradient(circle at center, rgba(0, 200, 200, 0.25) 0%, transparent 70%);
-  @apply rounded-full w-6 h-6 blur-lg;
 }
