@@ -1,8 +1,11 @@
 // src/pages/Index.tsx
-import NewIndex from "./NewIndex";
+import React from 'react'
+import { NewIndex } from './NewIndex'
 
-const Index = () => {
-  return <NewIndex />;
-};
-
-export default Index;
+export default function Index() {
+  return (
+    <main className="min-h-screen bg-white text-gray-900">
+      <NewIndex />
+    </main>
+  )
+}
