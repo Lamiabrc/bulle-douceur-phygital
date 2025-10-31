@@ -2,36 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global styles - QVT Box clean setup */
-
 html,
 body {
-  @apply min-h-screen bg-white text-gray-900 font-sans antialiased;
+  @apply bg-white text-gray-900 font-sans antialiased;
 }
 
 #root {
-  @apply flex flex-col min-h-screen;
+  @apply min-h-screen flex flex-col;
 }
 
-/* Links */
 a {
-  @apply text-primary hover:text-primary/80 transition-colors duration-200;
+  @apply text-primary hover:text-primary/80 transition-colors;
 }
 
-/* Buttons */
-button {
-  @apply font-semibold rounded-lg px-4 py-2 transition-colors duration-200;
-}
-
-.btn-primary {
-  @apply bg-primary text-white hover:bg-primary/90;
-}
-
-.btn-secondary {
-  @apply border border-primary text-primary hover:bg-primary/5;
-}
-
-/* Headings */
 h1,
 h2,
 h3,
@@ -41,25 +24,10 @@ h6 {
   @apply font-semibold text-gray-900;
 }
 
-/* Paragraphs */
 p {
   @apply text-gray-700 leading-relaxed;
 }
 
-/* Layout */
-section {
-  @apply w-full py-16 px-6;
-}
-
-.container {
-  @apply max-w-6xl mx-auto;
-}
-
-/* Footer */
 footer {
-  @apply mt-20 border-t border-gray-200 bg-gray-50 text-gray-500 text-sm text-center py-8;
-}
-
-footer a {
-  @apply hover:underline;
+  @apply border-t border-gray-200 bg-gray-50 text-gray-500 text-sm text-center py-8;
 }
