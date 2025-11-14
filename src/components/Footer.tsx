@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Heart, Sparkles } from "lucide-react";
+import { Heart, Sparkles, Linkedin, Youtube, Instagram } from "lucide-react";
 import { useMemo } from "react";
 import logo from "@/assets/logo-qvt.jpeg";
 
@@ -56,9 +56,11 @@ const Footer = () => {
 
         {/* Accroche */}
         <p className="text-foreground/70 mb-8 font-lato max-w-3xl mx-auto leading-relaxed">
-          QVT Box est un compagnon phygital conçu pour les salariés, managers, RH et représentants du personnel.  
-          Ensemble, faisons de la question <span className="font-semibold text-primary">“Ça va ?”</span>  
-          un vrai levier de dialogue social, d’attention et d’espoir 🌱
+          QVT Box est un compagnon phygital conçu pour les salariés, managers, RH et représentants du personnel.
+          <br />
+          Ensemble, faisons de la question{" "}
+          <span className="font-semibold text-primary">“Ça va ?”</span> un vrai levier de dialogue social,
+          d’attention et d’espoir 🌱
         </p>
 
         {/* 🔮 Lien vers ZENA */}
@@ -70,27 +72,77 @@ const Footer = () => {
             className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-primary to-secondary text-white font-semibold shadow-lg hover:scale-[1.05] transition-all duration-300"
           >
             <Sparkles className="w-4 h-4 animate-pulse" />
-            <span>Parler à <strong>ZENA Voice</strong></span>
+            <span>
+              Parler à <strong>ZENA Voice</strong>
+            </span>
           </Link>
+        </div>
+
+        {/* Réseaux sociaux */}
+        <div className="mb-8">
+          <h3 className="font-semibold text-foreground mb-3 text-center">
+            Suivez <span className="text-primary">QVT Box</span> sur les réseaux
+          </h3>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <a
+              href="https://www.linkedin.com/company/qvt-box"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background/40 border border-primary/20 text-sm hover:bg-primary/10 transition-colors"
+            >
+              <Linkedin className="w-4 h-4" />
+              <span>LinkedIn</span>
+            </a>
+
+            <a
+              href="https://www.youtube.com/@qvtbox"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background/40 border border-primary/20 text-sm hover:bg-primary/10 transition-colors"
+            >
+              <Youtube className="w-4 h-4" />
+              <span>YouTube</span>
+            </a>
+
+            <a
+              href="https://www.instagram.com/qvtbox"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background/40 border border-primary/20 text-sm hover:bg-primary/10 transition-colors"
+            >
+              <Instagram className="w-4 h-4" />
+              <span>Instagram</span>
+            </a>
+          </div>
         </div>
 
         {/* Liens principaux */}
         <nav aria-label="Liens de pied de page" className="mb-8">
           <ul className="flex flex-wrap justify-center gap-8 text-sm font-medium">
             <li>
-              <Link to="/box" className="hover:text-primary transition-colors">Notre Offre</Link>
+              <Link to="/box" className="hover:text-primary transition-colors">
+                Notre Offre
+              </Link>
             </li>
             <li>
-              <Link to="/saas" className="hover:text-primary transition-colors">Licence SaaS</Link>
+              <Link to="/saas" className="hover:text-primary transition-colors">
+                Licence SaaS
+              </Link>
             </li>
             <li>
-              <Link to="/about" className="hover:text-primary transition-colors">À propos</Link>
+              <Link to="/about" className="hover:text-primary transition-colors">
+                À propos
+              </Link>
             </li>
             <li>
-              <Link to="/auth" className="hover:text-primary transition-colors">Mon Espace</Link>
+              <Link to="/auth" className="hover:text-primary transition-colors">
+                Mon Espace
+              </Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-primary transition-colors">Contact</Link>
+              <Link to="/contact" className="hover:text-primary transition-colors">
+                Contact
+              </Link>
             </li>
           </ul>
         </nav>
@@ -100,8 +152,7 @@ const Footer = () => {
           <div className="space-y-3 text-sm text-foreground/70 leading-relaxed">
             <h3 className="font-semibold text-foreground mb-2">Coordonnées QVT Box</h3>
             <p>
-              📧 Email :
-              {" "}
+              📧 Email :{" "}
               <a href="mailto:contact@qvtbox.com" className="text-primary hover:underline">
                 contact@qvtbox.com
               </a>
@@ -111,8 +162,7 @@ const Footer = () => {
               </a>
             </p>
             <p>
-              📞 Téléphone :
-              {" "}
+              📞 Téléphone :{" "}
               <a href="tel:+33676435551" className="text-primary hover:underline whitespace-nowrap">
                 +33 (0)6 76 43 55 51
               </a>
@@ -127,15 +177,23 @@ const Footer = () => {
 
         {/* Liens légaux */}
         <div className="flex flex-wrap justify-center gap-6 mb-6 text-sm text-foreground/60">
-          <Link to="/cgv" className="hover:text-primary transition-colors">CGV</Link>
-          <Link to="/mentions-legales" className="hover:text-primary transition-colors">Mentions légales</Link>
-          <Link to="/politique-confidentialite" className="hover:text-primary transition-colors">RGPD</Link>
+          <Link to="/cgv" className="hover:text-primary transition-colors">
+            CGV
+          </Link>
+          <Link to="/mentions-legales" className="hover:text-primary transition-colors">
+            Mentions légales
+          </Link>
+          <Link to="/politique-confidentialite" className="hover:text-primary transition-colors">
+            RGPD
+          </Link>
         </div>
 
         {/* Copyright */}
         <p className="text-sm text-foreground/50 font-inter text-center">
-          © {year} QVT Box — Solutions phygitales B2B pour la qualité de vie au travail.  
-          Fait avec <Heart className="inline w-4 h-4 text-red-400" aria-hidden="true" /> et beaucoup d’<span className="text-secondary">espoir</span> 💜
+          © {year} QVT Box — Solutions phygitales B2B pour la qualité de vie au travail.{" "}
+          <br />
+          Fait avec <Heart className="inline w-4 h-4 text-red-400" aria-hidden="true" /> et beaucoup
+          d’<span className="text-secondary">espoir</span> 💜
         </p>
       </div>
     </footer>
