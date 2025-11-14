@@ -16,26 +16,38 @@ interface OnboardingModalProps {
 type UserRoleQVT = "salarié" | "manager" | "rh" | "admin";
 type UserJourneyQVT = "physique_only" | "saas_box";
 
-const ROLES: Array<{
-  id: UserRoleQVT;
-  title: string;
-  emoji: string;
-  description: string;
-  tone: "primary" | "secondary" | "accent" | "muted";
-}> = [
-  { id: "salarié", title: "Salarié", emoji: "👤", description: "Je souhaite prendre soin de mon bien-être au quotidien", tone: "primary" },
-  { id: "manager", title: "Manager", emoji: "👥", description: "Je veux accompagner le bien-être de mon équipe", tone: "secondary" },
-  { id: "rh", title: "RH", emoji: "🤝", description: "Je pilote la stratégie QVT de l'entreprise", tone: "accent" },
-  { id: "admin", title: "Admin", emoji: "⚙️", description: "Je gère la plateforme et les utilisateurs", tone: "muted" },
+const ROLES = [
+  {
+    id: "salarié",
+    title: "Salarié",
+    emoji: "👤",
+    description: "Je souhaite prendre soin de mon bien-être au quotidien",
+    tone: "primary",
+  },
+  {
+    id: "manager",
+    title: "Manager",
+    emoji: "👥",
+    description: "Je veux accompagner le bien-être de mon équipe",
+    tone: "secondary",
+  },
+  {
+    id: "rh",
+    title: "RH",
+    emoji: "🤝",
+    description: "Je pilote la stratégie QVT de l'entreprise",
+    tone: "accent",
+  },
+  {
+    id: "admin",
+    title: "Admin",
+    emoji: "⚙️",
+    description: "Je gère la plateforme et les utilisateurs",
+    tone: "muted",
+  },
 ];
 
-const JOURNEYS: Array<{
-  id: UserJourneyQVT;
-  title: string;
-  emoji: string;
-  description: string;
-  benefits: string[];
-}> = [
+const JOURNEYS = [
   {
     id: "physique_only",
     title: "Box Physique Only",
@@ -52,7 +64,6 @@ const JOURNEYS: Array<{
   },
 ];
 
-// Styles sûrs (évite les classes Tailwind dynamiques)
 const toneClasses = {
   primary: { border: "border-primary", bg: "bg-primary/5" },
   secondary: { border: "border-secondary", bg: "bg-secondary/5" },
@@ -69,7 +80,7 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Récup user (CSR) pour savoir si on doit afficher l'auth à l'étape 3
+  // Info connexion
   const [isLogged, setIsLogged] = useState<boolean | null>(null);
   useEffect(() => {
     let mounted = true;
@@ -95,15 +106,23 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
     setStep(3);
   };
 
+  const handleFamilyClick = () => {
+    navigate("/simulateur?univers=famille");
+    onClose();
+  };
+
   const handleAuthSuccess = async () => {
     setAuthOpen(false);
-    // Après auth, finalise
     await handleCompleteOnboarding();
   };
 
   const handleCompleteOnboarding = async () => {
     if (!selectedRole || !selectedJourney) {
-      toast({ title: "Choix incomplet", description: "Merci de sélectionner votre rôle et votre parcours.", variant: "destructive" });
+      toast({
+        title: "Choix incomplet",
+        description: "Merci de sélectionner votre rôle et votre parcours.",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -112,7 +131,6 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
       const { data: { user } } = await supabase.auth.getUser();
 
       if (!user) {
-        // Pas connecté → ouvrir l'auth dans le même Dialog
         setAuthOpen(true);
         return;
       }
@@ -120,8 +138,8 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
       const { error } = await supabase
         .from("profiles")
         .update({
-          user_role: selectedRole as any,
-          user_journey: selectedJourney as any,
+          user_role: selectedRole,
+          user_journey: selectedJourney,
           onboarding_completed: true,
         })
         .eq("id", user.id);
@@ -139,7 +157,7 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
       console.error("Error completing onboarding:", err);
       toast({
         title: "Erreur",
-        description: "Impossible de finaliser votre inscription. Veuillez réessayer.",
+        description: "Impossible de finaliser votre inscription.",
         variant: "destructive",
       });
     } finally {
@@ -156,7 +174,6 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
           </DialogTitle>
         </DialogHeader>
 
-        {/* Étape Auth (dans le même Dialog) */}
         {authOpen ? (
           <div className="max-w-md mx-auto w-full">
             <h3 className="text-center font-kalam text-2xl mb-3">🫧 Créer votre bulle</h3>
@@ -164,34 +181,29 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
           </div>
         ) : (
           <>
-            {/* Step 1: Role Selection */}
+            {/* STEP 1 */}
             {step === 1 && (
               <div className="space-y-6">
-                <div className="text-center">
-                  <p className="text-lg text-foreground/70">Dites-nous qui vous êtes pour personnaliser votre expérience</p>
-                </div>
+                <p className="text-center text-lg text-foreground/70">
+                  Dites-nous qui vous êtes pour personnaliser votre expérience
+                </p>
 
                 <div className="grid md:grid-cols-2 gap-4">
                   {ROLES.map((role) => {
-                    const active = selectedRole === role.id;
+                    const active = role.id === selectedRole;
                     const tone = toneClasses[role.tone];
 
                     return (
                       <Card
                         key={role.id}
-                        role="button"
-                        aria-pressed={active}
-                        aria-label={`Sélectionner le rôle ${role.title}`}
-                        tabIndex={0}
-                        onClick={() => handleRoleSelect(role.id)}
-                        onKeyDown={(e) => e.key === "Enter" && handleRoleSelect(role.id)}
                         className={cn(
-                          "p-6 cursor-pointer transition-all duration-300 hover:shadow-floating border-2 focus:outline-none",
+                          "p-6 cursor-pointer transition-all duration-300 border-2 hover:shadow-floating",
                           active ? `${tone.border} ${tone.bg}` : "border-border hover:border-primary/30"
                         )}
+                        onClick={() => handleRoleSelect(role.id)}
                       >
                         <div className="text-center space-y-3">
-                          <div className="text-4xl" aria-hidden>{role.emoji}</div>
+                          <div className="text-4xl">{role.emoji}</div>
                           <h3 className="font-kalam text-xl font-semibold">{role.title}</h3>
                           <p className="text-sm text-foreground/70">{role.description}</p>
                         </div>
@@ -202,13 +214,15 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
               </div>
             )}
 
-            {/* Step 2: Journey Selection */}
+            {/* STEP 2 */}
             {step === 2 && (
-              <div className="space-y-6">
+              <div className="space-y-8">
                 <div className="text-center">
-                  <p className="text-lg text-foreground/70 mb-2">Parfait ! Maintenant, choisissez votre parcours bien-être</p>
+                  <p className="text-lg text-foreground/70">
+                    Choisissez maintenant votre parcours bien-être
+                  </p>
                   <p className="text-sm text-foreground/50">
-                    Vous êtes <span className="text-primary font-medium">{selectedRoleObj?.title}</span>
+                    Vous êtes : <span className="text-primary font-medium">{selectedRoleObj?.title}</span>
                   </p>
                 </div>
 
@@ -218,30 +232,25 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
                     return (
                       <Card
                         key={journey.id}
-                        role="button"
-                        aria-pressed={active}
-                        aria-label={`Sélectionner le parcours ${journey.title}`}
-                        tabIndex={0}
-                        onClick={() => handleJourneySelect(journey.id)}
-                        onKeyDown={(e) => e.key === "Enter" && handleJourneySelect(journey.id)}
                         className={cn(
-                          "p-6 cursor-pointer transition-all duration-300 hover:shadow-floating border-2 focus:outline-none",
+                          "p-6 cursor-pointer transition-all duration-300 border-2 hover:shadow-floating",
                           active ? "border-secondary bg-secondary/5" : "border-border hover:border-secondary/30"
                         )}
+                        onClick={() => handleJourneySelect(journey.id)}
                       >
-                        <div className="flex items-start gap-4">
-                          <div className="text-3xl" aria-hidden>{journey.emoji}</div>
-                          <div className="flex-1">
-                            <h3 className="font-kalam text-xl font-semibold mb-2">{journey.title}</h3>
-                            <p className="text-foreground/70 mb-3">{journey.description}</p>
-                            <div className="space-y-1">
-                              {journey.benefits.map((benefit, i) => (
-                                <div key={i} className="flex items-center gap-2 text-sm text-foreground/60">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-secondary inline-block" />
-                                  {benefit}
-                                </div>
+                        <div className="flex gap-4">
+                          <div className="text-3xl">{journey.emoji}</div>
+                          <div>
+                            <h3 className="font-kalam text-xl mb-2">{journey.title}</h3>
+                            <p className="text-sm text-foreground/70 mb-3">{journey.description}</p>
+                            <ul className="space-y-1 text-foreground/60 text-sm">
+                              {journey.benefits.map((b, i) => (
+                                <li key={i} className="flex gap-2 items-center">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                                  {b}
+                                </li>
                               ))}
-                            </div>
+                            </ul>
                           </div>
                         </div>
                       </Card>
@@ -249,50 +258,64 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
                   })}
                 </div>
 
-                <div className="flex justify-center">
-                  <Button onClick={() => setStep(1)} variant="outline" className="btn-soft">
-                    ← Retour
+                {/* 🔵 AJOUT ICI — PROJET BULLE FAMILLE */}
+                <div className="rounded-2xl border border-secondary/30 bg-secondary/5 p-4 md:p-5 space-y-2">
+                  <p className="text-sm md:text-base text-foreground/80">
+                    Vous pouvez aussi activer le{" "}
+                    <span className="font-semibold">Projet Bulle Famille</span>
+                    : un espace émotionnel dédié à votre foyer.
+                  </p>
+
+                  <Button onClick={handleFamilyClick} variant="secondary" className="btn-bubble">
+                    🫧 Activer le Projet Bulle Famille
                   </Button>
+
+                  <p className="text-xs text-foreground/50">
+                    Option personnelle — non liée aux données de votre entreprise.
+                  </p>
                 </div>
+
+                <Button
+                  onClick={() => setStep(1)}
+                  variant="outline"
+                  className="btn-soft mx-auto block"
+                >
+                  ← Retour
+                </Button>
               </div>
             )}
 
-            {/* Step 3: Confirmation */}
+            {/* STEP 3 */}
             {step === 3 && (
               <div className="space-y-6">
                 <div className="text-center">
-                  <div className="text-6xl mb-4" aria-hidden>🎉</div>
-                  <h3 className="font-kalam text-2xl font-semibold mb-4">Votre bulle est presque prête !</h3>
-                  <p className="text-foreground/70">Récapitulatif de votre configuration personnalisée</p>
+                  <div className="text-5xl mb-4">🎉</div>
+                  <h3 className="font-kalam text-2xl font-semibold">Votre bulle est presque prête</h3>
                 </div>
 
                 <div className="glass-effect rounded-2xl p-6 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">Rôle :</span>
-                    <span className="text-primary font-semibold">{selectedRoleObj?.title}</span>
+                  <div className="flex justify-between">
+                    <span>Rôle :</span>
+                    <span className="font-semibold text-primary">{selectedRoleObj?.title}</span>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">Parcours :</span>
-                    <span className="text-secondary font-semibold">{selectedJourneyObj?.title}</span>
+
+                  <div className="flex justify-between">
+                    <span>Parcours :</span>
+                    <span className="font-semibold text-secondary">{selectedJourneyObj?.title}</span>
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <div className="flex gap-3 justify-center">
                   <Button onClick={() => setStep(2)} variant="outline" className="btn-soft">
                     ← Modifier
                   </Button>
-                  <Button
-                    onClick={handleCompleteOnboarding}
-                    className="btn-bubble"
-                    disabled={saving}
-                  >
+                  <Button onClick={handleCompleteOnboarding} disabled={saving} className="btn-bubble">
                     {saving ? "Configuration…" : "🫧 Finaliser ma bulle"}
                   </Button>
                 </div>
 
-                {/* Si on sait déjà que l’utilisateur n’est pas loggé */}
                 {isLogged === false && (
-                  <p className="text-center text-sm text-foreground/60">
+                  <p className="text-xs text-center text-foreground/60">
                     Vous devrez créer un compte pour sauvegarder votre configuration.
                   </p>
                 )}
