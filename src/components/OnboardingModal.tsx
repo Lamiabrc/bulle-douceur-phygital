@@ -17,34 +17,10 @@ type UserRoleQVT = "salarié" | "manager" | "rh" | "admin";
 type UserJourneyQVT = "physique_only" | "saas_box";
 
 const ROLES = [
-  {
-    id: "salarié",
-    title: "Salarié",
-    emoji: "👤",
-    description: "Je souhaite prendre soin de mon bien-être au quotidien",
-    tone: "primary",
-  },
-  {
-    id: "manager",
-    title: "Manager",
-    emoji: "👥",
-    description: "Je veux accompagner le bien-être de mon équipe",
-    tone: "secondary",
-  },
-  {
-    id: "rh",
-    title: "RH",
-    emoji: "🤝",
-    description: "Je pilote la stratégie QVT de l'entreprise",
-    tone: "accent",
-  },
-  {
-    id: "admin",
-    title: "Admin",
-    emoji: "⚙️",
-    description: "Je gère la plateforme et les utilisateurs",
-    tone: "muted",
-  },
+  { id: "salarié", title: "Salarié", emoji: "👤", description: "Je souhaite prendre soin de mon bien-être au quotidien", tone: "primary" },
+  { id: "manager", title: "Manager", emoji: "👥", description: "Je veux accompagner le bien-être de mon équipe", tone: "secondary" },
+  { id: "rh", title: "RH", emoji: "🤝", description: "Je pilote la stratégie QVT de l'entreprise", tone: "accent" },
+  { id: "admin", title: "Admin", emoji: "⚙️", description: "Je gère la plateforme et les utilisateurs", tone: "muted" },
 ];
 
 const JOURNEYS = [
@@ -80,17 +56,9 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Info connexion
   const [isLogged, setIsLogged] = useState<boolean | null>(null);
   useEffect(() => {
-    let mounted = true;
-    supabase.auth.getUser().then(({ data }) => {
-      if (!mounted) return;
-      setIsLogged(!!data?.user);
-    });
-    return () => {
-      mounted = false;
-    };
+    supabase.auth.getUser().then(({ data }) => setIsLogged(!!data?.user));
   }, []);
 
   const selectedRoleObj = useMemo(() => ROLES.find(r => r.id === selectedRole), [selectedRole]);
@@ -106,9 +74,8 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
     setStep(3);
   };
 
-  const handleFamilyClick = () => {
-    navigate("/simulateur?univers=famille");
-    onClose();
+  const handleFamilyProjectClick = () => {
+    window.location.href = "https://zena-family.qvtbox.com";
   };
 
   const handleAuthSuccess = async () => {
@@ -154,7 +121,6 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
       onClose();
       navigate("/dashboard");
     } catch (err) {
-      console.error("Error completing onboarding:", err);
       toast({
         title: "Erreur",
         description: "Impossible de finaliser votre inscription.",
@@ -219,7 +185,7 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
               <div className="space-y-8">
                 <div className="text-center">
                   <p className="text-lg text-foreground/70">
-                    Choisissez maintenant votre parcours bien-être
+                    Maintenant, choisissez votre parcours bien-être
                   </p>
                   <p className="text-sm text-foreground/50">
                     Vous êtes : <span className="text-primary font-medium">{selectedRoleObj?.title}</span>
@@ -242,15 +208,14 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
                           <div className="text-3xl">{journey.emoji}</div>
                           <div>
                             <h3 className="font-kalam text-xl mb-2">{journey.title}</h3>
-                            <p className="text-sm text-foreground/70 mb-3">{journey.description}</p>
-                            <ul className="space-y-1 text-foreground/60 text-sm">
-                              {journey.benefits.map((b, i) => (
-                                <li key={i} className="flex gap-2 items-center">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                                  {b}
-                                </li>
-                              ))}
-                            </ul>
+                            <p className="text-sm text-foreground/70 mb-2">{journey.description}</p>
+
+                            {journey.benefits.map((b, i) => (
+                              <div key={i} className="text-xs text-foreground/60 flex gap-2 items-center">
+                                <span className="w-1.5 h-1.5 bg-secondary rounded-full" />
+                                {b}
+                              </div>
+                            ))}
                           </div>
                         </div>
                       </Card>
@@ -258,28 +223,28 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
                   })}
                 </div>
 
-                {/* 🔵 AJOUT ICI — PROJET BULLE FAMILLE */}
-                <div className="rounded-2xl border border-secondary/30 bg-secondary/5 p-4 md:p-5 space-y-2">
-                  <p className="text-sm md:text-base text-foreground/80">
-                    Vous pouvez aussi activer le{" "}
-                    <span className="font-semibold">Projet Bulle Famille</span>
-                    : un espace émotionnel dédié à votre foyer.
+                {/* PROJET FAMILLE */}
+                <div className="rounded-2xl border border-secondary/30 bg-secondary/5 p-4 space-y-2">
+                  <p className="text-sm text-foreground/80">
+                    Vous souhaitez aussi prendre soin de votre foyer ?  
+                    Découvrez le <span className="font-semibold">Projet Famille – Bulle</span>.
                   </p>
 
-                  <Button onClick={handleFamilyClick} variant="secondary" className="btn-bubble">
-                    🫧 Activer le Projet Bulle Famille
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="btn-bubble"
+                    onClick={handleFamilyProjectClick}
+                  >
+                    🫧 Accéder au portail Famille
                   </Button>
 
                   <p className="text-xs text-foreground/50">
-                    Option personnelle — non liée aux données de votre entreprise.
+                    Vous serez redirigé vers : zena-family.qvtbox.com
                   </p>
                 </div>
 
-                <Button
-                  onClick={() => setStep(1)}
-                  variant="outline"
-                  className="btn-soft mx-auto block"
-                >
+                <Button onClick={() => setStep(1)} variant="outline" className="btn-soft mx-auto block">
                   ← Retour
                 </Button>
               </div>
@@ -290,17 +255,16 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
               <div className="space-y-6">
                 <div className="text-center">
                   <div className="text-5xl mb-4">🎉</div>
-                  <h3 className="font-kalam text-2xl font-semibold">Votre bulle est presque prête</h3>
+                  <h3 className="font-kalam text-2xl font-semibold">Votre bulle est presque prête !</h3>
                 </div>
 
                 <div className="glass-effect rounded-2xl p-6 space-y-4">
                   <div className="flex justify-between">
-                    <span>Rôle :</span>
+                    <span>Rôle : </span>
                     <span className="font-semibold text-primary">{selectedRoleObj?.title}</span>
                   </div>
-
                   <div className="flex justify-between">
-                    <span>Parcours :</span>
+                    <span>Parcours : </span>
                     <span className="font-semibold text-secondary">{selectedJourneyObj?.title}</span>
                   </div>
                 </div>
@@ -315,7 +279,7 @@ const OnboardingModal = ({ isOpen, onClose }: OnboardingModalProps) => {
                 </div>
 
                 {isLogged === false && (
-                  <p className="text-xs text-center text-foreground/60">
+                  <p className="text-center text-xs text-foreground/60">
                     Vous devrez créer un compte pour sauvegarder votre configuration.
                   </p>
                 )}
