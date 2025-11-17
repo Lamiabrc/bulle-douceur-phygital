@@ -1,6 +1,6 @@
 // src/App.tsx
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // UI notifications
 import { Toaster } from "@/components/ui/toaster";
@@ -11,7 +11,7 @@ import { CartProvider } from "./hooks/useCart";
 import AppInitializer from "./components/AppInitializer";
 import GlobalSEO from "./components/GlobalSEO";
 
-/** -------- Lazy pages (meilleures perfs) -------- */
+/** -------- Lazy pages -------- */
 const Index = lazy(() => import("./pages/Index"));
 const BoxPage = lazy(() => import("./pages/BoxPage"));
 const ProfessionalSaasPage = lazy(() => import("./pages/ProfessionalSaasPage"));
@@ -52,11 +52,9 @@ const CGVPage = lazy(() => import("./pages/CGVPage"));
 const MobilePage = lazy(() => import("./pages/MobilePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const InternationalPage = lazy(() => import("./pages/InternationalPage"));
-
-/** 👉 Nouveau: ta page “Manifeste” */
 const ManifestPage = lazy(() => import("./pages/ManifestPage"));
 
-/** Fallback visuel pendant le chargement */
+/** Fallback visuel */
 function Fallback() {
   return (
     <div className="min-h-[40vh] flex items-center justify-center text-sm text-foreground/60">
@@ -70,14 +68,13 @@ const App = () => (
     <AppInitializer>
       <GlobalSEO />
 
-      {/* Toasters UI (shadcn + sonner) */}
       <Toaster />
       <Sonner />
 
       <BrowserRouter>
         <Suspense fallback={<Fallback />}>
           <Routes>
-            {/* Public */}
+            {/* 🌐 Domaine principal */}
             <Route path="/" element={<Index />} />
             <Route path="/box" element={<BoxPage />} />
             <Route path="/saas" element={<ProfessionalSaasPage />} />
@@ -122,8 +119,19 @@ const App = () => (
             <Route path="/politique-confidentialite" element={<PolitiqueConfidentialitePage />} />
             <Route path="/cgv" element={<CGVPage />} />
 
-            {/* Nouveau: Manifeste */}
+            {/* Page Manifeste */}
             <Route path="/manifeste" element={<ManifestPage />} />
+
+            {/* 🔗 Passerelles inter-domaines */}
+            <Route
+              path="/zena"
+              element={<Navigate to="https://zena.qvtbox.com" replace />}
+            />
+
+            <Route
+              path="/zena-family"
+              element={<Navigate to="https://zena-family.qvtbox.com" replace />}
+            />
 
             {/* 404 */}
             <Route path="*" element={<NotFound />} />
