@@ -5,14 +5,33 @@ import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => {
   const isDev = mode === "development";
+
   return {
-    server: { host: "::", port: 8080, strictPort: false },
-    preview: { port: 8080 },
+    // ✅ Important pour que les assets (JS/CSS) se chargent bien
+    // quel que soit le domaine ou le sous-dossier (www.qvtbox.com, etc.)
+    base: "./",
+
+    server: {
+      host: "::",
+      port: 8080,
+      strictPort: false,
+    },
+
+    preview: {
+      port: 8080,
+    },
+
     plugins: [
       react(),
-      mode === 'development' && componentTagger(),
+      mode === "development" && componentTagger(),
     ].filter(Boolean),
-    resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
+    },
+
     build: {
       sourcemap: isDev,
       chunkSizeWarningLimit: 1200,
@@ -21,11 +40,14 @@ export default defineConfig(({ mode }) => {
           manualChunks: {
             react: ["react", "react-dom", "react-router-dom"],
             ui: ["lucide-react"],
-            data: ["@tanstack/react-query"]
-          }
-        }
-      }
+            data: ["@tanstack/react-query"],
+          },
+        },
+      },
     },
-    esbuild: { drop: isDev ? [] : ["console", "debugger"] }
+
+    esbuild: {
+      drop: isDev ? [] : ["console", "debugger"],
+    },
   };
 });
