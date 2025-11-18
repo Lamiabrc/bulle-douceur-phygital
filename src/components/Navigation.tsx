@@ -6,32 +6,24 @@ import { useUserRole } from "@/hooks/useUserRole";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useLanguage } from "@/hooks/useLanguage";
 import LanguageSelector from "@/components/LanguageSelector";
-import { Settings, Menu, X, Sparkles } from "lucide-react";
+import { Settings, Menu, X, Sparkles, Home, Users, Briefcase } from "lucide-react";
 
-/**
- * 🟣 Navigation premium QVT Box — Version 2025
- * - Glassmorphism doux
- * - Halo animé + bulle centrale signature
- * - CTA ZÉNA Voice priorisé
- * - Responsive impeccable
- * - Optimisé branding & conversion
- */
 const Navigation = () => {
   const location = useLocation();
   const { user } = useAuth();
   const { isAdmin } = useUserRole();
   const { language, setLanguage, t } = useLanguage();
   const isMobile = useIsMobile();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  /** 🟣 Nouvelle structure des items 2025 */
   const navItems = [
-    { name: t("nav.home"), path: "/" },
-    { name: t("nav.offer"), path: "/box" },
-    { name: t("nav.saas"), path: "/saas" },
-    { name: t("nav.manifesto"), path: "/manifeste" },
-    { name: t("nav.international"), path: "/international" },
-    { name: t("nav.about"), path: "/about" },
-    { name: t("nav.contact"), path: "/contact" },
+    { label: "Accueil", path: "/" },
+    { label: "QVT Box", path: "/boutique" },
+    { label: "Zéna Entreprise", path: "/zena" },
+    { label: "Zéna Family", path: "/zena-family" },
+    { label: "Contact", path: "/contact" },
   ];
 
   return (
@@ -41,9 +33,9 @@ const Navigation = () => {
 
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
+
           {/* LOGO */}
           <Link to="/" className="relative group flex items-center gap-3">
-            {/* Bulle halo */}
             <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-[#5B4B8A]/40 to-[#4FD1C5]/40 blur-lg opacity-40 group-hover:opacity-60 transition-all"></div>
 
             <img
@@ -57,7 +49,7 @@ const Navigation = () => {
             </span>
           </Link>
 
-          {/* DESKTOP NAV */}
+          {/* DESKTOP MENU */}
           <ul className="hidden md:flex items-center gap-7">
             {navItems.map((item) => (
               <li key={item.path}>
@@ -69,51 +61,36 @@ const Navigation = () => {
                       : "text-[#212121]/70 hover:text-primary"
                   }`}
                 >
-                  {item.name}
+                  {item.label}
                 </Link>
               </li>
             ))}
 
-            {/* ZENA BUTTON */}
+            {/* LANG */}
             <li>
-              <a
-                href="https://zena.qvtbox.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#5B4B8A] to-[#4FD1C5] text-white shadow-lg hover:scale-[1.06] transition-all"
-              >
-                <Sparkles className="w-4 h-4 animate-pulse" />
-                ZÉNA Voice
-              </a>
+              <LanguageSelector currentLanguage={language} onLanguageChange={setLanguage} />
             </li>
 
-            {/* LANG + CTA */}
-            <li className="flex items-center gap-4">
-              <LanguageSelector currentLanguage={language} onLanguageChange={setLanguage} />
-
-              <Link
-                to="/contact"
-                className="px-4 py-2 rounded-lg border border-primary text-primary hover:bg-primary/10 transition-all"
-              >
-                Contact
-              </Link>
-
+            {/* DASHBOARD / COMPTE */}
+            <li>
               <Link
                 to={user ? "/dashboard" : "/auth"}
                 className="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 transition-all"
               >
-                {user ? t("nav.dashboard") : t("nav.account")}
+                {user ? "Tableau de bord" : "Mon compte"}
               </Link>
+            </li>
 
-              {user && isAdmin && (
+            {user && isAdmin && (
+              <li>
                 <Link
                   to="/admin"
                   className="p-2 rounded-lg bg-accent text-white hover:bg-accent/80 transition-all"
                 >
                   <Settings className="w-4 h-4" />
                 </Link>
-              )}
-            </li>
+              </li>
+            )}
           </ul>
 
           {/* MOBILE MENU BUTTON */}
@@ -160,20 +137,9 @@ const Navigation = () => {
                         : "text-[#212121]/80 hover:bg-primary/10"
                     }`}
                   >
-                    {item.name}
+                    {item.label}
                   </Link>
                 ))}
-
-                {/* ZENA */}
-                <a
-                  href="https://zena.qvtbox.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 px-4 py-3 rounded-lg bg-gradient-to-r from-[#5B4B8A] to-[#4FD1C5] text-white text-center font-medium shadow-lg"
-                >
-                  <Sparkles className="w-4 h-4 inline-block mr-2" />
-                  ZÉNA Voice
-                </a>
               </div>
 
               {/* LANG + LOGIN */}
@@ -181,17 +147,10 @@ const Navigation = () => {
                 <LanguageSelector currentLanguage={language} onLanguageChange={setLanguage} />
 
                 <Link
-                  to="/contact"
-                  className="block text-center px-6 py-3 rounded-lg bg-primary text-white"
-                >
-                  Contact
-                </Link>
-
-                <Link
                   to={user ? "/dashboard" : "/auth"}
                   className="block text-center px-6 py-3 rounded-lg bg-secondary text-white"
                 >
-                  {user ? t("nav.dashboard") : t("nav.account")}
+                  {user ? "Tableau de bord" : "Mon compte"}
                 </Link>
 
                 {user && isAdmin && (
