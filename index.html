@@ -2,33 +2,37 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- RESPONSIVE -->
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
     <meta name="color-scheme" content="light dark" />
-    <title>QVT Box — Box + App pour vos équipes</title>
+
+    <!-- TITRE & DESCRIPTION -->
+    <title>QVT Box — La bulle attentionnée pour vos équipes</title>
     <meta
       name="description"
-      content="Box Pouvoir d’Achat + App QVCT : attention discrète, pilotage DUERP/RPS."
+      content="QVT Box + Zéna : Box bien-être et IA émotionnelle pour salariés, parents et ados. Une nouvelle façon d’écouter vos équipes."
     />
     <meta name="author" content="QVT Box" />
-    <meta name="theme-color" content="#8B5CF6" />
+    <meta name="theme-color" content="#4FD1C5" />
 
     <!-- SEO -->
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="/" />
 
-    <!-- Favicons -->
+    <!-- FAVICONS -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="icon" href="/logo-qvt.jpeg" type="image/jpeg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-    <!-- PWA manifest -->
+    <!-- PWA -->
     <link rel="manifest" href="/manifest.webmanifest" />
 
-    <!-- Polices (préconnect + chargement) -->
+    <!-- POLICES -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       rel="preconnect"
@@ -40,56 +44,48 @@
       rel="stylesheet"
     />
 
-    <!-- Open Graph / Twitter -->
-    <meta property="og:title" content="QVT Box — Box + App pour vos équipes" />
+    <!-- OPEN GRAPH -->
+    <meta property="og:title" content="QVT Box — La bulle attentionnée" />
     <meta
       property="og:description"
-      content="Box Pouvoir d’Achat + App QVCT : attention discrète, pilotage DUERP/RPS."
+      content="QVT Box + Zéna : IA émotionnelle, box bien-être et météo émotionnelle pour salariés, parents et ados."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/og-image.png" />
+
+    <!-- TWITTER -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="/og-image.png" />
 
-    <!-- Google Analytics (gtag.js) -->
+    <!-- GOOGLE ANALYTICS — VERSION 100% COMPATIBLE NAVIGATEUR -->
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-752B8V04TV"
     ></script>
-    <script>
-      (function () {
-        const GA_ID =
-          (typeof import !== "undefined" &&
-            import.meta &&
-            import.meta.env &&
-            import.meta.env.VITE_GA_ID) ||
-          "G-752B8V04TV"; // fallback à ton ID fourni
 
-        if (!GA_ID) return;
+    <script>
+      // VERSION SANS import / import.meta (corrigée)
+      (function () {
+        const GA_ID = "G-752B8V04TV"; // Ton ID Google Analytics
 
         window.dataLayer = window.dataLayer || [];
         function gtag() {
-          dataLayer.push(arguments);
+          window.dataLayer.push(arguments);
         }
         window.gtag = gtag;
 
-        // (Optionnel) Consent Mode v2 par défaut en "denied" — à ouvrir si tu as une CMP
-        // gtag('consent', 'default', {
-        //   ad_user_data: 'denied',
-        //   ad_personalization: 'denied',
-        //   ad_storage: 'denied',
-        //   analytics_storage: 'denied',
-        // });
-
         gtag("js", new Date());
-        gtag("config", GA_ID, { send_page_view: false });
+        gtag("config", GA_ID);
       })();
     </script>
+
   </head>
 
   <body>
     <noscript>QVT Box nécessite JavaScript pour fonctionner correctement.</noscript>
     <div id="root"></div>
+
+    <!-- SCRIPT PRINCIPAL VITE -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
