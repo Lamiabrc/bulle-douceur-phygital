@@ -21,7 +21,7 @@ const CheckoutSuccessPage = lazy(() => import("./pages/CheckoutSuccessPage"));
 const CheckoutCancelPage = lazy(() => import("./pages/CheckoutCancelPage"));
 const ProductDetailPage = lazy(() => import("./pages/ProductDetailPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
-// ⚠️ Suppression de ConnexionPage car supprimée du projet
+// ConnexionPage supprimée du projet → import retiré
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const MoodDashboard = lazy(() => import("./pages/MoodDashboard"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
@@ -51,7 +51,7 @@ const PolitiqueConfidentialitePage = lazy(() => import("./pages/PolitiqueConfide
 const CGVPage = lazy(() => import("./pages/CGVPage"));
 const MobilePage = lazy(() => import("./pages/MobilePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
-const InternationalPage = lazy(() => import("./pages/InternationalPage"));
+// InternationalPage supprimée du projet → import retiré
 const ManifestPage = lazy(() => import("./pages/ManifestPage"));
 
 /** Fallback visuel */
@@ -78,7 +78,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/box" element={<BoxPage />} />
             <Route path="/saas" element={<ProfessionalSaasPage />} />
-            <Route path="/international" element={<InternationalPage />} />
+            {/* Route /international retirée car page supprimée */}
             <Route path="/boutique" element={<BoutiquePage />} />
             <Route path="/mobile" element={<MobilePage />} />
             <Route path="/boutique/produit/:slug" element={<ProductDetailPage />} />
