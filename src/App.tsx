@@ -21,7 +21,7 @@ const CheckoutSuccessPage = lazy(() => import("./pages/CheckoutSuccessPage"));
 const CheckoutCancelPage = lazy(() => import("./pages/CheckoutCancelPage"));
 const ProductDetailPage = lazy(() => import("./pages/ProductDetailPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
-const ConnexionPage = lazy(() => import("./pages/ConnexionPage"));
+// ⚠️ Suppression de ConnexionPage car supprimée du projet
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const MoodDashboard = lazy(() => import("./pages/MoodDashboard"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
