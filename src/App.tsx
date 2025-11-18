@@ -21,7 +21,7 @@ const CheckoutSuccessPage = lazy(() => import("./pages/CheckoutSuccessPage"));
 const CheckoutCancelPage = lazy(() => import("./pages/CheckoutCancelPage"));
 const ProductDetailPage = lazy(() => import("./pages/ProductDetailPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
-// ConnexionPage supprimée du projet → import retiré
+
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const MoodDashboard = lazy(() => import("./pages/MoodDashboard"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
@@ -44,14 +44,13 @@ const LogoutPage = lazy(() => import("./pages/auth/LogoutPage"));
 const SimulateurPage = lazy(() => import("./pages/SimulateurPage"));
 const UserDashboard = lazy(() => import("./pages/UserDashboard"));
 const EngagementsPage = lazy(() => import("./pages/EngagementsPage"));
-const PartnersPage = lazy(() => import("./pages/PartnersPage"));
+// PartnersPage supprimée → import supprimé
 const NotFound = lazy(() => import("./pages/NotFound"));
 const MentionsLegalesPage = lazy(() => import("./pages/MentionsLegalesPage"));
 const PolitiqueConfidentialitePage = lazy(() => import("./pages/PolitiqueConfidentialitePage"));
 const CGVPage = lazy(() => import("./pages/CGVPage"));
 const MobilePage = lazy(() => import("./pages/MobilePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
-// InternationalPage supprimée du projet → import retiré
 const ManifestPage = lazy(() => import("./pages/ManifestPage"));
 
 /** Fallback visuel */
@@ -78,7 +77,6 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/box" element={<BoxPage />} />
             <Route path="/saas" element={<ProfessionalSaasPage />} />
-            {/* Route /international retirée car page supprimée */}
             <Route path="/boutique" element={<BoutiquePage />} />
             <Route path="/mobile" element={<MobilePage />} />
             <Route path="/boutique/produit/:slug" element={<ProductDetailPage />} />
@@ -123,15 +121,8 @@ const App = () => (
             <Route path="/manifeste" element={<ManifestPage />} />
 
             {/* 🔗 Passerelles inter-domaines */}
-            <Route
-              path="/zena"
-              element={<Navigate to="https://zena.qvtbox.com" replace />}
-            />
-
-            <Route
-              path="/zena-family"
-              element={<Navigate to="https://zena-family.qvtbox.com" replace />}
-            />
+            <Route path="/zena" element={<Navigate to="https://zena.qvtbox.com" replace />} />
+            <Route path="/zena-family" element={<Navigate to="https://zena-family.qvtbox.com" replace />} />
 
             {/* 404 */}
             <Route path="*" element={<NotFound />} />
