@@ -1,3 +1,4 @@
+// src/components/Navigation.tsx
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -7,6 +8,14 @@ import { useLanguage } from "@/hooks/useLanguage";
 import LanguageSelector from "@/components/LanguageSelector";
 import { Settings, Menu, X, Sparkles } from "lucide-react";
 
+/**
+ * 🟣 Navigation premium QVT Box — Version 2025
+ * - Glassmorphism doux
+ * - Halo animé + bulle centrale signature
+ * - CTA ZÉNA Voice priorisé
+ * - Responsive impeccable
+ * - Optimisé branding & conversion
+ */
 const Navigation = () => {
   const location = useLocation();
   const { user } = useAuth();
@@ -26,36 +35,38 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-lg border-b border-primary/20 transition-all duration-300">
-      <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-primary via-secondary to-primary opacity-70" />
-      <div className="container mx-auto px-6 py-3">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/20 backdrop-blur-xl bg-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
+      {/* Halo top */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-[#5B4B8A] via-[#4FD1C5] to-[#5B4B8A] opacity-80"></div>
+
+      <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link
-            to="/"
-            className="flex items-center hover:opacity-90 transition-all duration-200 group"
-          >
-            <div className="relative">
-              {/* Halo lumineux */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/40 to-secondary/40 blur-md opacity-60 group-hover:blur-xl transition-all duration-500" />
-              <img
-                src="/qvt-box-logo.png"
-                alt="QVT Box"
-                className="relative w-12 h-12 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform"
-              />
-            </div>
+          {/* LOGO */}
+          <Link to="/" className="relative group flex items-center gap-3">
+            {/* Bulle halo */}
+            <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-[#5B4B8A]/40 to-[#4FD1C5]/40 blur-lg opacity-40 group-hover:opacity-60 transition-all"></div>
+
+            <img
+              src="/logo-qvt.jpeg"
+              alt="QVT Box"
+              className="relative w-12 h-12 rounded-full object-cover shadow-xl group-hover:scale-105 transition-transform"
+            />
+
+            <span className="relative text-xl font-bold bg-gradient-to-r from-[#5B4B8A] to-[#4FD1C5] text-transparent bg-clip-text">
+              QVT Box
+            </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center space-x-7">
+          {/* DESKTOP NAV */}
+          <ul className="hidden md:flex items-center gap-7">
             {navItems.map((item) => (
               <li key={item.path}>
                 <Link
                   to={item.path}
-                  className={`font-montserrat text-sm transition-colors ${
+                  className={`text-sm transition-all ${
                     location.pathname === item.path
                       ? "text-primary font-semibold"
-                      : "text-foreground/85 hover:text-primary"
+                      : "text-[#212121]/70 hover:text-primary"
                   }`}
                 >
                   {item.name}
@@ -63,33 +74,33 @@ const Navigation = () => {
               </li>
             ))}
 
-            {/* ZENA Voice (desktop only) */}
+            {/* ZENA BUTTON */}
             <li>
-              <Link
-                to="https://zena.qvtbox.com"
+              <a
+                href="https://zena.qvtbox.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium px-3 py-2 rounded-md bg-gradient-to-r from-primary to-secondary text-white shadow-md hover:scale-[1.05] transition-all duration-300"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#5B4B8A] to-[#4FD1C5] text-white shadow-lg hover:scale-[1.06] transition-all"
               >
                 <Sparkles className="w-4 h-4 animate-pulse" />
-                ZENA Voice
-              </Link>
+                ZÉNA Voice
+              </a>
             </li>
 
-            {/* Langue + CTA */}
-            <li className="flex items-center gap-3">
+            {/* LANG + CTA */}
+            <li className="flex items-center gap-4">
               <LanguageSelector currentLanguage={language} onLanguageChange={setLanguage} />
 
               <Link
                 to="/contact"
-                className="bg-primary text-white px-5 py-2 rounded-md font-medium transition-colors hover:bg-primary/90 font-inter"
+                className="px-4 py-2 rounded-lg border border-primary text-primary hover:bg-primary/10 transition-all"
               >
-                {t("nav.contact") || "Contact"}
+                Contact
               </Link>
 
               <Link
                 to={user ? "/dashboard" : "/auth"}
-                className="bg-secondary text-white px-5 py-2 rounded-md font-medium transition-colors hover:bg-secondary/90 font-inter"
+                className="px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90 transition-all"
               >
                 {user ? t("nav.dashboard") : t("nav.account")}
               </Link>
@@ -97,9 +108,7 @@ const Navigation = () => {
               {user && isAdmin && (
                 <Link
                   to="/admin"
-                  className="bg-accent text-white px-3 py-2 rounded-md transition-colors hover:bg-accent/90"
-                  aria-label="Administration"
-                  title="Administration"
+                  className="p-2 rounded-lg bg-accent text-white hover:bg-accent/80 transition-all"
                 >
                   <Settings className="w-4 h-4" />
                 </Link>
@@ -107,11 +116,10 @@ const Navigation = () => {
             </li>
           </ul>
 
-          {/* Mobile burger */}
+          {/* MOBILE MENU BUTTON */}
           <button
             className="md:hidden p-2"
-            onClick={() => setMobileMenuOpen((v) => !v)}
-            aria-label="Menu"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? (
               <X className="w-6 h-6 text-primary" />
@@ -121,71 +129,67 @@ const Navigation = () => {
           </button>
         </div>
 
-        {/* Mobile Drawer */}
+        {/* MOBILE DRAWER */}
         {mobileMenuOpen && (
           <div
-            className="md:hidden fixed inset-0 z-50 bg-black/50"
+            className="md:hidden fixed inset-0 z-50 bg-black/40"
             onClick={() => setMobileMenuOpen(false)}
           >
             <div
-              className="fixed right-0 top-0 h-full w-80 bg-background shadow-xl p-6 border-l border-border"
+              className="fixed right-0 top-0 h-full w-80 bg-white/90 backdrop-blur-xl shadow-xl p-6 border-l border-primary/20"
               onClick={(e) => e.stopPropagation()}
             >
+              {/* HEADER */}
               <div className="flex items-center justify-between mb-6">
-                <span className="text-xl font-inter font-bold text-foreground">Menu</span>
-                <button onClick={() => setMobileMenuOpen(false)} className="p-2" aria-label="Fermer">
-                  <X className="w-6 h-6 text-foreground" />
+                <span className="text-xl font-bold">Menu</span>
+                <button className="p-2" onClick={() => setMobileMenuOpen(false)}>
+                  <X className="w-6 h-6 text-primary" />
                 </button>
               </div>
 
-              <div className="flex flex-col space-y-3 mb-6">
+              {/* LINKS */}
+              <div className="flex flex-col space-y-3">
                 {navItems.map((item) => (
                   <Link
                     key={item.path}
                     to={item.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`text-base font-montserrat py-3 px-4 rounded-lg transition-colors ${
+                    className={`px-4 py-3 rounded-lg ${
                       location.pathname === item.path
                         ? "bg-primary/10 text-primary font-semibold"
-                        : "text-foreground hover:bg-muted"
+                        : "text-[#212121]/80 hover:bg-primary/10"
                     }`}
                   >
                     {item.name}
                   </Link>
                 ))}
 
-                {/* ZENA mobile */}
-                <Link
-                  to="https://zena.qvtbox.com"
+                {/* ZENA */}
+                <a
+                  href="https://zena.qvtbox.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="mt-3 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg 
-                             bg-gradient-to-r from-primary to-secondary text-white font-semibold 
-                             hover:scale-[1.03] transition-all"
+                  className="mt-3 px-4 py-3 rounded-lg bg-gradient-to-r from-[#5B4B8A] to-[#4FD1C5] text-white text-center font-medium shadow-lg"
                 >
-                  <Sparkles className="w-4 h-4 animate-pulse" />
-                  ZENA Voice
-                </Link>
+                  <Sparkles className="w-4 h-4 inline-block mr-2" />
+                  ZÉNA Voice
+                </a>
               </div>
 
-              <div className="flex flex-col space-y-3 pt-4 border-t border-border">
-                <div className="px-1 mb-2">
-                  <LanguageSelector currentLanguage={language} onLanguageChange={setLanguage} />
-                </div>
+              {/* LANG + LOGIN */}
+              <div className="mt-6 pt-6 border-t border-primary/20 space-y-3">
+                <LanguageSelector currentLanguage={language} onLanguageChange={setLanguage} />
 
                 <Link
                   to="/contact"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 text-center"
+                  className="block text-center px-6 py-3 rounded-lg bg-primary text-white"
                 >
-                  {t("nav.contact") || "Contact"}
+                  Contact
                 </Link>
 
                 <Link
                   to={user ? "/dashboard" : "/auth"}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="bg-secondary text-white px-6 py-3 rounded-lg font-medium hover:bg-secondary/90 text-center"
+                  className="block text-center px-6 py-3 rounded-lg bg-secondary text-white"
                 >
                   {user ? t("nav.dashboard") : t("nav.account")}
                 </Link>
@@ -193,10 +197,8 @@ const Navigation = () => {
                 {user && isAdmin && (
                   <Link
                     to="/admin"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="bg-accent text-white px-6 py-3 rounded-lg font-medium hover:bg-accent/90 flex items-center justify-center gap-2"
+                    className="block text-center px-6 py-3 rounded-lg bg-accent text-white"
                   >
-                    <Settings className="w-5 h-5" />
                     Administration
                   </Link>
                 )}
