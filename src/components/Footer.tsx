@@ -13,86 +13,86 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[#2A2520] bg-[#151515] text-[#FDF9F0]">
-      <div className="mx-auto max-w-6xl px-6 py-10 md:py-14">
-        {/* TOP ROW */}
-        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          {/* BRAND + TAGLINE */}
+    <footer className="bg-[#151515] text-[#ECE7DF] border-t border-[#2D2721]">
+      <div className="mx-auto max-w-6xl px-6 py-14">
+        {/* TOP: LOGO + TAGLINE + NAV */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+          {/* BRAND */}
           <div className="flex items-center gap-4">
             <div className="relative">
               <div className="absolute inset-0 rounded-full bg-[#F3E0B9]/30 blur-lg" />
               <img
                 src="/logo-qvt.jpeg"
                 alt="QVT Box"
-                className="relative h-12 w-12 rounded-full object-cover border border-[#F3E0B9]/40 shadow-md"
+                className="relative h-14 w-14 rounded-full object-cover border border-[#F3E0B9]/40 shadow-md"
               />
             </div>
 
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-semibold tracking-tight">
-                  QVT Box
-                </span>
-                <span className="inline-block rounded-full border border-[#F3E0B9]/40 px-3 py-0.5 text-[10px] uppercase tracking-[0.18em] text-[#E5D7BF]">
-                  Santé émotionnelle & QVCT
-                </span>
-              </div>
-              <p className="mt-1 text-xs md:text-sm text-[#D5C8B0]">
+              <h3 className="text-xl font-semibold tracking-tight text-[#F3E0B9]">
+                QVT Box
+              </h3>
+              <p className="text-xs text-[#CDBEA9] mt-1">
+                Santé émotionnelle & QVCT
+              </p>
+              <p className="text-[11px] text-[#AFA292]">
                 « Sortez de votre bulle, on veille sur vous. »
               </p>
             </div>
           </div>
 
-          {/* MAIN LINKS */}
+          {/* MAIN NAV — aligné avec Navigation & App.tsx */}
           <nav className="text-sm">
-            <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[#E5D7BF]/80">
+            <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[#DCCFB9]">
               <li>
-                <Link to="/" className="hover:text-[#F3E0B9] transition-colors">
+                <Link to="/" className="hover:text-[#F3E0B9] transition">
                   Accueil
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/box"
-                  className="hover:text-[#F3E0B9] transition-colors"
-                >
-                  QVT Box & Box bien-être
+                <Link to="/saas" className="hover:text-[#F3E0B9] transition">
+                  Entreprise (Licence SaaS)
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/saas"
-                  className="hover:text-[#F3E0B9] transition-colors"
-                >
-                  Licence SaaS entreprise
+                <Link to="/box" className="hover:text-[#F3E0B9] transition">
+                  Box QVT
                 </Link>
               </li>
               <li>
-                <a
-                  href="https://zena.qvtbox.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-[#F3E0B9] transition-colors"
-                >
-                  ZÉNA Entreprise
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://zena-family.qvtbox.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-[#F3E0B9] transition-colors"
-                >
-                  ZÉNA Family
-                </a>
+                <Link to="/boutique" className="hover:text-[#F3E0B9] transition">
+                  Boutique
+                </Link>
               </li>
               <li>
                 <Link
                   to="/simulateur"
-                  className="hover:text-[#F3E0B9] transition-colors"
+                  className="hover:text-[#F3E0B9] transition"
                 >
-                  Ma bulle attentionnée
+                  Ma Bulle Attentionnée
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="hover:text-[#F3E0B9] transition">
+                  À propos
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-[#F3E0B9] transition">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link to="/zena" className="hover:text-[#F3E0B9] transition">
+                  ZÉNA Entreprise
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/zena-family"
+                  className="hover:text-[#F3E0B9] transition"
+                >
+                  ZÉNA Family
                 </Link>
               </li>
             </ul>
@@ -100,48 +100,39 @@ const Footer = () => {
         </div>
 
         {/* SEPARATOR */}
-        <div className="mt-8 border-t border-[#2A2520]" />
+        <div className="border-t border-[#2A2520] mt-10" />
 
-        {/* BOTTOM ROW */}
-        <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          {/* LEGAL & SITE LINKS */}
-          <div className="space-y-2 text-xs text-[#C9BDA7]">
+        {/* BOTTOM: LEGAL + SOCIALS */}
+        <div className="mt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          {/* LEGAL */}
+          <div className="space-y-2 text-xs text-[#CFC4B1]">
             <div className="flex flex-wrap gap-4">
               <Link
-                to="/cgv"
-                className="hover:text-[#F3E0B9] transition-colors"
-              >
-                CGV
-              </Link>
-              <Link
                 to="/mentions-legales"
-                className="hover:text-[#F3E0B9] transition-colors"
+                className="hover:text-[#F3E0B9] transition"
               >
                 Mentions légales
               </Link>
               <Link
                 to="/politique-confidentialite"
-                className="hover:text-[#F3E0B9] transition-colors"
+                className="hover:text-[#F3E0B9] transition"
               >
                 Politique de confidentialité
               </Link>
-              <Link
-                to="/contact"
-                className="hover:text-[#F3E0B9] transition-colors"
-              >
-                Contact
+              <Link to="/cgv" className="hover:text-[#F3E0B9] transition">
+                CGV
               </Link>
             </div>
 
-            <p className="text-[11px] text-[#AFA291]">
+            <p className="text-[11px] text-[#AFA292]">
               © {year} QVT Box — Conçu avec{" "}
-              <Heart className="inline-block h-3 w-3 text-red-400 align-text-bottom" />{" "}
-              et beaucoup d’espoir pour les salariés, les parents et les ados.
+              <Heart className="inline-block w-3 h-3 text-red-400" /> et
+              beaucoup d’espoir.
             </p>
           </div>
 
           {/* SOCIALS */}
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap gap-3">
             {[
               {
                 name: "LinkedIn",
@@ -174,10 +165,10 @@ const Footer = () => {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-1.5 rounded-full border border-[#2F2923] bg-[#1B1916] px-3.5 py-1.5 text-[11px] uppercase tracking-[0.16em] text-[#E5D7BF]/85 hover:border-[#F3E0B9]/70 hover:text-[#F3E0B9] transition-colors"
+                className="flex items-center gap-2 text-[11px] uppercase tracking-[0.15em] rounded-full border border-[#2F2923] bg-[#1B1916] px-3.5 py-1.5 text-[#E5D7BF]/85 hover:text-[#F3E0B9] hover:border-[#F3E0B9]/60 transition"
               >
                 <Icon className="h-3.5 w-3.5" />
-                <span>{name}</span>
+                {name}
               </a>
             ))}
           </div>
