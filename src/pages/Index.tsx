@@ -35,7 +35,7 @@ export default function Index() {
                 Le quotidien laisse des traces.
                 <br />
                 <span className="text-[#F3E0B9]">
-                  La lumière les efface.
+                  L'écoute et le réconfort les effacent.
                 </span>
               </h1>
 
