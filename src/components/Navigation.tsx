@@ -1,3 +1,4 @@
+// src/components/Navigation.tsx
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
@@ -14,30 +15,29 @@ export default function Navigation() {
 
   const [open, setOpen] = useState(false);
 
-  const mainNav = [
+  /** 🔥 Version simplifiée + premium */
+  const navItems = [
     { label: "Accueil", path: "/" },
     { label: "Entreprise", path: "/saas" },
     { label: "Box QVT", path: "/box" },
-    { label: "Ma bulle attentionnée", path: "/simulateur" },
     { label: "Contact", path: "/contact" },
   ];
 
   const isActive = (path: string) =>
-    path === "/"
-      ? location.pathname === "/"
-      : location.pathname.startsWith(path);
+    location.pathname === path ||
+    (path !== "/" && location.pathname.startsWith(path));
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#151515]/95 backdrop-blur-md border-b border-[#2A2520]">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#151515]/95 backdrop-blur-xl border-b border-[#2A2520]">
       <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
         
-        {/* LOGO */}
+        {/* LOGO + HALO */}
         <Link to="/" className="relative flex items-center gap-3">
           <div className="absolute -inset-2 bg-[#F3E0B9]/20 blur-md rounded-full" />
           <img
             src="/logo-qvt.jpeg"
             alt="QVT Box"
-            className="relative w-11 h-11 rounded-full object-cover border border-[#F3E0B9]/40"
+            className="relative w-11 h-11 rounded-full object-cover border border-[#F3E0B9]/40 shadow"
           />
           <span className="relative text-lg font-semibold text-[#F3E0B9] tracking-tight">
             QVT Box
@@ -46,11 +46,11 @@ export default function Navigation() {
 
         {/* DESKTOP NAV */}
         <ul className="hidden md:flex items-center gap-8 text-sm">
-          {mainNav.map((item) => (
+          {navItems.map((item) => (
             <li key={item.path}>
               <Link
                 to={item.path}
-                className={`transition ${
+                className={`transition-colors ${
                   isActive(item.path)
                     ? "text-[#F3E0B9] font-medium"
                     : "text-[#E5D7BF]/75 hover:text-[#F3E0B9]"
@@ -62,12 +62,13 @@ export default function Navigation() {
           ))}
         </ul>
 
-        {/* RIGHT SIDE ACTIONS */}
+        {/* RIGHT ACTIONS */}
         <div className="hidden md:flex items-center gap-4">
-          {/* ZÉNA pill */}
+
+          {/* CTA ZÉNA */}
           <Link
             to="/zena"
-            className="px-4 py-1.5 rounded-full border border-[#3A332D] text-[11px] text-[#E5D7BF] tracking-[0.15em] uppercase hover:border-[#F3E0B9]/70 hover:text-[#F3E0B9] transition"
+            className="px-4 py-1.5 rounded-full border border-[#3A332D] text-[11px] uppercase tracking-[0.16em] text-[#E5D7BF]/90 hover:border-[#F3E0B9]/70 hover:text-[#F3E0B9] transition"
           >
             ZÉNA
           </Link>
@@ -97,7 +98,7 @@ export default function Navigation() {
           )}
         </div>
 
-        {/* MOBILE BUTTON */}
+        {/* MOBILE MENU BUTTON */}
         <button onClick={() => setOpen(!open)} className="md:hidden p-1">
           {open ? (
             <X className="w-7 h-7 text-[#E5D7BF]" />
@@ -110,7 +111,7 @@ export default function Navigation() {
       {/* MOBILE DRAWER */}
       {open && (
         <div className="md:hidden bg-[#1A1816] border-t border-[#2A2520] px-6 py-6 space-y-4">
-          {mainNav.map((item) => (
+          {navItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
