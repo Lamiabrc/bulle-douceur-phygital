@@ -2,7 +2,6 @@
 import { Link } from "react-router-dom";
 import {
   Heart,
-  Sparkles,
   Linkedin,
   Youtube,
   Instagram,
@@ -14,157 +13,175 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-gradient-to-b from-white via-white/70 to-[#F2F7F6] border-t border-primary/10 py-20 px-6">
-      {/* ======= Halos ======= */}
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-primary/20 blur-[160px] opacity-30 animate-breathe pointer-events-none" />
+    <footer className="border-t border-[#2A2520] bg-[#151515] text-[#FDF9F0]">
+      <div className="mx-auto max-w-6xl px-6 py-10 md:py-14">
+        {/* TOP ROW */}
+        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+          {/* BRAND + TAGLINE */}
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <div className="absolute inset-0 rounded-full bg-[#F3E0B9]/30 blur-lg" />
+              <img
+                src="/logo-qvt.jpeg"
+                alt="QVT Box"
+                className="relative h-12 w-12 rounded-full object-cover border border-[#F3E0B9]/40 shadow-md"
+              />
+            </div>
 
-      {/* ======= Lucioles ======= */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30 -z-10">
-        {Array.from({ length: 18 }).map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-secondary/70 rounded-full animate-firefly"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 4}s`,
-              animationDuration: `${3 + Math.random() * 3}s`,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* ======= Content ======= */}
-      <div className="container mx-auto relative z-10 max-w-5xl text-center flex flex-col items-center">
-        {/* LOGO */}
-        <div className="flex items-center gap-4 mb-6">
-          <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#5B4B8A]/40 to-[#4FD1C5]/40 rounded-full blur-lg opacity-40 group-hover:opacity-60 transition-all" />
-            <img
-              src="/logo-qvt.jpeg"
-              alt="QVT Box"
-              className="relative w-16 h-16 rounded-full object-cover shadow-xl group-hover:scale-[1.07] transition-all"
-            />
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-semibold tracking-tight">
+                  QVT Box
+                </span>
+                <span className="inline-block rounded-full border border-[#F3E0B9]/40 px-3 py-0.5 text-[10px] uppercase tracking-[0.18em] text-[#E5D7BF]">
+                  Santé émotionnelle & QVCT
+                </span>
+              </div>
+              <p className="mt-1 text-xs md:text-sm text-[#D5C8B0]">
+                « Sortez de votre bulle, on veille sur vous. »
+              </p>
+            </div>
           </div>
 
-          <h2 className="text-3xl font-extrabold bg-gradient-to-r from-[#5B4B8A] via-[#4FD1C5] to-[#5B4B8A] text-transparent bg-clip-text tracking-tight">
-            QVT Box
-          </h2>
+          {/* MAIN LINKS */}
+          <nav className="text-sm">
+            <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[#E5D7BF]/80">
+              <li>
+                <Link to="/" className="hover:text-[#F3E0B9] transition-colors">
+                  Accueil
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/box"
+                  className="hover:text-[#F3E0B9] transition-colors"
+                >
+                  QVT Box & Box bien-être
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/saas"
+                  className="hover:text-[#F3E0B9] transition-colors"
+                >
+                  Licence SaaS entreprise
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="https://zena.qvtbox.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#F3E0B9] transition-colors"
+                >
+                  ZÉNA Entreprise
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://zena-family.qvtbox.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#F3E0B9] transition-colors"
+                >
+                  ZÉNA Family
+                </a>
+              </li>
+              <li>
+                <Link
+                  to="/simulateur"
+                  className="hover:text-[#F3E0B9] transition-colors"
+                >
+                  Ma bulle attentionnée
+                </Link>
+              </li>
+            </ul>
+          </nav>
         </div>
 
-        {/* SLOGAN */}
-        <p className="text-lg text-[#212121]/70 leading-relaxed max-w-3xl mb-10">
-          QVT Box combine <strong>écoute émotionnelle</strong>,{" "}
-          <strong>IA bienveillante</strong> et{" "}
-          <strong>solutions concrètes</strong> pour améliorer durablement la
-          qualité de vie au travail.
-          <br />
-          Ensemble, faisons de “Ça va ?” une vraie question.
-        </p>
+        {/* SEPARATOR */}
+        <div className="mt-8 border-t border-[#2A2520]" />
 
-        {/* CTA ZÉNA */}
-        <a
-          href="https://zena.qvtbox.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-[#5B4B8A] to-[#4FD1C5] text-white font-semibold text-lg shadow-lg hover:scale-[1.06] transition-all mb-12"
-        >
-          <Sparkles className="w-5 h-5 animate-pulse" />
-          Parler à <strong>ZÉNA Voice</strong>
-        </a>
-
-        {/* ======= Réseaux ======= */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {[
-            {
-              name: "LinkedIn",
-              icon: Linkedin,
-              link: "https://www.linkedin.com/company/qvt-box",
-            },
-            {
-              name: "YouTube",
-              icon: Youtube,
-              link: "https://www.youtube.com/@qvtbox",
-            },
-            {
-              name: "Instagram",
-              icon: Instagram,
-              link: "https://www.instagram.com/qvtbox",
-            },
-            {
-              name: "Facebook",
-              icon: Facebook,
-              link: "https://www.facebook.com/QVTBOX/",
-            },
-            {
-              name: "Twitch",
-              icon: Twitch,
-              link: "https://www.twitch.tv/lamiazaina",
-            },
-          ].map(({ name, icon: Icon, link }) => (
-            <a
-              key={name}
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white shadow-md border border-primary/10 hover:shadow-lg hover:bg-primary/10 transition-all"
-            >
-              <Icon className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium">{name}</span>
-            </a>
-          ))}
-        </div>
-
-        {/* ======= Link Rows ======= */}
-        <nav className="mb-10">
-          <ul className="flex flex-wrap justify-center gap-8 text-sm font-semibold text-[#212121]/70">
-            <li>
-              <Link to="/box" className="hover:text-primary">
-                Notre offre
+        {/* BOTTOM ROW */}
+        <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+          {/* LEGAL & SITE LINKS */}
+          <div className="space-y-2 text-xs text-[#C9BDA7]">
+            <div className="flex flex-wrap gap-4">
+              <Link
+                to="/cgv"
+                className="hover:text-[#F3E0B9] transition-colors"
+              >
+                CGV
               </Link>
-            </li>
-            <li>
-              <Link to="/saas" className="hover:text-primary">
-                Licence SaaS
+              <Link
+                to="/mentions-legales"
+                className="hover:text-[#F3E0B9] transition-colors"
+              >
+                Mentions légales
               </Link>
-            </li>
-            <li>
-              <Link to="/about" className="hover:text-primary">
-                À propos
+              <Link
+                to="/politique-confidentialite"
+                className="hover:text-[#F3E0B9] transition-colors"
+              >
+                Politique de confidentialité
               </Link>
-            </li>
-            <li>
-              <Link to="/auth" className="hover:text-primary">
-                Mon espace
-              </Link>
-            </li>
-            <li>
-              <Link to="/contact" className="hover:text-primary">
+              <Link
+                to="/contact"
+                className="hover:text-[#F3E0B9] transition-colors"
+              >
                 Contact
               </Link>
-            </li>
-          </ul>
-        </nav>
+            </div>
 
-        {/* ======= Legal ======= */}
-        <div className="flex flex-wrap justify-center gap-6 mb-6 text-sm text-[#212121]/60">
-          <Link to="/cgv" className="hover:text-primary">
-            CGV
-          </Link>
-          <Link to="/mentions-legales" className="hover:text-primary">
-            Mentions légales
-          </Link>
-          <Link to="/politique-confidentialite" className="hover:text-primary">
-            Politique de confidentialité
-          </Link>
+            <p className="text-[11px] text-[#AFA291]">
+              © {year} QVT Box — Conçu avec{" "}
+              <Heart className="inline-block h-3 w-3 text-red-400 align-text-bottom" />{" "}
+              et beaucoup d’espoir pour les salariés, les parents et les ados.
+            </p>
+          </div>
+
+          {/* SOCIALS */}
+          <div className="flex flex-wrap items-center gap-3">
+            {[
+              {
+                name: "LinkedIn",
+                icon: Linkedin,
+                href: "https://www.linkedin.com/company/qvt-box",
+              },
+              {
+                name: "YouTube",
+                icon: Youtube,
+                href: "https://www.youtube.com/@qvtbox",
+              },
+              {
+                name: "Instagram",
+                icon: Instagram,
+                href: "https://www.instagram.com/qvtbox",
+              },
+              {
+                name: "Facebook",
+                icon: Facebook,
+                href: "https://www.facebook.com/QVTBOX/",
+              },
+              {
+                name: "Twitch",
+                icon: Twitch,
+                href: "https://www.twitch.tv/lamiazaina",
+              },
+            ].map(({ name, icon: Icon, href }) => (
+              <a
+                key={name}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-1.5 rounded-full border border-[#2F2923] bg-[#1B1916] px-3.5 py-1.5 text-[11px] uppercase tracking-[0.16em] text-[#E5D7BF]/85 hover:border-[#F3E0B9]/70 hover:text-[#F3E0B9] transition-colors"
+              >
+                <Icon className="h-3.5 w-3.5" />
+                <span>{name}</span>
+              </a>
+            ))}
+          </div>
         </div>
-
-        {/* ======= Copyright ======= */}
-        <p className="text-sm text-[#212121]/50">
-          © {year} QVT Box — Créé avec{" "}
-          <Heart className="inline-block w-4 h-4 text-red-400" /> et beaucoup
-          d’espoir 💜
-        </p>
       </div>
     </footer>
   );
