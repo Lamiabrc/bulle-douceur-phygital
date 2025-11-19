@@ -1,15 +1,16 @@
 // src/pages/BoutiquePage.tsx
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+
 import { useScrollReveal, useStaggeredReveal } from "@/hooks/useScrollReveal";
 import { AdvancedProductFilters } from "@/components/AdvancedProductFilters";
 import { AssistantChatBot } from "@/components/AssistantChatBot";
+
 import {
   MapPin,
   Leaf,
@@ -21,35 +22,16 @@ import {
   Truck,
   ArrowRight,
 } from "lucide-react";
-import localProducts from "@/assets/local-products-boutique.jpg";
-import { supabase } from "@/integrations/supabase/client";
 
-// Typage générique d’un produit venant de Supabase
-type BoutiqueProduct = {
-  id: string | number;
-  name: string;
-  price: number | string | null;
-  category?: string | null;
-  origin?: string | null;
-  producer?: string | null;
-  rating?: number | null;
-  reviews?: number | null;
-  image_url?: string | null;
-  labels?: string[] | null;
-  description?: string | null;
-};
+import localProductsHero from "@/assets/local-products-boutique.jpg";
 
 const BoutiquePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [isChatBotOpen, setIsChatBotOpen] = useState(false);
 
-  const [products, setProducts] = useState<BoutiqueProduct[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
   const [heroRef, heroVisible] = useScrollReveal();
-  const [productsRef, productsVisible] = useStaggeredReveal(30, 150);
+  const [productsRef, productsVisible] = useStaggeredReveal(6, 150);
   const [ctaRef, ctaVisible] = useScrollReveal();
 
   const categories = [
@@ -57,312 +39,333 @@ const BoutiquePage = () => {
     { id: "bien-etre", name: "Bien-être", icon: Leaf },
     { id: "ergonomie", name: "Ergonomie", icon: CheckCircle },
     { id: "energie", name: "Énergie", icon: Star },
-    { id: "local", name: "Terroir Local", icon: MapPin },
+    { id: "local", name: "Terroir local", icon: MapPin },
+  ];
+
+  const products = [
+    {
+      id: 1,
+      name: "Huile essentielle de lavande bio",
+      price: "24€",
+      category: "bien-etre",
+      origin: "Provence, France",
+      producer: "Distillerie des Alpilles",
+      rating: 4.8,
+      reviews: 127,
+      image: "/images/boutique/huile-lavande.jpg",
+      labels: ["Bio", "Made in France", "Artisanal"],
+      description:
+        "Huile essentielle pure de lavande fine AOP, récoltée à la main dans les champs de Provence.",
+    },
+    {
+      id: 2,
+      name: "Coussin ergonomique lombaire",
+      price: "45€",
+      category: "ergonomie",
+      origin: "Normandie, France",
+      producer: "Ergofrance",
+      rating: 4.6,
+      reviews: 89,
+      image: "/images/boutique/coussin-lombaire.jpg",
+      labels: ["Ergonomique", "Conçu par des kinés", "Garantie 2 ans"],
+      description:
+        "Support lombaire avec mousse à mémoire de forme, conçu avec des kinésithérapeutes français.",
+    },
+    {
+      id: 3,
+      name: "Tisane énergisante bio",
+      price: "18€",
+      category: "energie",
+      origin: "Auvergne, France",
+      producer: "Herboristerie du Puy",
+      rating: 4.7,
+      reviews: 203,
+      image: "/images/boutique/tisane-energisante.jpg",
+      labels: ["Bio", "Plantes françaises", "Sans théine"],
+      description:
+        "Mélange de plantes tonifiantes cultivées dans le Massif Central, idéal pour les fins de journée.",
+    },
+    {
+      id: 4,
+      name: "Miel de tilleul artisanal",
+      price: "16€",
+      category: "local",
+      origin: "Bourgogne, France",
+      producer: "Rucher des Coteaux",
+      rating: 4.9,
+      reviews: 156,
+      image: "/images/boutique/miel-tilleul.jpg",
+      labels: ["Artisanal", "Récolte 2024", "Apiculteur local"],
+      description:
+        "Miel crémeux aux notes florales délicates, récolté dans les forêts bourguignonnes.",
+    },
+    {
+      id: 5,
+      name: "Balle anti-stress naturelle",
+      price: "12€",
+      category: "bien-etre",
+      origin: "Nouvelle-Aquitaine, France",
+      producer: "Ateliers Solidaires",
+      rating: 4.4,
+      reviews: 74,
+      image: "/images/boutique/balle-anti-stress.jpg",
+      labels: ["Éco-conçue", "Insertion sociale", "Matériaux naturels"],
+      description:
+        "Balle de relaxation remplie de graines de lin bio, fabriquée dans des ateliers d’insertion.",
+    },
+    {
+      id: 6,
+      name: "Repose-pieds ajustable en bois",
+      price: "38€",
+      category: "ergonomie",
+      origin: "Bretagne, France",
+      producer: "Mobilier Pro Bretagne",
+      rating: 4.5,
+      reviews: 92,
+      image: "/images/boutique/repose-pieds.jpg",
+      labels: ["Bois français", "Réglable", "Ergonomique"],
+      description:
+        "Repose-pieds en hêtre massif, hauteur et inclinaison ajustables pour soulager les jambes.",
+    },
   ];
 
   const stats = [
     {
       value: "70%",
-      label: "des Français veulent des entreprises locales",
+      label: "des Français souhaitent des achats locaux",
       source: "ADEME 2023",
     },
-    { value: "150+", label: "artisans partenaires", source: "Réseau QVT Box" },
-    { value: "100%", label: "produits français", source: "Charte qualité" },
-    { value: "48h", label: "livraison moyenne", source: "Circuits courts" },
+    {
+      value: "150+",
+      label: "artisans partenaires",
+      source: "Réseau QVT Box",
+    },
+    {
+      value: "100%",
+      label: "produits français",
+      source: "Charte qualité",
+    },
+    {
+      value: "48h",
+      label: "délai moyen de livraison",
+      source: "Circuits courts",
+    },
   ];
 
-  // 🔌 Chargement des vrais produits depuis Supabase
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const { data, error } = await supabase
-          .from("products")
-          .select("*")
-          .order("created_at", { ascending: false });
-
-        if (error) {
-          console.error("Erreur Supabase products:", error);
-          setError("Impossible de charger les produits pour le moment.");
-          return;
-        }
-
-        setProducts((data || []) as BoutiqueProduct[]);
-      } catch (err) {
-        console.error(err);
-        setError("Une erreur est survenue lors du chargement de la boutique.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  // 🧠 Filtrage / recherche sur les produits chargés
   const filteredProducts = products.filter((product) => {
-    const name = (product.name || "").toLowerCase();
-    const producer = (product.producer || "").toLowerCase();
+    const term = searchTerm.toLowerCase();
     const matchesSearch =
-      name.includes(searchTerm.toLowerCase()) ||
-      producer.includes(searchTerm.toLowerCase());
-
-    const category = (product.category || "").toLowerCase();
+      product.name.toLowerCase().includes(term) ||
+      product.producer.toLowerCase().includes(term);
     const matchesCategory =
-      selectedCategory === "all" ||
-      category === selectedCategory.toLowerCase();
-
+      selectedCategory === "all" || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
-
-  // Formatage du prix pour affichage
-  const formatPrice = (price: BoutiqueProduct["price"]) => {
-    if (typeof price === "number") return `${price.toFixed(2)} €`;
-    if (typeof price === "string" && price.trim() !== "") return price;
-    return "—";
-  };
 
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section */}
-      <section className="pt-24 pb-16 px-6 bg-gradient-hero" ref={heroRef}>
-        <div className="container mx-auto">
-          <div
-            className={`grid lg:grid-cols-2 gap-12 items-center scroll-reveal ${
-              heroVisible ? "visible" : ""
-            }`}
-          >
-            <div>
-              <div className="flex items-center gap-2 mb-6">
-                <MapPin className="w-8 h-8 text-secondary" />
-                <Badge variant="outline">
-                  70% des Français favorables - ADEME
-                </Badge>
-              </div>
-
-              <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 font-inter">
-                Boutique <span className="text-secondary">Locale</span>
-              </h1>
-
-              <div className="card-professional p-6 mb-8">
-                <p className="text-lg text-foreground leading-relaxed font-lato mb-4">
-                  <span className="text-secondary font-medium">
-                    Selon l&apos;ADEME, 70% des Français veulent que leurs
-                    entreprises s&apos;approvisionnent localement.
-                  </span>
-                </p>
-                <p className="text-foreground/70 font-lato">
-                  Notre boutique sélectionne exclusivement des produits
-                  français, créés par des artisans de nos régions pour soutenir
-                  l&apos;économie solidaire.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="btn-secondary text-lg px-8 py-4 font-inter">
-                  <ShoppingBag className="w-5 h-5 mr-2" />
-                  Découvrir le savoir-faire local
-                </Button>
-                <Link to="/engagements">
-                  <Button
-                    variant="outline"
-                    className="text-lg px-8 py-4 font-inter"
-                  >
-                    Nos engagements éthiques
-                  </Button>
-                </Link>
-              </div>
+      {/* HERO */}
+      <section
+        className="pt-24 pb-16 px-6 bg-[#151515] text-[#FDF9F0]"
+        ref={heroRef}
+      >
+        <div
+          className={`container mx-auto grid lg:grid-cols-2 gap-10 items-center scroll-reveal ${
+            heroVisible ? "visible" : ""
+          }`}
+        >
+          {/* Texte */}
+          <div className="space-y-6">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full border border-[#F3E0B9]/50 bg-[#1E1A17]">
+              <MapPin className="w-4 h-4 text-[#F3E0B9]" />
+              Boutique locale & engagée QVT Box
             </div>
 
-            <div className="relative">
+            <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
+              La boutique{" "}
+              <span className="text-secondary">Made in France</span> qui nourrit
+              vos Box QVT
+            </h1>
+
+            <p className="text-sm md:text-base text-[#E5D7BF]/90 leading-relaxed">
+              Ici, chaque produit raconte une histoire : celle d’un artisan,
+              d’un territoire, et d’un geste concret pour le bien-être au
+              travail. Vous pouvez alimenter vos Box QVT, vos cadeaux
+              collaborateurs ou vos actions RSE avec des produits 100% français.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button className="bg-[#F3E0B9] text-[#151515] hover:bg-[#F7E7C5] px-6 py-3 rounded-full text-sm font-semibold">
+                <ShoppingBag className="w-4 h-4 mr-2" />
+                Parcourir les produits
+              </Button>
+              <Button
+                variant="outline"
+                className="border-[#F3E0B9] text-[#F3E0B9] hover:bg-[#F3E0B9]/10 px-6 py-3 rounded-full text-sm"
+              >
+                Devenir fournisseur local
+              </Button>
+            </div>
+          </div>
+
+          {/* Visuel */}
+          <div className="relative">
+            <div className="rounded-3xl overflow-hidden shadow-floating border border-[#F3E0B9]/40">
               <img
-                src={localProducts}
-                alt="Produits artisanaux français"
-                className="rounded-lg shadow-floating w-full object-cover"
+                src={localProductsHero}
+                alt="Produits locaux français pour QVT Box"
+                className="w-full h-[280px] md:h-[340px] object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-lg"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+            </div>
+            <div className="absolute -bottom-4 left-4 bg-[#1E1A17]/95 border border-[#F3E0B9]/40 rounded-2xl px-4 py-3 text-xs text-[#FDF9F0] shadow-lg">
+              🌱 Circuits courts • 🤝 Partenariats durables • 🇫🇷 100% France
             </div>
           </div>
         </div>
       </section>
 
-      {/* Statistiques */}
-      <section className="py-16 px-6 bg-background">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {stats.map((stat, index) => (
-              <Card key={index} className="card-professional text-center p-6">
-                <CardContent className="space-y-4">
-                  <div className="text-4xl font-bold text-secondary font-inter">
-                    {stat.value}
-                  </div>
-                  <p className="text-sm text-foreground font-lato leading-tight">
-                    {stat.label}
-                  </p>
-                  <Badge variant="outline" className="text-xs">
-                    {stat.source}
-                  </Badge>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+      {/* STATISTIQUES */}
+      <section className="py-14 px-6 bg-background">
+        <div className="container mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {stats.map((stat, index) => (
+            <Card key={index} className="card-professional text-center p-6">
+              <CardContent className="space-y-3">
+                <div className="text-3xl md:text-4xl font-bold text-secondary">
+                  {stat.value}
+                </div>
+                <p className="text-sm text-foreground/80">{stat.label}</p>
+                <span className="inline-block text-[11px] px-2 py-1 rounded-full bg-muted text-muted-foreground">
+                  {stat.source}
+                </span>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 
-      {/* Filtres et Recherche */}
-      <section className="py-8 px-6 section-professional">
-        <div className="container mx-auto">
-          <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
-            <div className="flex-1 max-w-md">
+      {/* RECHERCHE + CATEGORIES */}
+      <section className="py-8 px-6 bg-background-soft">
+        <div className="container mx-auto space-y-6">
+          <div className="grid lg:grid-cols-[minmax(0,1.5fr)_minmax(0,2fr)] gap-6 items-center">
+            {/* Barre de recherche */}
+            <div className="max-w-xl">
+              <label className="block text-sm font-medium mb-2">
+                Rechercher un produit ou un artisan
+              </label>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
-                  placeholder="Rechercher un produit ou artisan..."
+                  placeholder="Ex : lavande, miel, coussin, Bretagne…"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  className="pl-9"
                 />
               </div>
             </div>
 
-            <div className="flex gap-2 flex-wrap">
+            {/* Catégories */}
+            <div className="flex flex-wrap gap-2 justify-start lg:justify-end">
               {categories.map((category) => {
-                const IconComponent = category.icon;
+                const Icon = category.icon;
+                const isActive = selectedCategory === category.id;
                 return (
                   <Button
                     key={category.id}
-                    variant={
-                      selectedCategory === category.id ? "default" : "outline"
-                    }
+                    variant={isActive ? "default" : "outline"}
                     onClick={() => setSelectedCategory(category.id)}
-                    className="flex items-center gap-2"
+                    className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs ${
+                      isActive
+                        ? "bg-secondary text-white"
+                        : "border-muted text-foreground"
+                    }`}
                   >
-                    <IconComponent className="w-4 h-4" />
+                    <Icon className="w-4 h-4" />
                     {category.name}
                   </Button>
                 );
               })}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Filtres Avancés */}
-      <section className="py-8 px-6 bg-background-soft">
-        <div className="container mx-auto">
+          {/* Filtres avancés (placeholder logique) */}
           <AdvancedProductFilters
-            onFiltersChange={(filters) => {
-              // TODO : brancher les filtres avancés sur Supabase (prix, labels, régions, etc.)
-              console.log("Filtres avancés:", filters);
+            onFiltersChange={() => {
+              // branchement logique ultérieur si besoin
             }}
             productCount={filteredProducts.length}
           />
         </div>
       </section>
 
-      {/* Produits */}
+      {/* PRODUITS */}
       <section className="py-12 px-6 bg-background" ref={productsRef}>
         <div className="container mx-auto">
-          {loading && (
-            <p className="text-center text-sm text-muted-foreground">
-              Chargement des produits…
-            </p>
-          )}
-
-          {error && !loading && (
-            <p className="text-center text-sm text-red-500">{error}</p>
-          )}
-
-          {!loading && !error && filteredProducts.length === 0 && (
-            <p className="text-center text-sm text-muted-foreground">
-              Aucun produit ne correspond pour le moment.  
-              Ajoute des produits dans le CMS &quot;Products&quot; pour les
-              voir ici.
-            </p>
-          )}
-
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product, index) => (
               <Card
                 key={product.id}
-                className={`card-professional overflow-hidden group hover:shadow-floating transition-all duration-300 card-hover stagger-item ${
+                className={`card-professional overflow-hidden group card-hover stagger-item ${
                   productsVisible.has(index) ? "visible" : ""
                 }`}
               >
                 <div className="relative">
                   <img
-                    src={
-                      product.image_url ||
-                      "/api/placeholder/300/200" /* fallback si pas d'image */
-                    }
+                    src={product.image}
                     alt={product.name}
                     className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-4 left-4 flex gap-2">
-                    {(product.labels ?? []).slice(0, 2).map((label, i) => (
-                      <Badge key={i} variant="secondary" className="text-xs">
+                  <div className="absolute top-3 left-3 flex flex-wrap gap-2">
+                    {product.labels.slice(0, 2).map((label, i) => (
+                      <span
+                        key={i}
+                        className="text-[10px] px-2 py-1 rounded-full bg-white/90 text-foreground shadow-sm"
+                      >
                         {label}
-                      </Badge>
+                      </span>
                     ))}
                   </div>
                 </div>
 
                 <CardContent className="p-6 space-y-4">
                   <div>
-                    <h3 className="text-lg font-bold text-foreground mb-2 font-inter">
+                    <h3 className="text-lg font-semibold mb-1">
                       {product.name}
                     </h3>
-                    <p className="text-sm text-foreground/70 font-lato">
-                      {product.description ||
-                        "Produit local sélectionné par QVT Box."}
+                    <p className="text-sm text-foreground/70">
+                      {product.description}
                     </p>
                   </div>
 
-                  {(product.rating || product.reviews) && (
-                    <div className="flex items-center gap-2">
-                      {product.rating && (
-                        <div className="flex items-center gap-1">
-                          <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                          <span className="text-sm font-medium">
-                            {product.rating.toFixed(1)}
-                          </span>
-                        </div>
-                      )}
-                      {product.reviews && (
-                        <span className="text-xs text-muted-foreground">
-                          ({product.reviews} avis)
-                        </span>
-                      )}
+                  <div className="flex items-center gap-2 text-sm">
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      <span className="font-medium">{product.rating}</span>
                     </div>
-                  )}
+                    <span className="text-xs text-muted-foreground">
+                      ({product.reviews} avis)
+                    </span>
+                  </div>
 
-                  <div className="border-t pt-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-2xl font-bold text-primary font-inter">
-                        {formatPrice(product.price)}
+                  <div className="border-t pt-4 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl font-bold text-primary">
+                        {product.price}
                       </span>
-                      {(product.origin || product.producer) && (
-                        <div className="flex items-center gap-1 text-xs text-secondary">
-                          <MapPin className="w-3 h-3" />
-                          {product.origin || "Origine France"}
-                        </div>
-                      )}
+                      <div className="flex items-center gap-1 text-xs text-secondary">
+                        <MapPin className="w-3 h-3" />
+                        {product.origin}
+                      </div>
                     </div>
+                    <p className="text-xs text-muted-foreground">
+                      Par {product.producer}
+                    </p>
 
-                    {product.producer && (
-                      <p className="text-xs text-muted-foreground mb-3 font-lato">
-                        Par {product.producer}
-                      </p>
-                    )}
-
-                    {/* TODO : brancher sur ton vrai système de panier / checkout */}
-                    <Button className="w-full btn-outline button-hover">
+                    <Button className="w-full mt-2 rounded-full button-hover">
                       <ShoppingBag className="w-4 h-4 mr-2" />
-                      Ajouter au panier
+                      Ajouter à ma sélection QVT
                     </Button>
                   </div>
                 </CardContent>
@@ -372,56 +375,56 @@ const BoutiquePage = () => {
         </div>
       </section>
 
-      {/* Nos engagements */}
-      <section className="py-20 px-6 section-professional">
+      {/* ENGAGEMENTS */}
+      <section className="py-20 px-6 bg-background-soft">
         <div className="container mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-foreground mb-6 font-inter">
-              Nos <span className="text-secondary">Engagements Éthiques</span>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Nos engagements éthiques
             </h2>
+            <p className="text-foreground/70 max-w-2xl mx-auto text-sm md:text-base">
+              La boutique QVT Box n’est pas un simple catalogue : c’est un
+              écosystème de partenaires qui partagent une même vision du travail
+              et du bien-être.
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="card-professional p-8 text-center">
               <CardContent className="space-y-4">
-                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
-                  <MapPin className="w-8 h-8 text-secondary" />
+                <div className="w-14 h-14 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                  <MapPin className="w-7 h-7 text-secondary" />
                 </div>
-                <h3 className="text-xl font-bold font-inter">100% Local</h3>
-                <p className="text-foreground/70 font-lato">
-                  Tous nos produits sont fabriqués en France par des artisans
-                  sélectionnés pour leur savoir-faire et leurs pratiques
-                  éthiques.
+                <h3 className="text-lg font-semibold">100% local</h3>
+                <p className="text-sm text-foreground/70">
+                  Produits fabriqués en France par des artisans et PME
+                  sélectionnés pour leur impact et leur transparence.
                 </p>
               </CardContent>
             </Card>
 
             <Card className="card-professional p-8 text-center">
               <CardContent className="space-y-4">
-                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Leaf className="w-8 h-8 text-secondary" />
+                <div className="w-14 h-14 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Leaf className="w-7 h-7 text-secondary" />
                 </div>
-                <h3 className="text-xl font-bold font-inter">
-                  Éco-responsable
-                </h3>
-                <p className="text-foreground/70 font-lato">
-                  Priorité aux circuits courts, emballages recyclables et
-                  producteurs engagés dans des démarches environnementales.
+                <h3 className="text-lg font-semibold">Éco-responsable</h3>
+                <p className="text-sm text-foreground/70">
+                  Circuits courts, emballages recyclables et partenaires engagés
+                  dans des démarches environnementales concrètes.
                 </p>
               </CardContent>
             </Card>
 
             <Card className="card-professional p-8 text-center">
               <CardContent className="space-y-4">
-                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
-                  <Award className="w-8 h-8 text-secondary" />
+                <div className="w-14 h-14 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Award className="w-7 h-7 text-secondary" />
                 </div>
-                <h3 className="text-xl font-bold font-inter">
-                  Qualité Garantie
-                </h3>
-                <p className="text-foreground/70 font-lato">
-                  Sélection rigoureuse, certifications officielles et engagement
-                  qualité sur tous nos produits partenaires.
+                <h3 className="text-lg font-semibold">Qualité garantie</h3>
+                <p className="text-sm text-foreground/70">
+                  Sélection rigoureuse, tests et retours d’expérience terrain
+                  pour alimenter vos Box QVT avec du concret et du durable.
                 </p>
               </CardContent>
             </Card>
@@ -429,39 +432,33 @@ const BoutiquePage = () => {
         </div>
       </section>
 
-      {/* Livraison */}
+      {/* LIVRAISON */}
       <section className="py-16 px-6 bg-background">
         <div className="container mx-auto">
           <Card className="card-professional p-8">
             <div className="grid lg:grid-cols-2 gap-8 items-center">
               <div>
-                <h3 className="text-2xl font-bold text-foreground mb-4 font-inter">
+                <h3 className="text-2xl font-bold mb-4">
                   <Truck className="inline w-6 h-6 mr-2 text-secondary" />
-                  Livraison Responsable
+                  Livraison responsable
                 </h3>
-                <p className="text-foreground/70 font-lato mb-4">
-                  Nos partenaires logistiques privilégient les circuits courts
-                  et les modes de transport décarbonés pour réduire l&apos;impact
-                  environnemental.
+                <p className="text-sm md:text-base text-foreground/70 mb-4">
+                  Nous privilégions des transporteurs engagés et des circuits
+                  courts pour limiter l’empreinte carbone de chaque envoi, tout
+                  en garantissant des délais raisonnables.
                 </p>
-                <ul className="space-y-2">
+                <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-secondary" />
-                    <span className="text-sm font-lato">
-                      Livraison 48h en moyenne
-                    </span>
+                    Livraison moyenne en 48h
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-secondary" />
-                    <span className="text-sm font-lato">
-                      Emballages recyclables
-                    </span>
+                    Emballages recyclables ou réutilisables
                   </li>
                   <li className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-secondary" />
-                    <span className="text-sm font-lato">
-                      Transporteurs engagés
-                    </span>
+                    Optimisation des regroupements d’envois
                   </li>
                 </ul>
               </div>
@@ -470,8 +467,8 @@ const BoutiquePage = () => {
                 <div className="text-4xl font-bold text-secondary mb-2">
                   Gratuit
                 </div>
-                <p className="text-foreground/70 font-lato">
-                  Livraison offerte dès 50€ d&apos;achat
+                <p className="text-sm text-foreground/70">
+                  Livraison offerte dès 50€ d’achats cumulés
                 </p>
               </div>
             </div>
@@ -479,38 +476,35 @@ const BoutiquePage = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 px-6 bg-secondary" ref={ctaRef}>
+      {/* CTA FINAL */}
+      <section
+        className="py-20 px-6 bg-secondary text-white"
+        ref={ctaRef}
+      >
         <div
           className={`container mx-auto text-center scroll-reveal-scale ${
             ctaVisible ? "visible" : ""
           }`}
         >
-          <h2 className="text-4xl font-bold text-white mb-6 font-inter">
-            Soutenons ensemble l&apos;économie locale
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Prêt à remplir vos Box avec du vrai local ?
           </h2>
-          <p className="text-white/90 text-lg mb-8 max-w-3xl mx-auto font-lato">
-            Chaque achat contribue au développement des territoires français et
-            au maintien des savoir-faire artisanaux.
+          <p className="text-sm md:text-base text-white/90 max-w-3xl mx-auto mb-8">
+            Sélectionnez vos produits, composez vos Box QVT et soutenez les
+            savoir-faire français tout en prenant soin de vos équipes.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              size="lg"
-              className="bg-white text-secondary hover:bg-white/90 font-inter button-hover"
-            >
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Button className="bg-white text-secondary hover:bg-white/90 rounded-full px-8 py-3">
               <ShoppingBag className="w-5 h-5 mr-2" />
-              Commencer mes achats
+              Commencer ma sélection
             </Button>
-            <Link to="/box">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-secondary font-inter button-hover"
-              >
-                Découvrir nos Box
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
+            <Button
+              variant="outline"
+              className="border-white text-white hover:bg-white/10 rounded-full px-8 py-3"
+            >
+              Découvrir les Box QVT
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
           </div>
         </div>
       </section>
