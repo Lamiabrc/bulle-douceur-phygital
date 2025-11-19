@@ -1,4 +1,6 @@
+// src/pages/AboutPage.tsx
 import React from "react";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
@@ -99,23 +101,25 @@ const AboutPage: React.FC = () => {
             <HeadingFR as="h1" className="mb-2">
               {t("about.hero.title")}
             </HeadingFR>
-            <p className="mt-2 text-white/80 italic">{t("about.hero.subtitle")}</p>
+            <p className="mt-2 text-white/80 italic">
+              {t("about.hero.subtitle")}
+            </p>
             <p className="mt-4 text-lg md:text-xl text-white/90 max-w-3xl">
               {t("about.hero.description")}
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a
-                href="/contact"
+              <Link
+                to="/contact"
                 className="px-5 py-3 rounded-2xl font-medium shadow hover:shadow-lg transition bg-white text-primary"
               >
                 {t("about.hero.cta1")}
-              </a>
-              <a
-                href="/auth"
+              </Link>
+              <Link
+                to="/auth"
                 className="px-5 py-3 rounded-2xl font-medium border hover:shadow transition text-white border-white"
               >
                 {t("about.hero.cta2")}
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -133,13 +137,15 @@ const AboutPage: React.FC = () => {
             <HeadingFR>{t("about.promises.title")}</HeadingFR>
 
             <p className="text-foreground/80 mb-4 text-lg">
-              QVT Box repose sur une conviction : la qualité de vie au travail ne se décrète pas, elle se cultive.
-              Notre solution associe intelligence émotionnelle et actions concrètes pour un mieux-être durable.
+              QVT Box repose sur une conviction : la qualité de vie au travail ne
+              se décrète pas, elle se cultive. Notre solution associe intelligence
+              émotionnelle et actions concrètes pour un mieux-être durable.
             </p>
 
             <p className="text-foreground/80 mb-6 italic">
               Notre approche phygitale : l’app détecte les besoins, la Box répond.
-              Simple, lisible et responsabilisante — pour salariés, managers, RH et CSE.
+              Simple, lisible et responsabilisante — pour salariés, managers, RH
+              et CSE.
             </p>
 
             <p className="text-lg text-[color:#005B5F] font-semibold mb-4">
@@ -169,14 +175,18 @@ const AboutPage: React.FC = () => {
                   key={i}
                   className="flex items-start gap-3 p-5 rounded-2xl bg-white/80 backdrop-blur-md border border-transparent hover:border-[#00B0B9]/50 shadow-sm hover:shadow-md transition-transform hover:-translate-y-1"
                 >
-                  <span className="mt-0.5 text-[color:#00B0B9]">{item.icon}</span>
-                  <p className="leading-relaxed text-foreground/90">{item.text}</p>
+                  <span className="mt-0.5 text-[color:#00B0B9]">
+                    {item.icon}
+                  </span>
+                  <p className="leading-relaxed text-foreground/90">
+                    {item.text}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Vidéos des trois piliers */}
+          {/* Vidéos / visuels des trois piliers */}
           <div className="grid grid-cols-2 gap-4">
             {[
               "/images/about-listen-daily.mp4",
@@ -217,7 +227,12 @@ const AboutPage: React.FC = () => {
 
         <div className="relative container mx-auto max-w-6xl grid lg:grid-cols-2 gap-12 items-center">
           <div className="rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5">
-            <img src={lamiaPortrait} alt="Portrait de Lamia Bréchet" className="w-full h-[420px] object-cover" loading="lazy" />
+            <img
+              src={lamiaPortrait}
+              alt="Portrait de Lamia Bréchet"
+              className="w-full h-[420px] object-cover"
+              loading="lazy"
+            />
           </div>
 
           <div>
@@ -225,14 +240,15 @@ const AboutPage: React.FC = () => {
             <p className="text-foreground/80 leading-relaxed mb-6">
               Fondatrice de QVT Box, Lamia Bréchet incarne une vision simple :
               <strong> replacer l’humain et l’émotion au cœur de la performance.</strong>
-              Après plus de dix ans dans de salariat, elle crée une solution qui allie IA émotionnelle,
-              impact social et soutien aux salariés.
+              Après plus de dix ans de salariat, elle crée une solution qui allie
+              IA émotionnelle, impact social et soutien aux salariés.
             </p>
 
             <div className="p-5 rounded-2xl bg-white/70 backdrop-blur-md border-l-4 border-[color:#00B0B9] shadow-inner mb-6">
               <p className="text-[color:#005B5F] italic">
-                « Je crois profondément qu’écouter, c’est déjà agir. QVT Box est née de ce besoin :
-                aider les entreprises à mieux comprendre ce que leurs collaborateurs ne disent pas toujours. »
+                « Je crois profondément qu’écouter, c’est déjà agir. QVT Box est
+                née de ce besoin : aider les entreprises à mieux comprendre ce que
+                leurs collaborateurs ne disent pas toujours. »
               </p>
             </div>
 
@@ -242,12 +258,27 @@ const AboutPage: React.FC = () => {
 
             <div className="grid sm:grid-cols-2 gap-3">
               {[
-                { t: "Innovation sociale", d: "Allier IA et bien-être au service du collectif." },
-                { t: "Ancrage local", d: "Produits Made in France et partenariats éthiques." },
-                { t: "Prévention", d: "Agir avant que la fatigue morale ne s’installe." },
-                { t: "Espoir", d: "Redonner du sens, de la confiance et de la lumière." },
+                {
+                  t: "Innovation sociale",
+                  d: "Allier IA et bien-être au service du collectif.",
+                },
+                {
+                  t: "Ancrage local",
+                  d: "Produits Made in France et partenariats éthiques.",
+                },
+                {
+                  t: "Prévention",
+                  d: "Agir avant que la fatigue morale ne s’installe.",
+                },
+                {
+                  t: "Espoir",
+                  d: "Redonner du sens, de la confiance et de la lumière.",
+                },
               ].map((c) => (
-                <Card key={c.t} className="bg-white shadow-sm border hover:shadow-md transition">
+                <Card
+                  key={c.t}
+                  className="bg-white shadow-sm border hover:shadow-md transition"
+                >
                   <CardContent className="p-4">
                     <p className="font-medium text-[color:#005B5F]">{c.t}</p>
                     <p className="text-sm text-foreground/70">{c.d}</p>
@@ -286,12 +317,16 @@ const AboutPage: React.FC = () => {
           <div>
             <HeadingFR>Parlez à Zéna</HeadingFR>
             <p className="text-foreground/80 mb-4 text-lg">
-              Zéna est bien plus qu’une IA : c’est une présence bienveillante, un miroir émotionnel pour les salariés et un allié stratégique pour les entreprises.
+              Zéna est bien plus qu’une IA : c’est une présence bienveillante, un
+              miroir émotionnel pour les salariés et un allié stratégique pour les
+              entreprises.
             </p>
 
             <div className="p-5 rounded-2xl bg-white/80 backdrop-blur-md border-l-4 border-[color:#00B0B9] shadow-inner mb-6">
               <p className="italic text-[color:#005B5F]">
-                Elle écoute chaque collaborateur avec empathie, recueille ses ressentis au fil des jours et génère une météo émotionnelle vivante de votre organisation.
+                Elle écoute chaque collaborateur avec empathie, recueille ses
+                ressentis au fil des jours et génère une météo émotionnelle
+                vivante de votre organisation.
               </p>
             </div>
 
@@ -310,22 +345,22 @@ const AboutPage: React.FC = () => {
             </ul>
 
             <div className="flex flex-wrap gap-3">
-              <a
-                href="/zena"
+              <Link
+                to="/zena"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-medium shadow hover:shadow-lg transition"
                 style={{ backgroundColor: brand.violet, color: "#fff" }}
               >
                 Découvrir Zéna
                 <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
-                href="/contact"
+              </Link>
+              <Link
+                to="/contact"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-medium border hover:shadow transition"
                 style={{ borderColor: brand.canard, color: brand.canard }}
               >
                 Demander une démonstration
                 <Users className="h-4 w-4" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
