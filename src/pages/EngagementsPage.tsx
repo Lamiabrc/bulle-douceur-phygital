@@ -10,25 +10,31 @@ export default function EngagementsPage() {
       <Navigation />
 
       <main>
-        {/* HERO — MANIFESTE CALME & FORT */}
+        {/* HERO VISUEL AVEC IMAGE */}
         <section className="pt-32 pb-20 px-8 md:px-16 bg-[#FAF6EE]">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
+            {/* IMAGE PLEIN FORMAT */}
+            <div className="w-full rounded-3xl overflow-hidden shadow-sm mb-10">
+              <img
+                src="/engagements-hero.jpg"
+                alt="Technologie qui prend soin"
+                className="w-full h-[420px] md:h-[500px] object-cover object-center"
+              />
+            </div>
+
             <p className="uppercase tracking-[0.18em] text-[11px] text-[#9C8D77] mb-4">
               QVT Box · Notre engagement
             </p>
 
             <h1 className="text-3xl md:text-4xl font-light leading-tight mb-5">
-              Nous construisons une technologie
-              <br />
+              Nous construisons une technologie<br />
               qui prend soin des gens.
             </h1>
 
             <p className="text-sm md:text-base text-[#6F6454] max-w-2xl">
               Beaucoup d’outils mesurent, tracent, analysent.
-              <br className="hidden md:block" />
-              QVT Box a choisi une autre voie&nbsp;: écouter, protéger, apaiser.
-              ZÉNA n’est pas là pour contrôler les émotions, mais pour leur
-              laisser un espace sûr.
+              QVT Box choisit une autre voie : écouter, protéger, apaiser.
+              ZÉNA n’est pas un micro caché ; c’est une main posée sur l’épaule.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
@@ -50,159 +56,136 @@ export default function EngagementsPage() {
           </div>
         </section>
 
-        {/* TEXTE STYLE SANDBAR */}
+        {/* SECTION TEXTE - STYLE SANDBAR */}
         <section className="py-28 bg-[#FDF9F0] border-y border-[#E8DCC8]">
           <p className="max-w-3xl mx-auto px-8 md:px-16 text-center text-lg md:text-xl text-[#4A4134] leading-relaxed">
-            La technologie peut fatiguer, surveiller, blesser.
-            <br className="hidden md:block" />
-            Ou elle peut faire l’inverse&nbsp;:
-            <br />
-            ralentir, protéger, réparer.
+            La technologie peut fatiguer.  
+            Elle peut aussi réparer.  
+            Tout dépend de ce qu’on en fait.
           </p>
         </section>
 
-        {/* BLOC ENGAGEMENTS PRINCIPAUX */}
+        {/* BLOC ENGAGEMENTS AVEC IMAGES */}
         <section className="py-24 px-8 md:px-16 bg-[#FAF6EE]">
           <div className="max-w-5xl mx-auto mb-14">
             <p className="uppercase tracking-[0.18em] text-xs text-[#9C8D77] mb-3">
-              Une boussole éthique, pas un argument marketing
+              Une boussole éthique
             </p>
             <h2 className="text-2xl md:text-3xl font-light mb-4">
-              Nos engagements ne sont pas des promesses.
-              <br />
-              Ce sont des limites que nous nous imposons.
+              Nos engagements guident chaque choix.
             </h2>
             <p className="text-sm md:text-base text-[#6F6454] max-w-2xl">
-              Chaque choix de design, de donnée, d’IA et de box physique est
-              passé au filtre de ces engagements. Si cela ne sert pas
-              vraiment les personnes, on ne le fait pas.
+              Ce ne sont pas des arguments commerciaux — 
+              mais des limites fermes.  
+              Si cela n’aide pas les personnes, on ne le fait pas.
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2">
-            {/* ETHIQUE */}
-            <div className="rounded-3xl bg-[#FDF9F0] border border-[#E8DCC8] px-6 py-7 shadow-sm">
-              <div className="flex items-center gap-3 mb-4">
+          <div className="grid gap-14 md:grid-cols-2">
+            {/* 1. ETHIQUE */}
+            <div>
+              <img
+                src="/engagements-social-thread.jpg"
+                alt="Technologie éthique"
+                className="rounded-3xl w-full h-64 object-cover object-center border border-[#E8DCC8] mb-5"
+              />
+
+              <div className="flex items-center gap-3 mb-3">
                 <ShieldCheck className="w-5 h-5 text-[#9C8D77]" />
                 <h3 className="text-lg font-medium">Technologie éthique</h3>
               </div>
+
               <p className="text-sm text-[#6F6454] leading-relaxed">
-                ZÉNA ne remplace pas un humain, elle prépare le terrain
-                pour une vraie rencontre. Nous refusons les logiques
-                de scoring caché, de nudging agressif ou de manipulation
-                des émotions pour pousser à la performance.
+                ZÉNA ne manipule pas, ne classe pas, ne note pas les émotions.  
+                Elle prépare le terrain pour une vraie rencontre humaine.
               </p>
             </div>
 
-            {/* DONNÉES */}
-            <div className="rounded-3xl bg-[#FDF9F0] border border-[#E8DCC8] px-6 py-7 shadow-sm">
-              <div className="flex items-center gap-3 mb-4">
+            {/* 2. DONNÉES */}
+            <div>
+              <img
+                src="/engagements-data-bubble.jpg"
+                alt="Protection des données"
+                className="rounded-3xl w-full h-64 object-cover border border-[#E8DCC8] mb-5"
+              />
+
+              <div className="flex items-center gap-3 mb-3">
                 <Lock className="w-5 h-5 text-[#9C8D77]" />
                 <h3 className="text-lg font-medium">Protection des données</h3>
               </div>
+
               <p className="text-sm text-[#6F6454] leading-relaxed">
-                Vos émotions ne sont pas une ressource exploitable.
-                Les données sensibles sont minimisées, protégées,
-                jamais revendues ni partagées à des fins commerciales.
-                Ce que vous confiez à QVT Box reste sous votre contrôle.
+                Vos émotions restent à vous.  
+                Données minimisées, sécurisées, jamais revendues.
               </p>
             </div>
 
-            {/* ACCÈS GRATUIT / ISOLÉS */}
-            <div className="rounded-3xl bg-[#FDF9F0] border border-[#E8DCC8] px-6 py-7 shadow-sm">
-              <div className="flex items-center gap-3 mb-4">
+            {/* 3. GRATUITÉ ISOLÉS */}
+            <div>
+              <img
+                src="/engagements-isolation-support.jpg"
+                alt="Soutien aux personnes isolées"
+                className="rounded-3xl w-full h-64 object-cover border border-[#E8DCC8] mb-5"
+              />
+
+              <div className="flex items-center gap-3 mb-3">
                 <HeartHandshake className="w-5 h-5 text-[#9C8D77]" />
                 <h3 className="text-lg font-medium">
                   Un accès gratuit pour ceux qui sont seuls
                 </h3>
               </div>
+
               <p className="text-sm text-[#6F6454] leading-relaxed">
-                Nous voulons que ZÉNA reste accessible aux personnes
-                isolées, fragilisées, qui n’ont ni accompagnement, ni
-                espace pour déposer ce qu’elles vivent. L’écoute ne
-                doit pas être un privilège, mais une main tendue.
+                L’écoute émotionnelle ne doit pas être un luxe.  
+                ZÉNA reste accessible à ceux qui n’ont personne.
               </p>
             </div>
 
-            {/* IMPACT SOCIAL */}
-            <div className="rounded-3xl bg-[#FDF9F0] border border-[#E8DCC8] px-6 py-7 shadow-sm">
-              <div className="flex items-center gap-3 mb-4">
+            {/* 4. IMPACT SOCIAL */}
+            <div>
+              <img
+                src="/engagements-social-thread.jpg"
+                alt="Impact social"
+                className="rounded-3xl w-full h-64 object-cover border border-[#E8DCC8] mb-5"
+              />
+
+              <div className="flex items-center gap-3 mb-3">
                 <Users className="w-5 h-5 text-[#9C8D77]" />
                 <h3 className="text-lg font-medium">
                   Réparer les fractures du quotidien
                 </h3>
               </div>
+
               <p className="text-sm text-[#6F6454] leading-relaxed">
-                Salariés épuisés, parents sous pression, ados saturés,
-                grands-parents isolés&nbsp;: QVT Box est pensée pour ceux
-                qui tiennent tout ensemble en silence. Nous dessinons
-                des solutions concrètes, ancrées dans la vie réelle, pas
-                dans les slides.
+                Parents, ados, salariés, retraités.  
+                Une seule promesse : agir sans jamais juger.
               </p>
             </div>
           </div>
         </section>
 
-        {/* TEXTE MANIFESTE 2 */}
-        <section className="py-28 bg-[#FDF9F0] border-y border-[#E8DCC8]">
-          <p className="max-w-3xl mx-auto px-8 md:px-16 text-center text-lg md:text-xl text-[#4A4134] leading-relaxed">
-            On ne demande pas aux gens d’être résilients.
-            <br className="hidden md:block" />
-            On leur construit enfin des appuis.
-          </p>
-        </section>
+        {/* FINAL MANIFESTO AVEC IMAGE SOMBRE */}
+        <section className="py-32 bg-[#151515] text-[#FDF9F0] text-center relative">
+          <img
+            src="/engagements-dark-halo.jpg"
+            alt="Halo espoir"
+            className="absolute inset-0 w-full h-full object-cover opacity-20"
+          />
 
-        {/* POUR QUI & COMMENT ? */}
-        <section className="py-24 px-8 md:px-16 bg-[#FAF6EE]">
-          <div className="max-w-5xl mx-auto grid gap-16 md:grid-cols-2">
-            <div>
-              <p className="uppercase tracking-[0.18em] text-xs text-[#9C8D77] mb-3">
-                Pour qui nous le faisons
-              </p>
-              <h2 className="text-xl md:text-2xl font-light mb-4">
-                Ceux qui tiennent, mais à quel prix&nbsp;?
-              </h2>
-              <p className="text-sm md:text-base text-[#6F6454] leading-relaxed">
-                Managers en tension, opérateurs de terrain, parents
-                épuisés, ados en surcharge mentale, proches aidants,
-                retraités isolés…  
-                Tous ces rôles invisibles qui accumulent la charge
-                sans trouver d’espace pour dire «&nbsp;ça ne va plus&nbsp;».
-              </p>
-            </div>
-
-            <div>
-              <p className="uppercase tracking-[0.18em] text-xs text-[#9C8D77] mb-3">
-                Concrètement, ça change quoi&nbsp;?
-              </p>
-              <ul className="space-y-3 text-sm md:text-base text-[#6F6454]">
-                <li>• Une écoute émotionnelle sans jugement, 24h/24.</li>
-                <li>• Des signaux faibles identifiés sans fliquer les personnes.</li>
-                <li>• Des box utiles, jamais gadget, pour agir dans la vraie vie.</li>
-                <li>• Des tableaux de bord pensés pour protéger, pas pour punir.</li>
-                <li>• Des décisions QVT alignées sur la réalité du terrain.</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA FINAL — FOND SOMBRE COMME L’INDEX */}
-        <section className="py-32 bg-[#151515] text-[#FDF9F0] text-center">
-          <div className="max-w-3xl mx-auto px-8 md:px-16">
+          <div className="relative z-10 max-w-3xl mx-auto px-8 md:px-16">
             <p className="uppercase tracking-[0.2em] text-[11px] text-[#E5D7BF]/80 mb-5">
               Une technologie qui prend soin
             </p>
 
             <h2 className="text-2xl md:text-3xl font-light mb-6">
-              Si vous cherchez un outil pour surveiller vos équipes,
+              Nous ne surveillons pas les gens.
               <br />
-              QVT Box n’est pas fait pour vous.
+              Nous les aidons à mieux respirer.
             </h2>
 
             <p className="text-sm md:text-base text-[#E5D7BF]/85 mb-10">
-              Si vous cherchez une façon plus juste, plus humaine, plus
-              responsable de prendre soin de ceux qui tiennent votre
-              organisation debout, alors on peut travailler ensemble.
+              Si vous cherchez un système humain, utile, juste,
+              alors nous pouvons travailler ensemble.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-3">
