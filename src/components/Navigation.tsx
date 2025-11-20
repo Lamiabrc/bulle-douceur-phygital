@@ -20,6 +20,7 @@ export default function Navigation() {
     { label: "Accueil", path: "/" },
     { label: "Entreprise", path: "/saas" },
     { label: "Box QVT", path: "/box" },
+    { label: "Engagements", path: "/engagements" },  // 🆕 AJOUT ICI
     { label: "Contact", path: "/contact" },
   ];
 
