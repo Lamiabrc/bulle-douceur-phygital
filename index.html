@@ -3,87 +3,44 @@
   <head>
     <meta charset="UTF-8" />
 
-    <!-- RESPONSIVE -->
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
     <meta name="color-scheme" content="light dark" />
 
-    <!-- TITRE & DESCRIPTION -->
     <title>QVT Box — La bulle attentionnée pour vos équipes</title>
     <meta
       name="description"
-      content="QVT Box + Zéna : Box bien-être et IA émotionnelle pour salariés, parents et ados. Une nouvelle façon d’écouter vos équipes."
+      content="QVT Box + Zéna : Box bien-être et IA émotionnelle."
     />
-    <meta name="author" content="QVT Box" />
-    <meta name="theme-color" content="#4FD1C5" />
 
-    <!-- SEO -->
-    <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://www.qvtbox.com/" />
 
-    <!-- FAVICONS -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="icon" href="/logo-qvt.jpeg" type="image/jpeg" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" href="/favicon-16x16.png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- PWA -->
     <link rel="manifest" href="/manifest.webmanifest" />
 
-    <!-- POLICES -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       rel="preconnect"
       href="https://fonts.gstatic.com"
       crossorigin="anonymous"
     />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
 
-    <!-- OPEN GRAPH -->
-    <meta property="og:title" content="QVT Box — La bulle attentionnée" />
-    <meta
-      property="og:description"
-      content="QVT Box + Zéna : IA émotionnelle, box bien-être et météo émotionnelle pour salariés, parents et ados."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="/og-image.png" />
-
-    <!-- TWITTER -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="/og-image.png" />
-
-    <!-- GOOGLE ANALYTICS -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-752B8V04TV"
-    ></script>
-
-    <script>
-      (function () {
-        const GA_ID = "G-752B8V04TV";
-
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-          window.dataLayer.push(arguments);
-        }
-        window.gtag = gtag;
-
-        gtag("js", new Date());
-        gtag("config", GA_ID);
-      })();
-    </script>
   </head>
 
   <body>
-    <noscript>QVT Box nécessite JavaScript pour fonctionner correctement.</noscript>
     <div id="root"></div>
 
-    <!-- SCRIPT PRINCIPAL (généré par Vite) -->
-    <script type="module" src="/assets/index.js"></script>
+    <!-- Entrée Vite correcte -->
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
