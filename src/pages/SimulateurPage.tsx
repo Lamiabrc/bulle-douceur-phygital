@@ -1,10 +1,10 @@
 // src/pages/SimulateurPage.tsx
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useMemo } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 import Navigation from "@/components/Navigation";
-import FloatingBubbles from "@/components/FloatingBubbles";
 import Footer from "@/components/Footer";
+import FloatingBubbles from "@/components/FloatingBubbles";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -12,780 +12,655 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
 import {
-  ArrowLeft,
   Heart,
   Settings,
   Users,
   Star,
-  SmilePlus,
+  Smile,
   Baby,
   Briefcase,
-  UserRound,
   Sparkles,
+  ArrowLeft,
+  CheckCircle2,
+  Moon,
+  Globe2,
+  ArrowRight,
 } from "lucide-react";
 
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 
-type RoleKey = "salarie" | "parent" | "ado" | "grandparent" | "autre";
+// ---- Types ----
+type ProfileId = "salarie" | "parent" | "ado" | "senior" | "autre";
 
-interface RoleConfig {
-  key: RoleKey;
+type DimensionKey = "stress" | "organisation" | "relations" | "energie" | "equilibre";
+
+type QuestionOption = {
+  value: number; // 1 à 4
+  label: string;
+};
+
+type Question = {
+  id: string;
+  dimension: DimensionKey;
+  title: string;
+  question: string;
+  helper?: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  options: QuestionOption[];
+};
+
+// ---- Profils ----
+const profiles: {
+  id: ProfileId;
   label: string;
   emoji: string;
   description: string;
-  color: string;
-  bg: string;
-}
-
-interface QuestionOption {
-  value: string;
-  label: string;
-}
-
-interface Question {
-  id: string;
-  title: string;
-  question: string;
-  icon: any;
-  color: string;
-  pillar: "sante" | "orga" | "cohesion" | "devperso";
-  options: QuestionOption[];
-}
-
-interface Recommendation {
-  name: string;
-  description: string;
-  color: string;
-  products: string[];
-  tagline: string;
-}
-
-const ROLE_CONFIG: RoleConfig[] = [
+}[] = [
   {
-    key: "salarie",
+    id: "salarie",
     label: "Salarié(e)",
-    emoji: "👔",
-    description: "Je veux mieux vivre mon quotidien au travail.",
-    color: "text-[#8B5CF6]",
-    bg: "bg-[#8B5CF6]/10",
+    emoji: "💼",
+    description: "Vous travaillez actuellement (CDI, CDD, intérim, fonction publique…).",
   },
   {
-    key: "parent",
+    id: "parent",
     label: "Parent",
-    emoji: "👪",
-    description: "Je jongle entre le boulot, la maison et la charge mentale.",
-    color: "text-[#00B0B9]",
-    bg: "bg-[#00B0B9]/10",
+    emoji: "👨‍👩‍👧",
+    description: "Vous avez au moins un enfant à charge (ou au quotidien).",
   },
   {
-    key: "ado",
+    id: "ado",
     label: "Adolescent(e)",
     emoji: "🧑‍🎓",
-    description: "Je veux mieux gérer mes émotions et mes relations.",
-    color: "text-[#F97316]",
-    bg: "bg-[#F97316]/10",
+    description: "Collégien·ne, lycéen·ne ou étudiant·e qui vit une période chargée.",
   },
   {
-    key: "grandparent",
-    label: "Grand-parent / Retraité",
+    id: "senior",
+    label: "Grand-parent / Senior",
     emoji: "👵",
-    description: "Je cherche du lien, du rythme et de la douceur.",
-    color: "text-[#22C55E]",
-    bg: "bg-[#22C55E]/10",
+    description: "Vous êtes à la retraite ou en transition, avec ou sans petits-enfants.",
   },
   {
-    key: "autre",
-    label: "Autre adulte",
-    emoji: "🧑",
-    description: "Je veux simplement prendre soin de ma santé émotionnelle.",
-    color: "text-[#0EA5E9]",
-    bg: "bg-[#0EA5E9]/10",
+    id: "autre",
+    label: "Autre situation",
+    emoji: "🌈",
+    description: "Vous ne vous retrouvez pas dans ces catégories, mais vous avez besoin d’un coup de pouce.",
   },
 ];
 
-const QUESTION_SETS: Record<RoleKey, Question[]> = {
+// ---- Questions par profil ----
+// Les dimensions sont stables pour ton futur modèle ML.
+// Les formulations changent selon le profil pour rester pertinentes.
+const questionsByProfile: Record<ProfileId, Question[]> = {
   salarie: [
     {
-      id: "stress",
-      title: "Gestion du stress",
-      question: "Comment évaluez-vous votre niveau de stress au travail en ce moment ?",
+      id: "stress_salarie",
+      dimension: "stress",
+      title: "Pression & charge mentale",
+      question: "En ce moment, comment vivez-vous votre niveau de pression au travail ?",
+      helper: "On parle autant du mental que du corps : sommeil, tensions, fatigue…",
       icon: Heart,
-      color: "text-[#EF4444]",
-      pillar: "sante",
       options: [
-        { value: "low", label: "Ça va bien, je me sens globalement serein(e)" },
-        { value: "medium", label: "Quelques tensions mais ça reste gérable" },
-        { value: "high", label: "Je me sens souvent tendu(e) ou fatigué(e)" },
-        { value: "very-high", label: "Je suis au bord du craquage ou épuisé(e)" },
+        { value: 1, label: "Ça ne va pas du tout, je suis épuisé(e)" },
+        { value: 2, label: "C’est compliqué, je tiens mais c’est lourd" },
+        { value: 3, label: "Globalement ça va, quelques journées difficiles" },
+        { value: 4, label: "Je me sens plutôt serein(e) au quotidien" },
       ],
     },
     {
-      id: "organization",
-      title: "Charge & organisation",
-      question: "Comment vivez-vous votre charge de travail et votre organisation ?",
+      id: "orga_salarie",
+      dimension: "organisation",
+      title: "Organisation & charge de travail",
+      question: "Comment ressentez-vous votre organisation et votre charge de travail ?",
       icon: Settings,
-      color: "text-[#3B82F6]",
-      pillar: "orga",
       options: [
-        { value: "excellent", label: "J'ai un bon rythme, bien cadré" },
-        { value: "good", label: "Plutôt correct, avec quelques périodes chargées" },
-        { value: "average", label: "Je cours souvent après le temps" },
-        { value: "poor", label: "Je suis débordé(e), je n'y arrive plus" },
+        { value: 1, label: "Je suis souvent débordé(e), rien n’est clair" },
+        { value: 2, label: "C’est souvent chargé, j’ai du mal à tout suivre" },
+        { value: 3, label: "C’est assez fluide, même si ça pourrait être mieux" },
+        { value: 4, label: "Je suis bien organisé(e) et je maîtrise ma charge" },
       ],
     },
     {
-      id: "team",
-      title: "Relations d'équipe",
-      question: "Comment se passent vos relations avec vos collègues / manager ?",
+      id: "relations_salarie",
+      dimension: "relations",
+      title: "Relations avec l’équipe",
+      question: "Comment ça se passe avec vos collègues et votre hiérarchie ?",
       icon: Users,
-      color: "text-[#F97316]",
-      pillar: "cohesion",
       options: [
-        { value: "excellent", label: "Très bonnes, ambiance vraiment positive" },
-        { value: "good", label: "Globalement bonnes, quelques tensions ponctuelles" },
-        { value: "average", label: "Correct, plutôt neutre" },
-        { value: "poor", label: "Compliqué : conflits, isolement ou manque de soutien" },
+        { value: 1, label: "Tendu ou conflictuel, je me sens isolé(e)" },
+        { value: 2, label: "Des tensions et malentendus fréquents" },
+        { value: 3, label: "Globalement correct, avec quelques frictions" },
+        { value: 4, label: "Très bonnes relations, je me sens soutenu(e)" },
       ],
     },
     {
-      id: "development",
-      title: "Motivation & sens",
-      question: "Où en êtes-vous dans votre motivation et votre envie d'évoluer ?",
+      id: "energie_salarie",
+      dimension: "energie",
+      title: "Énergie & motivation",
+      question: "Quel est votre niveau d’énergie et de motivation ces dernières semaines ?",
       icon: Star,
-      color: "text-[#A855F7]",
-      pillar: "devperso",
       options: [
-        { value: "motivated", label: "Très motivé(e), j'ai des projets clairs" },
-        { value: "interested", label: "Plutôt motivé(e), ouvert(e) aux opportunités" },
-        { value: "neutral", label: "Je fais le job, sans plus" },
-        { value: "stuck", label: "Je me sens bloqué(e), démotivé(e) ou perdu(e)" },
+        { value: 1, label: "Je suis vidé(e), j’ai du mal à me lever pour aller travailler" },
+        { value: 2, label: "Je fatigue vite, la motivation fluctue" },
+        { value: 3, label: "Je tiens la route, même si je suis parfois à plat" },
+        { value: 4, label: "Je me sens dynamique et plutôt motivé(e)" },
+      ],
+    },
+    {
+      id: "equilibre_salarie",
+      dimension: "equilibre",
+      title: "Équilibre vie pro / perso",
+      question: "Comment jugez-vous l’équilibre entre votre travail et votre vie personnelle ?",
+      icon: Moon,
+      options: [
+        { value: 1, label: "Le travail prend toute la place, je n’ai plus de marge" },
+        { value: 2, label: "L’équilibre est fragile, je fais au mieux" },
+        { value: 3, label: "C’est plutôt équilibré, avec des pics de charge" },
+        { value: 4, label: "Je protège bien mes temps perso et mes limites" },
       ],
     },
   ],
 
   parent: [
     {
-      id: "parent_fatigue",
-      title: "Charge mentale & fatigue",
-      question: "Comment vous sentez-vous en ce moment dans votre rôle de parent ?",
+      id: "stress_parent",
+      dimension: "stress",
+      title: "Fatigue parentale",
+      question: "Comment vous sentez-vous dans votre rôle de parent en ce moment ?",
       icon: Heart,
-      color: "text-[#EF4444]",
-      pillar: "sante",
       options: [
-        { value: "ok", label: "Ça va, je tiens le rythme" },
-        { value: "tired", label: "Je suis fatigué(e), mais je gère encore" },
-        { value: "overwhelmed", label: "Je me sens souvent débordé(e)" },
-        { value: "exhausted", label: "Je suis épuisé(e), au bout du rouleau" },
+        { value: 1, label: "Épuisé(e), à bout de souffle" },
+        { value: 2, label: "Très fatigué(e), je fais comme je peux" },
+        { value: 3, label: "Souvent fatigué(e), mais ça reste gérable" },
+        { value: 4, label: "Plutôt serein(e), même s’il y a des journées sport" },
       ],
     },
     {
-      id: "parent_orga",
-      title: "Organisation familiale",
-      question: "Comment se passe l'organisation du quotidien (devoirs, repas, rendez-vous...) ?",
+      id: "orga_parent",
+      dimension: "organisation",
+      title: "Organisation du quotidien",
+      question: "Comment se passe l’organisation du quotidien (repas, devoirs, RDV, activités) ?",
       icon: Settings,
-      color: "text-[#3B82F6]",
-      pillar: "orga",
       options: [
-        { value: "smooth", label: "Plutôt fluide, bien cadré" },
-        { value: "ok", label: "Ça va, même si parfois improvisé" },
-        { value: "chaotic", label: "C'est souvent la course" },
-        { value: "out-of-control", label: "J'ai l'impression que tout m'échappe" },
+        { value: 1, label: "C’est le chaos, je cours tout le temps" },
+        { value: 2, label: "C’est souvent la course, j’improvise beaucoup" },
+        { value: 3, label: "C’est globalement structuré, même si ça déborde parfois" },
+        { value: 4, label: "Je me sens bien organisé(e), chacun a ses repères" },
       ],
     },
     {
-      id: "parent_relation",
-      title: "Lien avec les enfants / ados",
-      question: "Comment décririez-vous la qualité de la relation avec vos enfants / ados ?",
+      id: "relations_parent",
+      dimension: "relations",
+      title: "Relations avec vos enfants",
+      question: "Comment décririez-vous la relation avec vos enfants en ce moment ?",
       icon: Users,
-      color: "text-[#F97316]",
-      pillar: "cohesion",
       options: [
-        { value: "very-good", label: "Très bonne, on communique facilement" },
-        { value: "good", label: "Bonne, malgré quelques tensions normales" },
-        { value: "distant", label: "On se parle peu de choses importantes" },
-        { value: "conflict", label: "C'est souvent tendu ou conflictuel" },
+        { value: 1, label: "Très tendue, beaucoup de conflits ou de distance" },
+        { value: 2, label: "Souvent compliquée, on se comprend mal" },
+        { value: 3, label: "Plutôt correcte, malgré quelques tensions" },
+        { value: 4, label: "Complice et ouverte, on arrive à se parler" },
       ],
     },
     {
-      id: "parent_selftime",
-      title: "Temps pour soi",
-      question: "Avez-vous du temps pour vous ressourcer (sans enfants, sans travail) ?",
-      icon: SmilePlus,
-      color: "text-[#A855F7]",
-      pillar: "devperso",
+      id: "energie_parent",
+      dimension: "energie",
+      title: "Énergie & temps pour soi",
+      question: "Avez-vous encore du temps et de l’énergie pour vous-même ?",
+      icon: Star,
       options: [
-        { value: "enough", label: "Oui, régulièrement" },
-        { value: "sometimes", label: "Parfois, mais pas assez" },
-        { value: "rarely", label: "Très rarement" },
-        { value: "never", label: "Quasi jamais" },
+        { value: 1, label: "Presque jamais, je m’oublie complètement" },
+        { value: 2, label: "Rarement, et je culpabilise quand je le prends" },
+        { value: 3, label: "Par moments, j’essaie de me préserver" },
+        { value: 4, label: "Oui, j’arrive à garder du temps pour moi" },
+      ],
+    },
+    {
+      id: "equilibre_parent",
+      dimension: "equilibre",
+      title: "Équilibre famille / le reste",
+      question: "Comment se combine votre vie de parent avec le reste (travail, couple, loisirs) ?",
+      icon: Globe2,
+      options: [
+        { value: 1, label: "Tout tourne autour de la famille, le reste est sacrifié" },
+        { value: 2, label: "L’équilibre est fragile, je jongle tout le temps" },
+        { value: 3, label: "Ça tient, même si ce n’est pas parfait" },
+        { value: 4, label: "J’ai trouvé un équilibre qui me convient" },
       ],
     },
   ],
 
   ado: [
     {
-      id: "ado_comm",
-      title: "Parler avec tes parents",
-      question: "À quel point tu arrives à parler de ce que tu ressens avec tes parents / adultes de confiance ?",
-      icon: Users,
-      color: "text-[#F97316]",
-      pillar: "cohesion",
-      options: [
-        { value: "easy", label: "Facile, je peux tout dire" },
-        { value: "sometimes", label: "Parfois, selon les sujets" },
-        { value: "hard", label: "Difficile, je garde beaucoup pour moi" },
-        { value: "blocked", label: "Quasi impossible, je ne me sens pas écouté(e)" },
-      ],
-    },
-    {
-      id: "ado_stress",
-      title: "Stress & pression",
-      question: "En ce moment, ton niveau de stress (école, amis, réseaux, famille...) c’est plutôt :",
+      id: "stress_ado",
+      dimension: "stress",
+      title: "Émotions & pression",
+      question: "En ce moment, comment tu te sens dans ta tête ?",
       icon: Heart,
-      color: "text-[#EF4444]",
-      pillar: "sante",
       options: [
-        { value: "chill", label: "Ça va, je gère plutôt bien" },
-        { value: "sometimes", label: "Ça monte parfois, mais ça va" },
-        { value: "often", label: "Je suis souvent stressé(e)" },
-        { value: "max", label: "Je suis au max, ça déborde" },
+        { value: 1, label: "Pas bien du tout, je me sens noyé(e)" },
+        { value: 2, label: "Souvent stressé(e), j’ai du mal à gérer" },
+        { value: 3, label: "Ça va, même si parfois c’est lourd" },
+        { value: 4, label: "Plutôt bien, je gère globalement" },
       ],
     },
     {
-      id: "ado_selfesteem",
-      title: "Confiance en toi",
-      question: "Comment tu te sens par rapport à toi-même en ce moment ?",
-      icon: Star,
-      color: "text-[#A855F7]",
-      pillar: "devperso",
-      options: [
-        { value: "confident", label: "Plutôt confiant(e)" },
-        { value: "ok", label: "Ça dépend des jours" },
-        { value: "low", label: "Je me trouve souvent nul(le)" },
-        { value: "very-low", label: "Je me dévalorise beaucoup" },
-      ],
-    },
-    {
-      id: "ado_balance",
-      title: "Équilibre vie / écrans / sommeil",
-      question: "Si tu regardes ton équilibre entre écrans, vie sociale, sommeil…",
+      id: "orga_ado",
+      dimension: "organisation",
+      title: "Cours & organisation",
+      question: "Comment ça se passe pour les cours / études / devoirs ?",
       icon: Settings,
-      color: "text-[#3B82F6]",
-      pillar: "orga",
       options: [
-        { value: "balanced", label: "Plutôt équilibré" },
-        { value: "okay", label: "Un peu chaotique mais ça va" },
-        { value: "tired", label: "Je suis souvent crevé(e) / décalé(e)" },
-        { value: "lost", label: "Je n’ai plus vraiment de rythme" },
+        { value: 1, label: "Je suis complètement perdu(e), je ne m’en sors pas" },
+        { value: 2, label: "Je galère, c’est dur de m’y mettre" },
+        { value: 3, label: "Je m’en sors à peu près" },
+        { value: 4, label: "Je suis plutôt organisé(e) et à l’aise" },
+      ],
+    },
+    {
+      id: "relations_ado",
+      dimension: "relations",
+      title: "Relations & entourage",
+      question: "Et avec les autres (amis, famille, proches), comment ça va ?",
+      icon: Users,
+      options: [
+        { value: 1, label: "Je me sens seul(e) ou incompris(e)" },
+        { value: 2, label: "Beaucoup de tensions ou de prises de tête" },
+        { value: 3, label: "Mitigé : parfois cool, parfois compliqué" },
+        { value: 4, label: "Globalement ça va, je me sens entouré(e)" },
+      ],
+    },
+    {
+      id: "energie_ado",
+      dimension: "energie",
+      title: "Énergie & fatigue",
+      question: "Comment tu te sens physiquement en ce moment ?",
+      icon: Star,
+      options: [
+        { value: 1, label: "Épuisé(e), je n’ai envie de rien" },
+        { value: 2, label: "Souvent fatigué(e), je traîne" },
+        { value: 3, label: "Ça va, même si j’ai des coups de mou" },
+        { value: 4, label: "Plutôt en forme" },
+      ],
+    },
+    {
+      id: "equilibre_ado",
+      dimension: "equilibre",
+      title: "Écran / vie réelle",
+      question: "Entre les écrans et la “vraie vie”, comment tu trouves ton équilibre ?",
+      icon: Moon,
+      options: [
+        { value: 1, label: "Je suis tout le temps sur les écrans, ça m’échappe" },
+        { value: 2, label: "Je sais que c’est trop, mais c’est dur d’arrêter" },
+        { value: 3, label: "Je fais attention, même si c’est pas parfait" },
+        { value: 4, label: "Je gère bien, j’ai trouvé un bon équilibre" },
       ],
     },
   ],
 
-  grandparent: [
+  senior: [
     {
-      id: "gp_energy",
-      title: "Énergie & forme",
-      question: "Comment vous sentez-vous physiquement et moralement ces derniers temps ?",
+      id: "stress_senior",
+      dimension: "stress",
+      title: "Sérénité au quotidien",
+      question: "Comment vous sentez-vous dans votre quotidien actuel ?",
       icon: Heart,
-      color: "text-[#22C55E]",
-      pillar: "sante",
       options: [
-        { value: "good", label: "Plutôt bien, je garde un bon rythme" },
-        { value: "tired", label: "Un peu fatigué(e), mais ça va" },
-        { value: "low", label: "Je me sens souvent sans énergie" },
-        { value: "very-low", label: "Je suis très fatigué(e) ou découragé(e)" },
+        { value: 1, label: "Anxieux(se), préoccupé(e) très souvent" },
+        { value: 2, label: "Souvent inquiet(ète), je rumine beaucoup" },
+        { value: 3, label: "Plutôt serein(e), avec quelques inquiétudes" },
+        { value: 4, label: "Globalement apaisé(e) et confiant(e)" },
       ],
     },
     {
-      id: "gp_social",
-      title: "Lien social",
-      question: "Avez-vous régulièrement des contacts (famille, amis, voisins, activités...) ?",
+      id: "orga_senior",
+      dimension: "organisation",
+      title: "Rythme de vie",
+      question: "Comment vivez-vous votre rythme de vie (temps, activités, soins…) ?",
+      icon: Settings,
+      options: [
+        { value: 1, label: "Je me sens perdu(e) ou désorganisé(e)" },
+        { value: 2, label: "Je peine à trouver un rythme qui me convient" },
+        { value: 3, label: "Je commence à trouver mes repères" },
+        { value: 4, label: "J’ai un rythme qui me va bien" },
+      ],
+    },
+    {
+      id: "relations_senior",
+      dimension: "relations",
+      title: "Lien social & famille",
+      question: "Comment sentez-vous vos liens avec la famille, les amis, le voisinage ?",
       icon: Users,
-      color: "text-[#3B82F6]",
-      pillar: "cohesion",
       options: [
-        { value: "often", label: "Souvent, je vois du monde" },
-        { value: "sometimes", label: "Parfois, mais pas chaque semaine" },
-        { value: "rarely", label: "Rarement, je me sens un peu isolé(e)" },
-        { value: "never", label: "Presque jamais, je me sens seul(e)" },
+        { value: 1, label: "Je me sens isolé(e) et très seul(e)" },
+        { value: 2, label: "Je vois des gens, mais pas assez à mon goût" },
+        { value: 3, label: "Je garde un lien régulier" },
+        { value: 4, label: "Je me sens bien entouré(e)" },
       ],
     },
     {
-      id: "gp_memory",
-      title: "Stimulation & mémoire",
-      question: "Vous sentez-vous suffisamment stimulé(e) intellectuellement ?",
+      id: "energie_senior",
+      dimension: "energie",
+      title: "Énergie & santé",
+      question: "Comment décririez-vous votre énergie globale ces derniers temps ?",
       icon: Star,
-      color: "text-[#A855F7]",
-      pillar: "devperso",
       options: [
-        { value: "enough", label: "Oui, j’ai des activités variées" },
-        { value: "ok", label: "Un peu, mais je pourrais en faire plus" },
-        { value: "low", label: "Peu, j’ai perdu des habitudes" },
-        { value: "none", label: "Non, je ne fais presque plus d’activités" },
+        { value: 1, label: "Très faible, j’ai du mal à faire le minimum" },
+        { value: 2, label: "Fatigable, j’ai besoin de beaucoup de récupération" },
+        { value: 3, label: "Correcte, je fais ce que j’ai à faire" },
+        { value: 4, label: "Plutôt bonne, je reste actif(ve)" },
       ],
     },
     {
-      id: "gp_transmission",
-      title: "Transmission & partage",
-      question: "Avez-vous l’occasion de transmettre votre expérience ou vos histoires ?",
-      icon: Baby,
-      color: "text-[#F97316]",
-      pillar: "orga",
+      id: "equilibre_senior",
+      dimension: "equilibre",
+      title: "Sens & projets",
+      question: "Avez-vous l’impression de garder des projets, des envies, des choses à transmettre ?",
+      icon: Globe2,
       options: [
-        { value: "often", label: "Souvent, avec mes proches" },
-        { value: "sometimes", label: "Parfois, mais je voudrais plus" },
-        { value: "rarely", label: "Rarement" },
-        { value: "never", label: "Non, presque jamais" },
+        { value: 1, label: "Peu ou pas, je me sens vide ou inutile" },
+        { value: 2, label: "Quelques envies, mais je ne les concrétise pas" },
+        { value: 3, label: "Oui, j’ai encore des projets en tête" },
+        { value: 4, label: "Oui, j’ai une vraie envie de transmettre et d’agir" },
       ],
     },
   ],
 
   autre: [
     {
-      id: "other_stress",
-      title: "Stress du quotidien",
-      question: "Globalement, comment est votre niveau de stress en ce moment ?",
+      id: "stress_autre",
+      dimension: "stress",
+      title: "État intérieur",
+      question: "Globalement, comment vous sentez-vous en ce moment ?",
       icon: Heart,
-      color: "text-[#EF4444]",
-      pillar: "sante",
       options: [
-        { value: "low", label: "Plutôt calme" },
-        { value: "medium", label: "Ça monte parfois" },
-        { value: "high", label: "Souvent élevé" },
-        { value: "very-high", label: "Très élevé / difficile à gérer" },
+        { value: 1, label: "Pas bien du tout, je suis au bout" },
+        { value: 2, label: "Plutôt mal, c’est très lourd" },
+        { value: 3, label: "Mitigé, il y a du bon et du moins bon" },
+        { value: 4, label: "Plutôt bien, je tiens le cap" },
       ],
     },
     {
-      id: "other_sleep",
-      title: "Sommeil & récupération",
-      question: "Votre sommeil vous permet-il de récupérer correctement ?",
+      id: "orga_autre",
+      dimension: "organisation",
+      title: "Organisation & charge",
+      question: "Comment vous vivez votre charge mentale et vos responsabilités ?",
       icon: Settings,
-      color: "text-[#3B82F6]",
-      pillar: "orga",
       options: [
-        { value: "good", label: "Oui, la plupart du temps" },
-        { value: "ok", label: "Correct, mais améliorable" },
-        { value: "bad", label: "Souvent agité ou trop court" },
-        { value: "very-bad", label: "Je dors très mal / très peu" },
+        { value: 1, label: "Tout s’accumule, je n’arrive plus à gérer" },
+        { value: 2, label: "C’est souvent trop, je m’éparpille" },
+        { value: 3, label: "Je fais au mieux, ça tient à peu près" },
+        { value: 4, label: "Je me sens globalement organisé(e)" },
       ],
     },
     {
-      id: "other_relations",
-      title: "Relations & entourage",
-      question: "Comment vous sentez-vous dans vos relations (famille, amis, collègues…) ?",
+      id: "relations_autre",
+      dimension: "relations",
+      title: "Relation aux autres",
+      question: "Comment ça se passe avec votre entourage principal ?",
       icon: Users,
-      color: "text-[#F97316]",
-      pillar: "cohesion",
       options: [
-        { value: "good", label: "Globalement bien entouré(e)" },
-        { value: "mixed", label: "Mitigé, selon les personnes" },
-        { value: "lonely", label: "Souvent seul(e) ou incompris(e)" },
-        { value: "isolated", label: "Très isolé(e) ou en conflit" },
+        { value: 1, label: "Conflits, distance ou incompréhensions fortes" },
+        { value: 2, label: "Des tensions fréquentes, mais pas tout le temps" },
+        { value: 3, label: "Assez neutre, ça varie selon les jours" },
+        { value: 4, label: "Plutôt bien, je me sens entouré(e)" },
       ],
     },
     {
-      id: "other_sense",
-      title: "Motivation & sens",
-      question: "Vous avez le sentiment que votre quotidien a du sens ?",
+      id: "energie_autre",
+      dimension: "energie",
+      title: "Énergie globale",
+      question: "Quelle est votre énergie générale (corps + mental) ?",
       icon: Star,
-      color: "text-[#A855F7]",
-      pillar: "devperso",
       options: [
-        { value: "yes", label: "Oui, plutôt" },
-        { value: "sometimes", label: "Par moments seulement" },
-        { value: "rarely", label: "Rarement" },
-        { value: "no", label: "Non, je suis un peu perdu(e)" },
+        { value: 1, label: "Très basse, je n’ai plus de ressources" },
+        { value: 2, label: "Faible, je tiens mais c’est dur" },
+        { value: 3, label: "Correcte, avec des coups de mou" },
+        { value: 4, label: "Bonne, je me sens plutôt solide" },
+      ],
+    },
+    {
+      id: "equilibre_autre",
+      dimension: "equilibre",
+      title: "Équilibre de vie",
+      question: "Avez-vous l’impression que votre vie est “équilibrée” entre les différentes sphères ?",
+      icon: Moon,
+      options: [
+        { value: 1, label: "Pas du tout, une sphère écrase tout le reste" },
+        { value: 2, label: "Très fragile, j’essaie de tout tenir" },
+        { value: 3, label: "C’est imparfait mais acceptable" },
+        { value: 4, label: "Je suis assez aligné(e) avec ce que je veux" },
       ],
     },
   ],
 };
 
-// Transformation d'une réponse en score de besoin (25 → 100)
-const mapAnswerToScore = (value: string): number => {
-  // On considère que plus on est vers la "fin" de la liste, plus le besoin est élevé.
-  const intensityKeywords = ["very", "max", "exhausted", "out-of-control", "conflict", "never", "isolated"];
-  if (intensityKeywords.some((k) => value.includes(k))) return 100;
-
-  if (
-    value === "high" ||
-    value === "often" ||
-    value === "low" ||
-    value === "lost" ||
-    value === "very-low" ||
-    value === "none"
-  ) {
-    return 75;
-  }
-
-  if (
-    value === "medium" ||
-    value === "tired" ||
-    value === "chaotic" ||
-    value === "distant" ||
-    value === "rarely" ||
-    value === "mixed" ||
-    value === "sometimes" ||
-    value === "ok"
-  ) {
-    return 50;
-  }
-
-  // cas "ça va"
-  return 25;
+// ---- Reco de box selon profil + dimension la plus fragile ----
+type BoxReco = {
+  name: string;
+  description: string;
+  bullets: string[];
+  badge: string;
 };
 
-type PillarKey = "sante" | "orga" | "cohesion" | "devperso";
-
-const getScoresAndRecommendation = (
-  role: RoleKey,
-  answers: Record<string, string>
-): { scores: Record<PillarKey, number>; globalScore: number; recommendation: Recommendation } => {
-  const questions = QUESTION_SETS[role];
-
-  const scoresByPillar: Record<PillarKey, number[]> = {
-    sante: [],
-    orga: [],
-    cohesion: [],
-    devperso: [],
-  };
-
-  questions.forEach((q) => {
-    const answerValue = answers[q.id];
-    if (!answerValue) return;
-    const score = mapAnswerToScore(answerValue);
-    scoresByPillar[q.pillar].push(score);
-  });
-
-  const averagedScores: Record<PillarKey, number> = {
-    sante:
-      scoresByPillar.sante.length > 0
-        ? Math.round(scoresByPillar.sante.reduce((a, b) => a + b, 0) / scoresByPillar.sante.length)
-        : 25,
-    orga:
-      scoresByPillar.orga.length > 0
-        ? Math.round(scoresByPillar.orga.reduce((a, b) => a + b, 0) / scoresByPillar.orga.length)
-        : 25,
-    cohesion:
-      scoresByPillar.cohesion.length > 0
-        ? Math.round(scoresByPillar.cohesion.reduce((a, b) => a + b, 0) / scoresByPillar.cohesion.length)
-        : 25,
-    devperso:
-      scoresByPillar.devperso.length > 0
-        ? Math.round(scoresByPillar.devperso.reduce((a, b) => a + b, 0) / scoresByPillar.devperso.length)
-        : 25,
-  };
-
-  const globalScore = Math.round(
-    (averagedScores.sante + averagedScores.orga + averagedScores.cohesion + averagedScores.devperso) / 4
-  );
-
-  // On choisit le pilier avec le besoin le plus fort
-  const maxPillar = (Object.keys(averagedScores) as PillarKey[]).reduce((best, current) =>
-    averagedScores[current] > averagedScores[best] ? current : best
-  , "sante");
-
-  const diffLevel = averagedScores[maxPillar];
-
-  const recMatrix: Record<RoleKey, Record<PillarKey, Recommendation>> = {
-    salarie: {
-      sante: {
-        name: "Box Reset & Sérénité",
-        description: "Pour apaiser la charge mentale, mieux dormir et relâcher la pression.",
-        color: "bg-[#22C55E]",
-        products: [
-          "Tisanes relaxantes & rituels du soir",
-          "Outils de respiration guidée",
-          "Accessoires anti-stress Made in France",
-          "Mini-guide “Faire redescendre la pression au travail”",
-        ],
-        tagline: "On commence par prendre soin de toi, avant de prendre soin des chiffres.",
-      },
-      orga: {
-        name: "Box Efficacité & Rythme",
-        description: "Pour reprendre le contrôle sur ton agenda, ta charge et tes priorités.",
-        color: "bg-[#3B82F6]",
-        products: [
-          "Planner hebdo & to-do list intelligente",
-          "Accessoire ergonomique pour ton poste de travail",
-          "Mini-guide “Dire non sans culpabiliser”",
-          "Rituels de début / fin de journée",
-        ],
-        tagline: "Moins subir, plus choisir : on remet du cadre, pas du contrôle.",
-      },
-      cohesion: {
-        name: "Box Cohésion d’Équipe",
-        description: "Pour recréer du lien, de la confiance et du plaisir à travailler ensemble.",
-        color: "bg-[#F97316]",
-        products: [
-          "Jeux de cohésion ultra simples",
-          "Cartes brise-glace pour réunions",
-          "Mini-guide de feedback bienveillant",
-          "Goodies à partager en équipe",
-        ],
-        tagline: "Parce que la météo émotionnelle d’une équipe, ça se travaille à plusieurs.",
-      },
-      devperso: {
-        name: "Box Inspiration & Évolution",
-        description: "Pour retrouver de l’élan, clarifier la suite et réveiller tes envies.",
-        color: "bg-[#A855F7]",
-        products: [
-          "Livre ou livret de développement professionnel",
-          "Carnet de projection & questions puissantes",
-          "Sélection de contenus audio inspirants",
-          "Rituels pour faire le point tous les mois",
-        ],
-        tagline: "Ta trajectoire mérite mieux que le mode pilote automatique.",
-      },
+function getBoxRecommendation(profile: ProfileId, weakestDimension: DimensionKey): BoxReco {
+  // On définit quelques “templates” par profil
+  const genericByDimension: Record<DimensionKey, BoxReco> = {
+    stress: {
+      name: "Box Bulle Anti-Pression",
+      description: "Une bulle de récupération pour apaiser le mental et le corps.",
+      badge: "Soutien émotionnel",
+      bullets: ["Rituels de décompression", "Tisanes & douceurs", "Micro-pauses guidées", "Carnet d’émotions"],
     },
-
-    parent: {
-      sante: {
-        name: "Box Parent Respire",
-        description: "Pour alléger la charge mentale et retrouver un peu d’oxygène.",
-        color: "bg-[#22C55E]",
-        products: [
-          "Rituels rapides de pause pour parents pressés",
-          "Tisane ou douceurs réconfortantes",
-          "Mini-guide “Je fais de mon mieux (et c’est déjà énorme)”",
-          "Petits outils pour demander de l’aide sans culpabiliser",
-        ],
-        tagline: "Tu n’as pas besoin d’être parfait(e), juste de ne plus être seul(e) face à tout.",
-      },
-      orga: {
-        name: "Box Organisation Familiale",
-        description: "Pour fluidifier les routines du matin, du soir et du week-end.",
-        color: "bg-[#3B82F6]",
-        products: [
-          "Planning familial magnétique ou mural",
-          "Tableau des missions partagées (adapté aux enfants)",
-          "Rituels du soir pour préparer le lendemain",
-          "Idées de micro-routines gagnantes",
-        ],
-        tagline: "On ne supprime pas le bazar, mais on remet un peu de tempo dedans.",
-      },
-      cohesion: {
-        name: "Box Lien Parent-Ado",
-        description: "Pour rouvrir le dialogue sans forcer, et créer de vrais moments ensemble.",
-        color: "bg-[#F97316]",
-        products: [
-          "Jeu de cartes “questions qui comptent”",
-          "Activités sans écrans à partager",
-          "Guide pour mieux écouter sans juger",
-          "Mini-rituels de check-in émotionnel en famille",
-        ],
-        tagline: "Ce n’est pas trop tard pour se comprendre un peu mieux, pas à pas.",
-      },
-      devperso: {
-        name: "Box Parent Temps Pour Soi",
-        description: "Pour te remettre aussi dans la to-do, pas seulement au service des autres.",
-        color: "bg-[#A855F7]",
-        products: [
-          "Carnet de reconnexion à soi",
-          "Idées de micro-moments rien que pour toi",
-          "Douceurs bien-être (lecture, self-care, petit objet)",
-          "Mini-guide “Me remettre sur la liste des priorités”",
-        ],
-        tagline: "Tu as le droit d’exister en dehors des lessives et des réunions parents-profs.",
-      },
+    organisation: {
+      name: "Box Bulle Organisation",
+      description: "Pour remettre de la clarté, des repères et du rythme dans le quotidien.",
+      badge: "Clarté & structure",
+      bullets: ["Planner simplifié", "Outils d’organisation visuelle", "Méthodes pas à pas", "Astuce anti-charge mentale"],
     },
-
-    ado: {
-      sante: {
-        name: "Box Ado Respire",
-        description: "Pour t’aider à faire redescendre la pression (école, réseaux, regard des autres…).",
-        color: "bg-[#EF4444]",
-        products: [
-          "Cartes d’exercices simples pour gérer le stress",
-          "Rituels express pour dormir un peu mieux",
-          "Affiche ou support “Ma météo émotionnelle”",
-          "Accès à des contenus audio d’apaisement",
-        ],
-        tagline: "Tu as le droit d’être stressé(e), mais pas de rester seul(e) avec ça.",
-      },
-      orga: {
-        name: "Box Ado Organisation",
-        description: "Pour t’aider à gérer un peu mieux devoirs, écrans, sommeil et temps pour toi.",
-        color: "bg-[#3B82F6]",
-        products: [
-          "Planner simple et visuel",
-          "Outils pour mieux gérer les écrans",
-          "Astuce pour réviser sans t’arracher les cheveux",
-          "Rituels de début / fin de journée",
-        ],
-        tagline: "Pas besoin d’être parfait(e), juste de trouver un rythme qui te ressemble.",
-      },
-      cohesion: {
-        name: "Box Ado Lien & Expression",
-        description: "Pour t’aider à mettre des mots sur ce que tu ressens et à te faire entendre.",
-        color: "bg-[#F97316]",
-        products: [
-          "Carnet d’expression sans jugement",
-          "Cartes pour parler avec un parent ou un adulte",
-          "Mini-guide sur les émotions (sans blabla inutile)",
-          "Idées de phrases pour dire ce que tu ressens",
-        ],
-        tagline: "Tu as le droit d’avoir ta voix et ton espace, sans être parfait(e).",
-      },
-      devperso: {
-        name: "Box Ado Confiance",
-        description: "Pour renforcer ton estime de toi et te rappeler que tu vaux bien plus que des notes.",
-        color: "bg-[#A855F7]",
-        products: [
-          "Carnet de fiertés & réussites",
-          "Affirmations positives adaptées aux ados",
-          "Activités pour explorer qui tu es",
-          "Mini-guide “Je ne suis pas que mes résultats”",
-        ],
-        tagline: "Ton histoire ne se résume pas à ce qu’on écrit sur un bulletin.",
-      },
+    relations: {
+      name: "Box Bulle Relations",
+      description: "Une invitation à renouer le dialogue, la confiance et la complicité.",
+      badge: "Lien & communication",
+      bullets: ["Jeux ou activités à partager", "Cartes pour lancer la discussion", "Mini-guides de communication", "Rituels de gratitude"],
     },
-
-    grandparent: {
-      sante: {
-        name: "Box Douceur & Routine",
-        description: "Pour prendre soin de votre énergie et installer des petits rituels réconfortants.",
-        color: "bg-[#22C55E]",
-        products: [
-          "Tisanes ou douceurs réconfortantes",
-          "Idées de rituels matin / soir doux",
-          "Mini-guide “Prendre soin de soi en douceur”",
-          "Support pour suivre son humeur et son énergie",
-        ],
-        tagline: "Chaque journée mérite sa petite lumière, même les plus calmes.",
-      },
-      orga: {
-        name: "Box Transmission & Mémoire",
-        description: "Pour garder vivants vos souvenirs, vos histoires et votre expérience.",
-        color: "bg-[#3B82F6]",
-        products: [
-          "Carnet de mémoire et anecdotes",
-          "Idées de jeux de mémoire simples",
-          "Activités à faire avec petits-enfants ou proches",
-          "Mini-guide pour transmettre en douceur",
-        ],
-        tagline: "Vos histoires sont des trésors, on vous aide à les partager.",
-      },
-      cohesion: {
-        name: "Box Lien & Rencontres",
-        description: "Pour nourrir les liens avec votre entourage et rompre l’isolement.",
-        color: "bg-[#F97316]",
-        products: [
-          "Idées d’activités à deux ou en groupe",
-          "Supports pour lancer la conversation",
-          "Propositions de rituels avec proches ou voisins",
-          "Mini-guide “Recréer du lien pas à pas”",
-        ],
-        tagline: "Vous n’avez pas à rester seul(e) sur votre île, même si elle est jolie.",
-      },
-      devperso: {
-        name: "Box Découverte & Curiosité",
-        description: "Pour garder l’esprit vivant, curieux, et continuer à apprendre.",
-        color: "bg-[#A855F7]",
-        products: [
-          "Suggestions de lectures accessibles",
-          "Jeux ou activités de découverte",
-          "Idées de sorties ou explorations locales",
-          "Mini-guide pour nourrir sa curiosité au quotidien",
-        ],
-        tagline: "Il n’y a pas d’âge pour s’émerveiller encore un peu.",
-      },
+    energie: {
+      name: "Box Bulle Énergie",
+      description: "Pour recharger progressivement les batteries sans se brusquer.",
+      badge: "Vitalité douce",
+      bullets: ["Infusions & snacks réconfort", "Mouvements doux", "Micro-objectifs d’énergie", "Routine de sommeil apaisante"],
     },
-
-    autre: {
-      sante: {
-        name: "Box Bien-Être Essentiel",
-        description: "Pour apaiser le stress et retrouver un peu de marge de manœuvre.",
-        color: "bg-[#22C55E]",
-        products: [
-          "Outils anti-stress simples",
-          "Petits rituels de pause",
-          "Tisanes ou douceurs calmantes",
-          "Mini-guide pour mieux écouter son corps",
-        ],
-        tagline: "On commence par t’offrir un peu d’air dans ta journée.",
-      },
-      orga: {
-        name: "Box Sommeil & Rythme",
-        description: "Pour t’aider à reconstruire un rythme plus doux et récupérateur.",
-        color: "bg-[#3B82F6]",
-        products: [
-          "Rituels du soir & routine de sommeil",
-          "Mini-guide sur les écrans & le soir",
-          "Outils pour préparer calmement le lendemain",
-          "Support pour suivre ton sommeil",
-        ],
-        tagline: "Un meilleur sommeil, ce n’est pas du luxe, c’est une base.",
-      },
-      cohesion: {
-        name: "Box Lien & Entourage",
-        description: "Pour t’aider à ne plus te sentir seul(e) avec ce que tu traverses.",
-        color: "bg-[#F97316]",
-        products: [
-          "Cartes de discussion à partager",
-          "Idées de petites actions pour recréer du lien",
-          "Guide “Demander du soutien sans honte”",
-          "Rituels pour prendre des nouvelles ou en donner",
-        ],
-        tagline: "Tu as le droit d’être entouré(e), même si tu n’aimes pas déranger.",
-      },
-      devperso: {
-        name: "Box Sens & Reconnexion",
-        description: "Pour t’aider à retrouver un fil conducteur dans ton quotidien.",
-        color: "bg-[#A855F7]",
-        products: [
-          "Carnet de questions pour faire le point",
-          "Exercices de projection simple",
-          "Mini-guide “Retrouver un peu de sens”",
-          "Rituels de gratitude & d’ancrage",
-        ],
-        tagline: "On n’a pas toutes les réponses, mais on peut déjà rallumer une petite luciole.",
-      },
+    equilibre: {
+      name: "Box Bulle Équilibre",
+      description: "Pour remettre un peu de place pour soi et ce qui compte vraiment.",
+      badge: "Vie pro / perso / soi",
+      bullets: ["Exercices pour poser ses limites", "Carnet de priorités essentielles", "Rituels courts de recentrage", "Moments qualitatifs à planifier"],
     },
   };
 
-  let recommendation = recMatrix[role][maxPillar];
+  // Ajustements par profil (nom/description)
+  const base = genericByDimension[weakestDimension];
 
-  // Si les scores sont tous très bas, on peut orienter vers une box de consolidation douce
-  if (diffLevel <= 35) {
-    recommendation = {
-      ...recommendation,
-      tagline:
-        "Bonne nouvelle : ta météo n’est pas en alerte rouge. On va surtout t’aider à consolider ce qui va déjà bien.",
+  if (profile === "salarie") {
+    return {
+      ...base,
+      name:
+        weakestDimension === "organisation"
+          ? "Box Efficacité Douce au Travail"
+          : weakestDimension === "relations"
+          ? "Box Cohésion & Dialogue"
+          : weakestDimension === "stress"
+          ? "Box Focus & Reset"
+          : base.name,
+      badge: "Salariés & équipes",
     };
   }
 
-  return { scores: averagedScores, globalScore, recommendation };
+  if (profile === "parent") {
+    return {
+      ...base,
+      name:
+        weakestDimension === "relations"
+          ? "Box Parent–Enfant, Parlons Vrai"
+          : weakestDimension === "organisation"
+          ? "Box Famille Organisée"
+          : weakestDimension === "stress"
+          ? "Box Souffle de Parent"
+          : base.name,
+      badge: "Parents & famille",
+    };
+  }
+
+  if (profile === "ado") {
+    return {
+      ...base,
+      name:
+        weakestDimension === "stress"
+          ? "Box Ado Douceur & Confiance"
+          : weakestDimension === "relations"
+          ? "Box Lien & Amitiés"
+          : weakestDimension === "organisation"
+          ? "Box Organisation School Life"
+          : base.name,
+      badge: "Ados & jeunes",
+    };
+  }
+
+  if (profile === "senior") {
+    return {
+      ...base,
+      name:
+        weakestDimension === "relations"
+          ? "Box Lien & Transmission"
+          : weakestDimension === "stress"
+          ? "Box Sérénité & Souvenirs"
+          : base.name,
+      badge: "Grands-parents & seniors",
+    };
+  }
+
+  return {
+    ...base,
+    badge: "Bulle sur-mesure",
+  };
+}
+
+// ---- Calcul des scores pour la BDD ----
+type Scores = {
+  scores_sante: number;
+  scores_orga: number;
+  scores_cohesion: number;
+  scores_devperso: number;
+  note_globale: number;
+  weakestDimension: DimensionKey;
 };
 
+function computeScores(profile: ProfileId, answers: Record<string, number>): Scores {
+  const questions = questionsByProfile[profile];
+
+  const byDimension: Record<DimensionKey, number[]> = {
+    stress: [],
+    organisation: [],
+    relations: [],
+    energie: [],
+    equilibre: [],
+  };
+
+  questions.forEach((q) => {
+    const v = answers[q.id];
+    if (v != null) {
+      byDimension[q.dimension].push(v);
+    }
+  });
+
+  const avg = (arr: number[]) => (arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0);
+
+  const stressAvg = avg(byDimension.stress);
+  const orgaAvg = avg(byDimension.organisation);
+  const relAvg = avg(byDimension.relations);
+  const energieAvg = avg(byDimension.energie);
+  const equilibreAvg = avg(byDimension.equilibre);
+
+  // Scores sur 100 (1 à 4 → 25 à 100)
+  const to100 = (x: number) => Math.round((x / 4) * 100);
+
+  const scores_sante = to100(stressAvg);
+  const scores_orga = to100(orgaAvg);
+  const scores_cohesion = to100(relAvg);
+  const scores_devperso = to100((energieAvg + equilibreAvg) / 2 || 0);
+
+  const allDims: { key: DimensionKey; score: number }[] = [
+    { key: "stress", score: stressAvg },
+    { key: "organisation", score: orgaAvg },
+    { key: "relations", score: relAvg },
+    { key: "energie", score: energieAvg },
+    { key: "equilibre", score: equilibreAvg },
+  ].filter((d) => d.score > 0);
+
+  // Dimension la plus fragile = score moyen le plus bas
+  const weakest =
+    allDims.length > 0
+      ? allDims.reduce((min, curr) => (curr.score < min.score ? curr : min)).key
+      : "stress";
+
+  const note_globale = Math.round(
+    (scores_sante + scores_orga + scores_cohesion + scores_devperso) / 4
+  );
+
+  return {
+    scores_sante,
+    scores_orga,
+    scores_cohesion,
+    scores_devperso,
+    note_globale,
+    weakestDimension: weakest,
+  };
+}
+
+// ---- Composant principal ----
 const SimulateurPage = () => {
-  const [role, setRole] = useState<RoleKey | null>(null);
+  const [profile, setProfile] = useState<ProfileId | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [answers, setAnswers] = useState<Record<string, number>>({});
   const [showResults, setShowResults] = useState(false);
 
-  const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
-  const currentQuestions = role ? QUESTION_SETS[role] : [];
-  const currentQuestion = currentQuestions[currentStep];
+  const questions = useMemo(
+    () => (profile ? questionsByProfile[profile] : []),
+    [profile]
+  );
 
-  const handleRoleSelect = (selected: RoleKey) => {
-    setRole(selected);
+  const totalSteps = questions.length;
+  const currentQuestion = profile && questions[currentStep];
+  const progress = totalSteps > 0 ? ((currentStep + 1) / totalSteps) * 100 : 0;
+
+  const handleProfileSelect = (p: ProfileId) => {
+    setProfile(p);
     setCurrentStep(0);
     setAnswers({});
     setShowResults(false);
   };
 
-  const handleAnswer = (questionId: string, answer: string) => {
-    setAnswers((prev) => ({ ...prev, [questionId]: answer }));
+  const handleAnswerChange = (questionId: string, value: number) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: value }));
   };
 
   const handleNext = () => {
-    if (!role) return;
-    if (currentStep < currentQuestions.length - 1) {
+    if (!profile || !currentQuestion) return;
+
+    if (!answers[currentQuestion.id]) {
+      toast({
+        title: "Une petite réponse avant de continuer 💬",
+        description: "Choisissez une option pour continuer l’évaluation.",
+      });
+      return;
+    }
+
+    if (currentStep < totalSteps - 1) {
       setCurrentStep((prev) => prev + 1);
     } else {
       setShowResults(true);
@@ -793,8 +668,9 @@ const SimulateurPage = () => {
   };
 
   const handlePrevious = () => {
+    if (!profile) return;
     if (currentStep === 0) {
-      setRole(null);
+      setProfile(null);
       setAnswers({});
       setShowResults(false);
       return;
@@ -802,319 +678,382 @@ const SimulateurPage = () => {
     setCurrentStep((prev) => Math.max(0, prev - 1));
   };
 
-  const handleGoToBoxes = () => {
-    navigate("/box");
+  const handleRestart = () => {
+    setProfile(null);
+    setCurrentStep(0);
+    setAnswers({});
+    setShowResults(false);
   };
 
-  const handleSaveAndGoDashboard = async () => {
-    if (!role) return;
-
-    const { scores, globalScore, recommendation } = getScoresAndRecommendation(role, answers);
-
+  const handleSaveAndGoDashboard = async (scores: Scores, reco: BoxReco) => {
     if (!user) {
-      navigate("/auth/login");
+      navigate("/auth");
       return;
     }
 
     try {
       const { error } = await supabase.from("needs_assessments").insert([
         {
-          scores_sante: scores.sante,
-          scores_orga: scores.orga,
-          scores_cohesion: scores.cohesion,
-          scores_devperso: scores.devperso,
-          box_recommandee: recommendation.name,
-          note_globale: globalScore,
-          source: `simulateur_${role}`,
+          scores_sante: scores.scores_sante,
+          scores_orga: scores.scores_orga,
+          scores_cohesion: scores.scores_cohesion,
+          scores_devperso: scores.scores_devperso,
+          box_recommandee: reco.name,
+          note_globale: scores.note_globale,
+          source: `simulateur_box_${profile ?? "inconnu"}`,
         },
       ]);
 
       if (error) throw error;
 
       toast({
-        title: "Évaluation sauvegardée",
-        description: "Vos résultats ont été ajoutés à votre profil.",
+        title: "Évaluation enregistrée 💾",
+        description: "Vos résultats ont été ajoutés à votre tableau de bord.",
       });
 
       navigate("/dashboard");
     } catch (err) {
-      console.error("Error saving assessment:", err);
+      console.error("Erreur d’enregistrement:", err);
       toast({
-        title: "Enregistrement impossible",
-        description: "Votre évaluation est visible, mais n’a pas pu être sauvegardée.",
+        title: "Impossible d’enregistrer pour le moment",
+        description: "Vous pouvez réessayer plus tard, vos réponses restent valables.",
         variant: "destructive",
       });
     }
   };
 
-  // === CALCUL PROGRESSION ===
-  const progress =
-    role && currentQuestions.length > 0 ? ((currentStep + 1) / currentQuestions.length) * 100 : 0;
+  // ---- Écran résultats ----
+  if (profile && showResults) {
+    const scores = computeScores(profile, answers);
+    const reco = getBoxRecommendation(profile, scores.weakestDimension);
 
-  // === ÉTAT RÉSULTATS ===
-  if (showResults && role) {
-    const { scores, globalScore, recommendation } = getScoresAndRecommendation(role, answers);
-    const roleInfo = ROLE_CONFIG.find((r) => r.key === role)!;
+    const profileLabel = profiles.find((p) => p.id === profile)?.label ?? "Profil";
 
     return (
       <div className="min-h-screen bg-gradient-hero">
         <FloatingBubbles />
         <Navigation />
-
-        <div className="relative z-10 pt-24 px-6 pb-16">
+        <div className="relative z-10 pt-24 pb-16 px-6">
           <div className="container mx-auto max-w-2xl">
             <Button
-              onClick={() => {
-                setShowResults(false);
-                setCurrentStep(0);
-              }}
               variant="outline"
               className="mb-6"
+              onClick={handleRestart}
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Refaire l’évaluation
+              Refaire une évaluation
             </Button>
 
             <div className="text-center mb-8">
-              <p className="text-sm text-foreground/60 mb-2">
-                Profil sélectionné : <span className="font-semibold">{roleInfo.emoji} {roleInfo.label}</span>
+              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                Ma Bulle Attentionnée • Résultats
               </p>
-              <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3 font-inter">
-                🎉 Votre <span className="text-primary">Box recommandée</span>
+              <h1 className="text-3xl md:text-4xl font-bold font-inter text-foreground mb-3">
+                Votre{" "}
+                <span className="text-primary">
+                  météo émotionnelle
+                </span>{" "}
+                {profile === "ado" ? "du moment" : "du moment"}
               </h1>
-              <p className="text-foreground/70 font-lato">
-                Voici la box QVT Box la plus adaptée à votre météo émotionnelle actuelle.
+              <p className="text-sm text-muted-foreground">
+                Profil analysé : <strong>{profileLabel}</strong>
               </p>
             </div>
 
-            <div className="card-professional p-8 space-y-6">
-              <div className="text-center">
-                <div
-                  className={`w-20 h-20 ${recommendation.color} rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg`}
-                >
-                  <CheckCircle className="w-10 h-10 text-white" />
+            {/* Carte scores */}
+            <div className="card-professional p-6 mb-6">
+              <div className="flex items-center justify-between mb-4 gap-4">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    Note globale de votre bulle
+                  </p>
+                  <p className="text-3xl font-bold text-primary">
+                    {scores.note_globale}/100
+                  </p>
                 </div>
-                <h2 className="text-2xl font-bold text-foreground mb-2 font-inter">
-                  {recommendation.name}
-                </h2>
-                <p className="text-foreground/70 text-base font-lato mb-3">
-                  {recommendation.description}
-                </p>
-                <p className="text-sm text-foreground/60 italic">{recommendation.tagline}</p>
+                <div className="flex flex-col items-end gap-1 text-xs text-muted-foreground">
+                  <span>
+                    Santé émotionnelle :{" "}
+                    <strong>{scores.scores_sante}/100</strong>
+                  </span>
+                  <span>
+                    Organisation / charge :{" "}
+                    <strong>{scores.scores_orga}/100</strong>
+                  </span>
+                  <span>
+                    Relations / lien :{" "}
+                    <strong>{scores.scores_cohesion}/100</strong>
+                  </span>
+                  <span>
+                    Énergie & équilibre :{" "}
+                    <strong>{scores.scores_devperso}/100</strong>
+                  </span>
+                </div>
               </div>
 
-              <div className="bg-muted/50 rounded-xl p-6">
-                <h3 className="font-semibold text-foreground mb-3">
-                  🎁 Dans votre box, vous trouverez :
-                </h3>
+              <Progress value={scores.note_globale} className="h-2 mb-2" />
+              <p className="text-xs text-muted-foreground">
+                Ce score n’est pas un diagnostic médical, mais un indicateur pour mieux
+                choisir la prochaine petite action à poser.
+              </p>
+            </div>
+
+            {/* Box recommandée */}
+            <div className="card-professional p-6 mb-8 space-y-4">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                    Box recommandée
+                  </p>
+                  <h2 className="text-xl font-semibold text-foreground">
+                    {reco.name}
+                  </h2>
+                  <span className="inline-block mt-1 text-[11px] px-2 py-0.5 rounded-full bg-secondary/10 text-secondary">
+                    {reco.badge}
+                  </span>
+                </div>
+              </div>
+
+              <p className="text-sm text-foreground/80">
+                {reco.description}
+              </p>
+
+              <div className="bg-muted/50 rounded-xl p-4">
+                <p className="text-xs font-semibold text-muted-foreground mb-2">
+                  À l’intérieur de cette bulle, vous pourriez retrouver :
+                </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {recommendation.products.map((product, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-primary rounded-full" />
-                      <span className="text-sm text-foreground/80 font-lato">{product}</span>
+                  {reco.bullets.map((b) => (
+                    <div key={b} className="flex items-start gap-2">
+                      <span className="mt-1 inline-block w-1.5 h-1.5 rounded-full bg-primary" />
+                      <span className="text-xs text-foreground/80">{b}</span>
                     </div>
                   ))}
                 </div>
               </div>
+            </div>
 
-              <div className="bg-white/80 rounded-xl p-5 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-foreground/60 font-semibold mb-1">
-                    Votre météo globale
+            {/* CTA ZÉNA + Box */}
+            <div className="space-y-4 mb-10">
+              <div className="card-professional p-5 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                <div className="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-secondary" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-foreground mb-1">
+                    Envie d’aller un peu plus loin, sans tout garder pour vous ?
                   </p>
-                  <p className="text-lg font-bold text-foreground font-inter">
-                    {globalScore} / 100
-                  </p>
-                  <p className="text-xs text-foreground/60 font-lato">
-                    Plus le score est élevé, plus le besoin d’attention est important.
+                  <p className="text-xs text-muted-foreground">
+                    ZÉNA peut vous écouter à l’oral, tous les jours, sans jugement.
+                    Elle vous aide à mettre des mots sur ce que vous ressentez, et
+                    nourrit votre météo émotionnelle dans QVT Box.
                   </p>
                 </div>
-                <div className="w-full sm:w-1/2 space-y-2">
-                  <div className="flex justify-between text-xs text-foreground/60">
-                    <span>Santé & énergie</span>
-                    <span>{scores.sante} / 100</span>
-                  </div>
-                  <div className="flex justify-between text-xs text-foreground/60">
-                    <span>Organisation & rythme</span>
-                    <span>{scores.orga} / 100</span>
-                  </div>
-                  <div className="flex justify-between text-xs text-foreground/60">
-                    <span>Relations & lien</span>
-                    <span>{scores.cohesion} / 100</span>
-                  </div>
-                  <div className="flex justify-between text-xs text-foreground/60">
-                    <span>Sens & projection</span>
-                    <span>{scores.devperso} / 100</span>
-                  </div>
-                </div>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="whitespace-nowrap"
+                >
+                  <Link to="/zena">
+                    Parler à ZÉNA
+                    <ArrowRight className="w-4 h-4 ml-1" />
+                  </Link>
+                </Button>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3">
+                <Button
+                  asChild
+                  className="flex-1"
+                >
+                  <Link to="/box">
+                    Découvrir les Box QVT
+                  </Link>
+                </Button>
+
                 {user ? (
-                  <Button onClick={handleSaveAndGoDashboard} className="flex-1">
-                    Enregistrer et voir dans mon tableau de bord
+                  <Button
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => handleSaveAndGoDashboard(scores, reco)}
+                  >
+                    Sauvegarder et voir mon dashboard
                   </Button>
                 ) : (
-                  <Button onClick={() => navigate("/auth/login")} className="flex-1">
-                    Créer mon espace pour suivre mes résultats
+                  <Button
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => navigate("/auth")}
+                  >
+                    Créer mon espace QVT Box
                   </Button>
                 )}
-
-                <Button variant="outline" onClick={handleGoToBoxes} className="flex-1">
-                  Explorer toutes les box
-                </Button>
               </div>
             </div>
+
+            <p className="text-[11px] text-muted-foreground text-center">
+              Si vous vivez une détresse intense ou des idées noires, ce simulateur ne
+              suffit pas : rapprochez-vous d’un professionnel de santé ou des numéros
+              d’écoute disponibles 24/7.
+            </p>
           </div>
         </div>
-
         <Footer />
       </div>
     );
   }
 
-  // === ÉTAT SÉLECTION DE RÔLE ===
-  if (!role) {
+  // ---- Écran choix du profil ----
+  if (!profile) {
     return (
       <div className="min-h-screen bg-gradient-hero">
         <FloatingBubbles />
         <Navigation />
-
-        <div className="relative z-10 pt-24 px-6 pb-16">
-          <div className="container mx-auto max-w-4xl">
+        <div className="relative z-10 pt-24 pb-16 px-6">
+          <div className="container mx-auto max-w-3xl">
             <div className="text-center mb-10">
-              <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-white/90 text-primary shadow">
-                <Sparkles className="w-4 h-4" />
-                Ma bulle attentionnée – version multi-profils
+              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                Ma Bulle Attentionnée
               </p>
-              <h1 className="mt-4 text-3xl md:text-4xl font-bold text-foreground font-inter">
-                Avant de commencer, par qui{" "}
-                <span className="text-primary">parle-t-on vraiment ?</span>
+              <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3 font-inter">
+                À qui appartient cette{" "}
+                <span className="text-primary">bulle émotionnelle</span> ?
               </h1>
-              <p className="mt-3 text-foreground/70 font-lato max-w-2xl mx-auto">
-                QVT Box ne pose pas les mêmes questions à un salarié, un parent, un ado ou un
-                grand-parent. Choisissez le profil qui vous correspond le mieux aujourd’hui :
+              <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
+                Avant de commencer, dites-nous simplement qui vous êtes. Cela nous
+                permet d’adapter les questions, le ton… et la Box qui en ressortira.
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {ROLE_CONFIG.map((r) => (
+            <div className="grid sm:grid-cols-2 gap-4 mb-8">
+              {profiles.map((p) => (
                 <button
-                  key={r.key}
-                  type="button"
-                  onClick={() => handleRoleSelect(r.key)}
-                  className={`card-professional p-4 text-left flex flex-col gap-2 hover:shadow-floating transition group ${r.bg}`}
+                  key={p.id}
+                  onClick={() => handleProfileSelect(p.id)}
+                  className="card-professional p-4 text-left flex gap-3 items-center hover:shadow-floating transition-all"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-white/80 flex items-center justify-center text-lg">
-                      {r.emoji}
-                    </div>
-                    <div>
-                      <p className={`text-sm font-semibold ${r.color}`}>{r.label}</p>
-                      <p className="text-xs text-foreground/60">Cliquer pour continuer</p>
-                    </div>
+                  <div className="text-3xl">{p.emoji}</div>
+                  <div>
+                    <p className="font-semibold text-sm text-foreground">
+                      {p.label}
+                    </p>
+                    <p className="text-xs text-muted-foreground">{p.description}</p>
                   </div>
-                  <p className="text-sm text-foreground/80 mt-2 font-lato">
-                    {r.description}
-                  </p>
                 </button>
               ))}
             </div>
 
-            <p className="mt-6 text-xs text-foreground/60 text-center font-lato">
-              Vous pourrez toujours refaire l’évaluation plus tard avec un autre profil
-              (parent, ado, salarié, grand-parent…).
+            <p className="text-[11px] text-muted-foreground text-center">
+              Vos réponses restent confidentielles. Elles servent uniquement à mieux
+              orienter votre Bulle QVT, et potentiellement à entraîner une IA
+              émotionnelle bienveillante – jamais à vous juger.
             </p>
           </div>
         </div>
-
         <Footer />
       </div>
     );
   }
 
-  // === ÉTAT QUESTIONS ===
+  // ---- Écran questionnaire ----
+  const Icon = currentQuestion?.icon ?? Smile;
+
   return (
     <div className="min-h-screen bg-gradient-hero">
       <FloatingBubbles />
       <Navigation />
 
-      <div className="relative z-10 pt-24 px-6 pb-16">
+      <div className="relative z-10 pt-24 pb-16 px-6">
         <div className="container mx-auto max-w-2xl">
-          <Button
-            onClick={handlePrevious}
-            variant="outline"
-            className="mb-6"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            {currentStep === 0 ? "Changer de profil" : "Question précédente"}
-          </Button>
+          <div className="mb-8">
+            <Button
+              variant="outline"
+              className="mb-4"
+              onClick={handlePrevious}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              {currentStep === 0 ? "Changer de profil" : "Question précédente"}
+            </Button>
 
-          <div className="text-center mb-8">
-            <p className="text-xs text-foreground/60 mb-1">
-              Étape {currentStep + 1} sur {currentQuestions.length}
-            </p>
-            <Progress value={progress} className="w-full h-2 mb-3" />
-            <h1 className="text-2xl md:text-3xl font-bold text-foreground font-inter mb-2">
-              Ma bulle attentionnée –{" "}
-              <span className="text-primary">
-                {ROLE_CONFIG.find((r) => r.key === role)?.label}
-              </span>
-            </h1>
-            <p className="text-sm text-foreground/70 font-lato">
-              Répondez simplement, sans vous juger. Il n’y a pas de bonne ou de mauvaise réponse.
-            </p>
-          </div>
-
-          {currentQuestion && (
-            <div className="card-professional p-8 space-y-6">
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <currentQuestion.icon className={`w-8 h-8 ${currentQuestion.color}`} />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground mb-1 font-inter">
-                  {currentQuestion.title}
-                </h3>
-                <p className="text-foreground/70 font-lato">
-                  {currentQuestion.question}
-                </p>
-              </div>
-
-              <RadioGroup
-                value={answers[currentQuestion.id] || ""}
-                onValueChange={(value) => handleAnswer(currentQuestion.id, value)}
-                className="space-y-3"
-              >
-                {currentQuestion.options.map((option) => (
-                  <div
-                    key={option.value}
-                    className={`flex items-center space-x-2 p-3 rounded-lg border cursor-pointer transition-colors ${
-                      answers[currentQuestion.id] === option.value
-                        ? "border-primary bg-primary/5"
-                        : "border-border hover:bg-muted/60"
-                    }`}
-                    onClick={() => handleAnswer(currentQuestion.id, option.value)}
-                  >
-                    <RadioGroupItem value={option.value} id={option.value} />
-                    <Label htmlFor={option.value} className="flex-1 cursor-pointer text-sm font-lato">
-                      {option.label}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-
-              <div className="flex justify-end gap-3 pt-2">
-                <Button
-                  onClick={handleNext}
-                  disabled={!answers[currentQuestion.id]}
-                >
-                  {currentStep === currentQuestions.length - 1
-                    ? "Voir ma box recommandée"
-                    : "Question suivante"}
-                </Button>
-              </div>
+            <div className="text-center mb-4">
+              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                Ma Bulle Attentionnée
+              </p>
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2 font-inter">
+                Comment ça va <span className="text-primary">vraiment</span> ?
+              </h1>
+              <p className="text-xs text-muted-foreground">
+                Question {currentStep + 1} sur {totalSteps}
+              </p>
             </div>
-          )}
+
+            <Progress value={progress} className="h-2 mb-6" />
+
+            {currentQuestion && (
+              <div className="card-professional p-6 space-y-6">
+                <div className="text-center">
+                  <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                    <Icon className="w-7 h-7 text-primary" />
+                  </div>
+                  <h2 className="text-lg md:text-xl font-semibold text-foreground mb-1">
+                    {currentQuestion.title}
+                  </h2>
+                  <p className="text-sm text-foreground/80 mb-1">
+                    {currentQuestion.question}
+                  </p>
+                  {currentQuestion.helper && (
+                    <p className="text-xs text-muted-foreground">
+                      {currentQuestion.helper}
+                    </p>
+                  )}
+                </div>
+
+                <RadioGroup
+                  value={
+                    answers[currentQuestion.id]
+                      ? String(answers[currentQuestion.id])
+                      : ""
+                  }
+                  onValueChange={(value) =>
+                    handleAnswerChange(currentQuestion.id, Number(value))
+                  }
+                  className="space-y-3"
+                >
+                  {currentQuestion.options.map((opt) => (
+                    <Label
+                      key={opt.value}
+                      htmlFor={`${currentQuestion.id}_${opt.value}`}
+                      className="flex items-center gap-3 p-3 rounded-lg border border-border bg-background/80 hover:bg-muted/60 cursor-pointer text-sm"
+                    >
+                      <RadioGroupItem
+                        id={`${currentQuestion.id}_${opt.value}`}
+                        value={String(opt.value)}
+                      />
+                      <span>{opt.label}</span>
+                    </Label>
+                  ))}
+                </RadioGroup>
+
+                <div className="flex justify-end gap-3 pt-2">
+                  <Button
+                    variant="outline"
+                    onClick={handlePrevious}
+                    disabled={currentStep === 0}
+                  >
+                    Précédent
+                  </Button>
+                  <Button onClick={handleNext}>
+                    {currentStep === totalSteps - 1
+                      ? "Voir ma bulle recommandée"
+                      : "Suivant"}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
