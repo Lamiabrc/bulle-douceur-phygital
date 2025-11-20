@@ -53,6 +53,9 @@ const MobilePage = lazy(() => import("./pages/MobilePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const ManifestPage = lazy(() => import("./pages/ManifestPage"));
 
+/** ⭐️ Engagements */
+const EngagementsPage = lazy(() => import("./pages/EngagementsPage"));
+
 /** ⭐️ ZÉNA — Pages internes */
 const ZenaEntreprisePage = lazy(() => import("./pages/ZenaEntreprisePage"));
 const ZenaFamilyPage = lazy(() => import("./pages/ZenaFamilyPage"));
@@ -78,6 +81,7 @@ const App = () => (
       <BrowserRouter>
         <Suspense fallback={<Fallback />}>
           <Routes>
+
             {/* 🌐 Domaine principal */}
             <Route path="/" element={<Index />} />
             <Route path="/box" element={<BoxPage />} />
@@ -91,6 +95,9 @@ const App = () => (
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/simulateur" element={<SimulateurPage />} />
+
+            {/* ⭐ Engagements (nouvelle page forte) */}
+            <Route path="/engagements" element={<EngagementsPage />} />
 
             {/* Paiement */}
             <Route path="/checkout" element={<CheckoutPage />} />
@@ -112,7 +119,7 @@ const App = () => (
             <Route path="/mood" element={<MoodDashboard />} />
             <Route path="/user-dashboard" element={<UserDashboard />} />
 
-            {/* Admin (lien déjà présent dans Navigation) */}
+            {/* ⭐ Admin (bouton présent dans la navigation) */}
             <Route path="/admin" element={<AdminPage />} />
 
             {/* CMS */}
@@ -203,14 +210,14 @@ const App = () => (
             {/* Page Manifeste */}
             <Route path="/manifeste" element={<ManifestPage />} />
 
-            {/* ⭐️ ZÉNA — pages internes (SEO + contenu) */}
+            {/* ⭐️ ZÉNA — pages internes */}
             <Route path="/zena-page" element={<ZenaEntreprisePage />} />
             <Route path="/zena-family-page" element={<ZenaFamilyPage />} />
 
-            {/* ⭐️ ZÉNA — page centrale */}
+            {/* ⭐️ ZÉNA — page centrale / choix */}
             <Route path="/zena" element={<ZenaChoicePage />} />
 
-            {/* ⭐️ ZÉNA — redirection ancienne URL */}
+            {/* ⭐️ Ancienne URL de Zena Family */}
             <Route
               path="/zena-family"
               element={
