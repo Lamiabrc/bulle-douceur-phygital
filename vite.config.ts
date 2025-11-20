@@ -7,9 +7,13 @@ export default defineConfig(({ mode }) => {
   const isDev = mode === "development";
 
   return {
-    // ✅ Important pour que les assets (JS/CSS) se chargent bien
-    // quel que soit le domaine ou le sous-dossier (www.qvtbox.com, etc.)
-    base: "./",
+    /**
+     * ⚠️ Correction majeure :
+     * - "./" casse sur Vercel (chemins relatifs → MIME errors)
+     * - "/" garantit des assets propres, même dans un sous-domaine (zena.qvtbox.com)
+     * - fonctionne aussi si ton projet est dans /zena (car Vercel réécrit correctement)
+     */
+    base: "/",
 
     server: {
       host: "::",
