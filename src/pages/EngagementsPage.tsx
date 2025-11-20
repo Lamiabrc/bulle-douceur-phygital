@@ -13,11 +13,12 @@ export default function EngagementsPage() {
         {/* HERO VISUEL AVEC IMAGE */}
         <section className="pt-32 pb-20 px-8 md:px-16 bg-[#FAF6EE]">
           <div className="max-w-6xl mx-auto">
-            {/* IMAGE PLEIN FORMAT */}
+            
+            {/* IMAGE HERO CORRECTEMENT LIÉE */}
             <div className="w-full rounded-3xl overflow-hidden shadow-sm mb-10">
               <img
                 src="/engagements-hero.jpg"
-                alt="Technologie qui prend soin"
+                alt="Technologie bienveillante"
                 className="w-full h-[420px] md:h-[500px] object-cover object-center"
               />
             </div>
@@ -27,14 +28,15 @@ export default function EngagementsPage() {
             </p>
 
             <h1 className="text-3xl md:text-4xl font-light leading-tight mb-5">
-              Nous construisons une technologie<br />
+              Nous construisons une technologie
+              <br />
               qui prend soin des gens.
             </h1>
 
             <p className="text-sm md:text-base text-[#6F6454] max-w-2xl">
               Beaucoup d’outils mesurent, tracent, analysent.
               QVT Box choisit une autre voie : écouter, protéger, apaiser.
-              ZÉNA n’est pas un micro caché ; c’est une main posée sur l’épaule.
+              Les émotions ne sont pas des données à exploiter.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
@@ -56,11 +58,13 @@ export default function EngagementsPage() {
           </div>
         </section>
 
-        {/* SECTION TEXTE - STYLE SANDBAR */}
+        {/* SECTION TEXTE STYLE SANDBAR */}
         <section className="py-28 bg-[#FDF9F0] border-y border-[#E8DCC8]">
           <p className="max-w-3xl mx-auto px-8 md:px-16 text-center text-lg md:text-xl text-[#4A4134] leading-relaxed">
-            La technologie peut fatiguer.  
-            Elle peut aussi réparer.  
+            La technologie peut fatiguer.
+            <br />
+            Elle peut aussi réparer.
+            <br />
             Tout dépend de ce qu’on en fait.
           </p>
         </section>
@@ -75,19 +79,18 @@ export default function EngagementsPage() {
               Nos engagements guident chaque choix.
             </h2>
             <p className="text-sm md:text-base text-[#6F6454] max-w-2xl">
-              Ce ne sont pas des arguments commerciaux — 
-              mais des limites fermes.  
-              Si cela n’aide pas les personnes, on ne le fait pas.
+              Si cela n’aide pas vraiment les personnes, on ne le fait pas.
             </p>
           </div>
 
           <div className="grid gap-14 md:grid-cols-2">
-            {/* 1. ETHIQUE */}
+
+            {/* 1 — Technologie éthique */}
             <div>
               <img
                 src="/engagements-social-thread.jpg"
                 alt="Technologie éthique"
-                className="rounded-3xl w-full h-64 object-cover object-center border border-[#E8DCC8] mb-5"
+                className="rounded-3xl w-full h-64 object-cover border border-[#E8DCC8] mb-5"
               />
 
               <div className="flex items-center gap-3 mb-3">
@@ -96,12 +99,12 @@ export default function EngagementsPage() {
               </div>
 
               <p className="text-sm text-[#6F6454] leading-relaxed">
-                ZÉNA ne manipule pas, ne classe pas, ne note pas les émotions.  
-                Elle prépare le terrain pour une vraie rencontre humaine.
+                ZÉNA ne classe pas et ne juge pas les émotions.
+                Elle éclaire ce qui fissure, avec douceur.
               </p>
             </div>
 
-            {/* 2. DONNÉES */}
+            {/* 2 — Protection des données */}
             <div>
               <img
                 src="/engagements-data-bubble.jpg"
@@ -115,16 +118,16 @@ export default function EngagementsPage() {
               </div>
 
               <p className="text-sm text-[#6F6454] leading-relaxed">
-                Vos émotions restent à vous.  
-                Données minimisées, sécurisées, jamais revendues.
+                Vos émotions restent à vous.
+                Données minimisées, protégées, jamais revendues.
               </p>
             </div>
 
-            {/* 3. GRATUITÉ ISOLÉS */}
+            {/* 3 — Gratuité isolés */}
             <div>
               <img
                 src="/engagements-isolation-support.jpg"
-                alt="Soutien aux personnes isolées"
+                alt="Soutien isolement"
                 className="rounded-3xl w-full h-64 object-cover border border-[#E8DCC8] mb-5"
               />
 
@@ -136,12 +139,12 @@ export default function EngagementsPage() {
               </div>
 
               <p className="text-sm text-[#6F6454] leading-relaxed">
-                L’écoute émotionnelle ne doit pas être un luxe.  
-                ZÉNA reste accessible à ceux qui n’ont personne.
+                L’écoute émotionnelle ne doit pas être un privilège.
+                QVT Box aide ceux que personne ne voit.
               </p>
             </div>
 
-            {/* 4. IMPACT SOCIAL */}
+            {/* 4 — Impact social */}
             <div>
               <img
                 src="/engagements-social-thread.jpg"
@@ -151,20 +154,18 @@ export default function EngagementsPage() {
 
               <div className="flex items-center gap-3 mb-3">
                 <Users className="w-5 h-5 text-[#9C8D77]" />
-                <h3 className="text-lg font-medium">
-                  Réparer les fractures du quotidien
-                </h3>
+                <h3 className="text-lg font-medium">Réparer les fractures du quotidien</h3>
               </div>
 
               <p className="text-sm text-[#6F6454] leading-relaxed">
-                Parents, ados, salariés, retraités.  
-                Une seule promesse : agir sans jamais juger.
+                Salariés, ados, parents, retraités :
+                QVT Box sert d’abord ceux qui tiennent tout ensemble en silence.
               </p>
             </div>
           </div>
         </section>
 
-        {/* FINAL MANIFESTO AVEC IMAGE SOMBRE */}
+        {/* CTA FINAL AVEC IMAGE SOMBRE */}
         <section className="py-32 bg-[#151515] text-[#FDF9F0] text-center relative">
           <img
             src="/engagements-dark-halo.jpg"
@@ -178,14 +179,13 @@ export default function EngagementsPage() {
             </p>
 
             <h2 className="text-2xl md:text-3xl font-light mb-6">
-              Nous ne surveillons pas les gens.
-              <br />
+              Nous ne surveillons pas les gens.<br />
               Nous les aidons à mieux respirer.
             </h2>
 
             <p className="text-sm md:text-base text-[#E5D7BF]/85 mb-10">
-              Si vous cherchez un système humain, utile, juste,
-              alors nous pouvons travailler ensemble.
+              Une approche humaine, juste, et utile.  
+              Si c’est ce que vous cherchez, travaillons ensemble.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-3">
