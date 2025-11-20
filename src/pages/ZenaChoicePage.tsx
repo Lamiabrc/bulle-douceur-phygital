@@ -10,24 +10,23 @@ export default function ZenaChoicePage() {
 
       <main className="flex-1 pt-28 pb-24 px-6">
         <div className="mx-auto max-w-3xl text-center">
-
-          {/* Halo doux */}
+          {/* Halo doux autour du titre */}
           <div className="relative inline-block">
-            <div className="absolute -inset-10 bg-[#F3E0B9]/10 blur-2xl rounded-full" />
+            <div className="absolute -inset-10 bg-[#F3E0B9]/12 blur-2xl rounded-full" />
             <h1 className="relative text-4xl md:text-5xl font-bold tracking-tight">
               Choisissez votre univers Zéna
             </h1>
           </div>
 
           <p className="mt-4 text-lg text-[#E5D7BF]/80">
-            Une guidance émotionnelle douce, adaptée à vos besoins.
+            La même voix attentionnée, adaptée à votre réalité :
+            entreprise ou famille.
           </p>
 
           <div className="mt-12 flex flex-col md:flex-row items-center justify-center gap-6">
-
             {/* ZÉNA ENTREPRISE */}
             <a
-              href="https://zena-entreprise.qvtbox.com"
+              href="https://zena.qvtbox.com"
               className="group w-full md:w-auto px-8 py-5 rounded-2xl border border-[#3A332D] bg-[#1D1B19] hover:bg-[#2A2520] text-lg font-semibold flex items-center justify-center gap-3 transition"
             >
               Zéna Entreprise
@@ -36,7 +35,7 @@ export default function ZenaChoicePage() {
 
             {/* ZÉNA FAMILLE */}
             <a
-              href="https://zena-famille.qvtbox.com"
+              href="https://zena-family.qvtbox.com"
               className="group w-full md:w-auto px-8 py-5 rounded-2xl border border-[#3A332D] bg-[#1D1B19] hover:bg-[#2A2520] text-lg font-semibold flex items-center justify-center gap-3 transition"
             >
               Zéna Famille
