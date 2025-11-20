@@ -46,7 +46,9 @@ const UserDashboard = lazy(() => import("./pages/UserDashboard"));
 const EngagementsPage = lazy(() => import("./pages/EngagementsPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const MentionsLegalesPage = lazy(() => import("./pages/MentionsLegalesPage"));
-const PolitiqueConfidentialitePage = lazy(() => import("./pages/PolitiqueConfidentialitePage"));
+const PolitiqueConfidentialitePage = lazy(
+  () => import("./pages/PolitiqueConfidentialitePage")
+);
 const CGVPage = lazy(() => import("./pages/CGVPage"));
 const MobilePage = lazy(() => import("./pages/MobilePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
@@ -55,6 +57,7 @@ const ManifestPage = lazy(() => import("./pages/ManifestPage"));
 /** ⭐️ ZÉNA — Pages internes */
 const ZenaEntreprisePage = lazy(() => import("./pages/ZenaEntreprisePage"));
 const ZenaFamilyPage = lazy(() => import("./pages/ZenaFamilyPage"));
+const ZenaChoicePage = lazy(() => import("./pages/ZenaChoicePage"));
 
 /** Fallback visuel */
 function Fallback() {
@@ -82,14 +85,20 @@ const App = () => (
             <Route path="/saas" element={<ProfessionalSaasPage />} />
             <Route path="/boutique" element={<BoutiquePage />} />
             <Route path="/mobile" element={<MobilePage />} />
-            <Route path="/boutique/produit/:slug" element={<ProductDetailPage />} />
+            <Route
+              path="/boutique/produit/:slug"
+              element={<ProductDetailPage />}
+            />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/simulateur" element={<SimulateurPage />} />
 
             {/* Paiement */}
             <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
+            <Route
+              path="/checkout/success"
+              element={<CheckoutSuccessPage />}
+            />
             <Route path="/checkout/cancel" element={<CheckoutCancelPage />} />
 
             {/* Auth */}
@@ -105,19 +114,88 @@ const App = () => (
             <Route path="/user-dashboard" element={<UserDashboard />} />
 
             {/* CMS */}
-            <Route path="/cms" element={<CMSLayout><CMSIndexPage /></CMSLayout>} />
-            <Route path="/cms/products" element={<CMSLayout><ProductsPage /></CMSLayout>} />
-            <Route path="/cms/products/new" element={<CMSLayout><ProductFormPage /></CMSLayout>} />
-            <Route path="/cms/products/edit/:id" element={<CMSLayout><ProductFormPage /></CMSLayout>} />
-            <Route path="/cms/images" element={<CMSLayout><ImagesPage /></CMSLayout>} />
-            <Route path="/cms/partners/applications" element={<CMSLayout><CMSPartnersPage /></CMSLayout>} />
-            <Route path="/cms/partners/approved" element={<CMSLayout><CMSPartnersPage /></CMSLayout>} />
-            <Route path="/cms/media" element={<CMSLayout><MediaPage /></CMSLayout>} />
-            <Route path="/cms/settings" element={<CMSLayout><SettingsPage /></CMSLayout>} />
+            <Route
+              path="/cms"
+              element={
+                <CMSLayout>
+                  <CMSIndexPage />
+                </CMSLayout>
+              }
+            />
+            <Route
+              path="/cms/products"
+              element={
+                <CMSLayout>
+                  <ProductsPage />
+                </CMSLayout>
+              }
+            />
+            <Route
+              path="/cms/products/new"
+              element={
+                <CMSLayout>
+                  <ProductFormPage />
+                </CMSLayout>
+              }
+            />
+            <Route
+              path="/cms/products/edit/:id"
+              element={
+                <CMSLayout>
+                  <ProductFormPage />
+                </CMSLayout>
+              }
+            />
+            <Route
+              path="/cms/images"
+              element={
+                <CMSLayout>
+                  <ImagesPage />
+                </CMSLayout>
+              }
+            />
+            <Route
+              path="/cms/partners/applications"
+              element={
+                <CMSLayout>
+                  <CMSPartnersPage />
+                </CMSLayout>
+              }
+            />
+            <Route
+              path="/cms/partners/approved"
+              element={
+                <CMSLayout>
+                  <CMSPartnersPage />
+                </CMSLayout>
+              }
+            />
+            <Route
+              path="/cms/media"
+              element={
+                <CMSLayout>
+                  <MediaPage />
+                </CMSLayout>
+              }
+            />
+            <Route
+              path="/cms/settings"
+              element={
+                <CMSLayout>
+                  <SettingsPage />
+                </CMSLayout>
+              }
+            />
 
             {/* Légal */}
-            <Route path="/mentions-legales" element={<MentionsLegalesPage />} />
-            <Route path="/politique-confidentialite" element={<PolitiqueConfidentialitePage />} />
+            <Route
+              path="/mentions-legales"
+              element={<MentionsLegalesPage />}
+            />
+            <Route
+              path="/politique-confidentialite"
+              element={<PolitiqueConfidentialitePage />}
+            />
             <Route path="/cgv" element={<CGVPage />} />
 
             {/* Page Manifeste */}
@@ -127,9 +205,19 @@ const App = () => (
             <Route path="/zena-page" element={<ZenaEntreprisePage />} />
             <Route path="/zena-family-page" element={<ZenaFamilyPage />} />
 
-            {/* ⭐️ ZÉNA — redirection domaine */}
-            <Route path="/zena" element={<Navigate to="https://zena.qvtbox.com" replace />} />
-            <Route path="/zena-family" element={<Navigate to="https://zena-family.qvtbox.com" replace />} />
+            {/* ⭐️ ZÉNA — nouvelle page centrale */}
+            <Route path="/zena" element={<ZenaChoicePage />} />
+
+            {/* ⭐️ ZÉNA — redirection ancienne URL */}
+            <Route
+              path="/zena-family"
+              element={
+                <Navigate
+                  to="https://zena-family.qvtbox.com"
+                  replace
+                />
+              }
+            />
 
             {/* 404 */}
             <Route path="*" element={<NotFound />} />
