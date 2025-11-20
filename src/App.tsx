@@ -43,7 +43,6 @@ const LogoutPage = lazy(() => import("./pages/auth/LogoutPage"));
 
 const SimulateurPage = lazy(() => import("./pages/SimulateurPage"));
 const UserDashboard = lazy(() => import("./pages/UserDashboard"));
-const EngagementsPage = lazy(() => import("./pages/EngagementsPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const MentionsLegalesPage = lazy(() => import("./pages/MentionsLegalesPage"));
 const PolitiqueConfidentialitePage = lazy(
@@ -112,6 +111,9 @@ const App = () => (
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/mood" element={<MoodDashboard />} />
             <Route path="/user-dashboard" element={<UserDashboard />} />
+
+            {/* Admin (lien déjà présent dans Navigation) */}
+            <Route path="/admin" element={<AdminPage />} />
 
             {/* CMS */}
             <Route
@@ -205,17 +207,14 @@ const App = () => (
             <Route path="/zena-page" element={<ZenaEntreprisePage />} />
             <Route path="/zena-family-page" element={<ZenaFamilyPage />} />
 
-            {/* ⭐️ ZÉNA — nouvelle page centrale */}
+            {/* ⭐️ ZÉNA — page centrale */}
             <Route path="/zena" element={<ZenaChoicePage />} />
 
             {/* ⭐️ ZÉNA — redirection ancienne URL */}
             <Route
               path="/zena-family"
               element={
-                <Navigate
-                  to="https://zena-family.qvtbox.com"
-                  replace
-                />
+                <Navigate to="https://zena-family.qvtbox.com" replace />
               }
             />
 
