@@ -21,7 +21,7 @@
 
     <!-- SEO -->
     <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="/" />
+    <link rel="canonical" href="https://www.qvtbox.com/" />
 
     <!-- FAVICONS -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -57,16 +57,15 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="/og-image.png" />
 
-    <!-- GOOGLE ANALYTICS — VERSION 100% COMPATIBLE NAVIGATEUR -->
+    <!-- GOOGLE ANALYTICS -->
     <script
       async
       src="https://www.googletagmanager.com/gtag/js?id=G-752B8V04TV"
     ></script>
 
     <script>
-      // VERSION SANS import / import.meta (corrigée)
       (function () {
-        const GA_ID = "G-752B8V04TV"; // Ton ID Google Analytics
+        const GA_ID = "G-752B8V04TV";
 
         window.dataLayer = window.dataLayer || [];
         function gtag() {
@@ -78,14 +77,13 @@
         gtag("config", GA_ID);
       })();
     </script>
-
   </head>
 
   <body>
     <noscript>QVT Box nécessite JavaScript pour fonctionner correctement.</noscript>
     <div id="root"></div>
 
-    <!-- SCRIPT PRINCIPAL VITE -->
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- SCRIPT PRINCIPAL (généré par Vite) -->
+    <script type="module" src="/assets/index.js"></script>
   </body>
 </html>
