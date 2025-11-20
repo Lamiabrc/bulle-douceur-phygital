@@ -44,7 +44,6 @@ const LogoutPage = lazy(() => import("./pages/auth/LogoutPage"));
 const SimulateurPage = lazy(() => import("./pages/SimulateurPage"));
 const UserDashboard = lazy(() => import("./pages/UserDashboard"));
 const EngagementsPage = lazy(() => import("./pages/EngagementsPage"));
-// PartnersPage supprimée → import supprimé
 const NotFound = lazy(() => import("./pages/NotFound"));
 const MentionsLegalesPage = lazy(() => import("./pages/MentionsLegalesPage"));
 const PolitiqueConfidentialitePage = lazy(() => import("./pages/PolitiqueConfidentialitePage"));
@@ -52,6 +51,10 @@ const CGVPage = lazy(() => import("./pages/CGVPage"));
 const MobilePage = lazy(() => import("./pages/MobilePage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const ManifestPage = lazy(() => import("./pages/ManifestPage"));
+
+/** ⭐️ ZÉNA — Pages internes */
+const ZenaEntreprisePage = lazy(() => import("./pages/ZenaEntreprisePage"));
+const ZenaFamilyPage = lazy(() => import("./pages/ZenaFamilyPage"));
 
 /** Fallback visuel */
 function Fallback() {
@@ -120,7 +123,11 @@ const App = () => (
             {/* Page Manifeste */}
             <Route path="/manifeste" element={<ManifestPage />} />
 
-            {/* 🔗 Passerelles inter-domaines */}
+            {/* ⭐️ ZÉNA — pages internes (SEO + contenu) */}
+            <Route path="/zena-page" element={<ZenaEntreprisePage />} />
+            <Route path="/zena-family-page" element={<ZenaFamilyPage />} />
+
+            {/* ⭐️ ZÉNA — redirection domaine */}
             <Route path="/zena" element={<Navigate to="https://zena.qvtbox.com" replace />} />
             <Route path="/zena-family" element={<Navigate to="https://zena-family.qvtbox.com" replace />} />
 
