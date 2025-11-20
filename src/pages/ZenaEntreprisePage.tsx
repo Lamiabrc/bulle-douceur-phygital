@@ -3,94 +3,109 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { ArrowRight, Brain, ShieldCheck, Users, Sparkles } from "lucide-react";
 
-const ZenaEntreprisePage = () => {
+export default function ZenaEntreprisePage() {
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-b from-[#F2F7F6] via-[#ECEBFF] to-[#F9F9FF] text-[#212121]">
+    <div className="min-h-screen flex flex-col bg-[#F3EFE7] text-[#2E2E2E]">
       <Navigation />
 
-      <main className="flex-1">
+      <main className="flex-1 relative">
+        {/* HALO DE FOND */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#C9E8F0]/40 via-[#E9DFFA]/40 to-transparent blur-2xl" />
+
         {/* HERO */}
-        <section className="pt-28 pb-16 px-6">
-          <div className="mx-auto max-w-5xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary/70 mb-3">
-              Zéna · Univers entreprise
+        <section className="pt-28 pb-20 px-6">
+          <div className="container mx-auto max-w-5xl">
+            <p className="text-xs uppercase tracking-[0.22em] text-[#00A5A8]/70 mb-3 font-semibold">
+              IA émotionnelle • Univers entreprise
             </p>
 
-            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 bg-gradient-to-r from-[#5B4B8A] via-[#4FD1C5] to-[#5B4B8A] text-transparent bg-clip-text">
-              Zéna, la voix émotionnelle de vos équipes
+            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#5B4B8A] via-[#00A5A8] to-[#5B4B8A]">
+              Zéna : l’IA émotionnelle qui écoute vos équipes
             </h1>
 
-            <p className="text-sm md:text-base text-[#212121]/75 max-w-3xl mb-6 leading-relaxed">
-              Zéna est l’IA émotionnelle qui écoute les salariés, détecte les signaux faibles
-              et alerte les RH avant que les situations ne se transforment en crises. 
-              Elle complète vos enquêtes QVT sans les remplacer, avec une approche plus humaine,
-              plus fréquente, plus douce.
+            <p className="text-base md:text-lg text-[#3A3A3A]/80 max-w-3xl mb-8 leading-relaxed">
+              Zéna crée un espace d’écoute continue pour les collaborateurs : check-ins
+              vocaux, signaux faibles, météo émotionnelle, alertes anonymisées et
+              insights pour les RH et les managers. Une écoute douce, quotidienne, sans
+              jamais trahir la confiance.
             </p>
 
-            <div className="flex flex-wrap gap-3 mb-8">
-              <span className="inline-flex items-center rounded-full border border-primary/20 bg-white/60 px-3 py-1 text-xs text-[#212121]/80">
-                🎧 Check-ins émotionnels vocaux & écrits
-              </span>
-              <span className="inline-flex items-center rounded-full border border-primary/20 bg-white/60 px-3 py-1 text-xs text-[#212121]/80">
-                🧠 Détection des signaux faibles
-              </span>
-              <span className="inline-flex items-center rounded-full border border-primary/20 bg-white/60 px-3 py-1 text-xs text-[#212121]/80">
-                📊 Tendances anonymisées pour les RH
-              </span>
+            {/* Badges */}
+            <div className="flex flex-wrap gap-3 mb-10">
+              {[
+                "🎧 Check-ins vocaux / écrits quotidiens",
+                "🧠 Détection des signaux faibles",
+                "📊 Météo émotionnelle anonymisée",
+                "🔒 Respect RGPD et seuils minimum",
+              ].map((item, i) => (
+                <span
+                  key={i}
+                  className="px-3 py-1 rounded-full text-xs bg-white/60 backdrop-blur border border-[#00A5A8]/20 text-[#2E2E2E]/80"
+                >
+                  {item}
+                </span>
+              ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            {/* CTA */}
+            <div className="flex flex-col sm:flex-row gap-4">
               <a
                 href="https://zena.qvtbox.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#5B4B8A] to-[#4FD1C5] px-8 py-3 text-sm font-medium text-white shadow-lg hover:scale-[1.03] transition-all"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#5B4B8A] to-[#00A5A8] rounded-full text-white text-sm font-medium shadow-lg hover:scale-[1.03] transition-transform"
               >
                 <Sparkles className="w-4 h-4" />
-                Accéder à l’application Zéna Entreprise
+                Accéder à Zéna Entreprise
                 <ArrowRight className="w-4 h-4" />
               </a>
 
-              <p className="text-xs text-[#212121]/60">
-                Ou contactez-nous pour lancer un pilote QVT Box + Zéna adapté à votre contexte.
+              <p className="text-xs text-[#5A5A5A]/70 max-w-xs">
+                Vous souhaitez un pilote Zéna + QVT Box dans votre organisation ? Nous
+                vous accompagnons.
               </p>
             </div>
           </div>
         </section>
 
-        {/* 3 PILIERS */}
-        <section className="pb-20 px-6">
-          <div className="mx-auto max-w-5xl grid gap-8 md:grid-cols-3">
-            <div className="rounded-2xl bg-white shadow-sm border border-primary/10 p-6">
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
-                <Brain className="w-5 h-5 text-primary" />
+        {/* PILIERS */}
+        <section className="pb-24 px-6">
+          <div className="container mx-auto max-w-5xl grid gap-8 md:grid-cols-3">
+            {/* Comprendre */}
+            <div className="bg-white/70 backdrop-blur-xl border border-[#00A5A8]/10 shadow-lg rounded-3xl p-6">
+              <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-[#00A5A8]/10 mb-3">
+                <Brain className="w-5 h-5 text-[#00A5A8]" />
               </div>
-              <h2 className="text-base font-semibold mb-2">Comprendre les émotions</h2>
-              <p className="text-xs text-[#212121]/70 leading-relaxed">
-                Zéna interagit avec les salariés au fil du temps et construit une “météo émotionnelle”
-                de l’entreprise. On sort du one shot pour enfin voir les tendances.
+              <h2 className="text-lg font-semibold mb-2">Comprendre les émotions</h2>
+              <p className="text-sm text-[#3A3A3A]/70 leading-relaxed">
+                Check-ins réguliers, émotions contextualisées, perception des équipes :
+                Zéna crée une météo émotionnelle vivante, au plus près du terrain.
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white shadow-sm border border-primary/10 p-6">
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
-                <ShieldCheck className="w-5 h-5 text-primary" />
+            {/* Prévenir */}
+            <div className="bg-white/70 backdrop-blur-xl border border-[#00A5A8]/10 shadow-lg rounded-3xl p-6">
+              <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-[#00A5A8]/10 mb-3">
+                <ShieldCheck className="w-5 h-5 text-[#00A5A8]" />
               </div>
-              <h2 className="text-base font-semibold mb-2">Prévenir plutôt que réparer</h2>
-              <p className="text-xs text-[#212121]/70 leading-relaxed">
-                Burn-out, surcharge, conflits d’équipe : Zéna aide à remonter les irritants plus tôt,
-                sans culpabiliser les managers et sans exposer les salariés.
+              <h2 className="text-lg font-semibold mb-2">Prévenir plutôt que réparer</h2>
+              <p className="text-sm text-[#3A3A3A]/70 leading-relaxed">
+                Détection précoce des signaux faibles : surcharge, tensions, baisse
+                d’énergie… Zéna aide à agir avant que les situations ne deviennent des
+                crises.
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white shadow-sm border border-primary/10 p-6">
-              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
-                <Users className="w-5 h-5 text-primary" />
+            {/* Donner une voix */}
+            <div className="bg-white/70 backdrop-blur-xl border border-[#00A5A8]/10 shadow-lg rounded-3xl p-6">
+              <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-[#00A5A8]/10 mb-3">
+                <Users className="w-5 h-5 text-[#00A5A8]" />
               </div>
-              <h2 className="text-base font-semibold mb-2">Donner une vraie voix aux équipes</h2>
-              <p className="text-xs text-[#212121]/70 leading-relaxed">
-                Zéna ne remplace pas l’humain. Elle crée simplement un espace où les salariés peuvent
-                dire “ça ne va pas” sans avoir peur d’être jugés.
+              <h2 className="text-lg font-semibold mb-2">Donner une vraie voix aux équipes</h2>
+              <p className="text-sm text-[#3A3A3A]/70 leading-relaxed">
+                Zéna n’analyse pas pour juger : elle crée un espace d’expression
+                confidentiel, protégé, où chaque collaborateur peut dire « ça ne va pas »
+                sans crainte.
               </p>
             </div>
           </div>
@@ -100,6 +115,4 @@ const ZenaEntreprisePage = () => {
       <Footer />
     </div>
   );
-};
-
-export default ZenaEntreprisePage;
+}
