@@ -70,12 +70,12 @@ export default function Index() {
             </p>
 
             <h2 className="text-2xl md:text-3xl font-light text-[#1B1A18] mb-4">
-              Écouter ce qui ne se dit pas en réunion.
+              Écouter ce qui ne se dit pas, par pudeur, par peur, ou que sais-je encore .
             </h2>
 
             <p className="max-w-xl text-sm md:text-base text-[#6F6454]">
               ZÉNA, l’IA émotionnelle, entend les nuances : hésitations,
-              micro-tensions, silences. Pas pour contrôler. Pour comprendre.
+              micro-tensions, silences. Pas pour contrôler. Pour comprendre, aider et soutenir.
             </p>
           </div>
 
@@ -100,7 +100,7 @@ export default function Index() {
             <br className="hidden md:block" />
             Les émotions, moins.
             <br />
-            QVT Box crée une respiration dans ce qui fissure.
+            QVT Box crée une lumière dans la fissure.
           </p>
         </section>
 
@@ -108,11 +108,11 @@ export default function Index() {
         <section className="py-28 px-8 md:px-16 bg-[#FAF6EE]">
           <div className="max-w-5xl mx-auto mb-14">
             <p className="uppercase tracking-[0.18em] text-xs text-[#9C8D77] mb-3">
-              Écouter · Voir · Agir
+              Écouter · Comprendre · Agir
             </p>
             <h2 className="text-2xl md:text-3xl font-light mb-4">
               Une seule plateforme.  
-              Trois façons de protéger vos équipes.
+              Trois façons de protéger.
             </h2>
           </div>
 
@@ -123,7 +123,7 @@ export default function Index() {
                 <h3 className="text-xl font-light mb-3">Écouter avec ZÉNA</h3>
                 <p className="text-[#6F6454] max-w-md">
                   Une IA émotionnelle qui écoute sans jamais juger.  
-                  Elle capte ce que les outils classiques ne voient pas.
+                  Elle capte ce que les outils classiques ne veulent pas voir.
                 </p>
 
                 <a
@@ -178,8 +178,7 @@ export default function Index() {
                   Agir avec les box & la famille
                 </h3>
                 <p className="text-[#6F6454] max-w-md">
-                  Une approche humaine : parents, ados, salariés,
-                  grands-parents.  
+                  Une approche humaine : Le lien entre celui qui souffre et celui qui peut et doit l'aider.  
                   Des box utiles — jamais gadgets.
                 </p>
 
@@ -220,14 +219,14 @@ export default function Index() {
             </p>
 
             <h2 className="text-2xl md:text-3xl font-light mb-6">
-              Vos équipes n’ont pas besoin d’un cadeau.
+             Souvent, ils n’ont pas besoin d’un cadeau.
               <br />
-              Elles ont besoin qu’on les entende.
+              Ils ont besoin qu’on les entende.
             </h2>
 
             <p className="text-sm md:text-base text-[#E5D7BF]/85 mb-10">
               Parlez-nous de votre contexte.  
-              On construit un dispositif discret, réaliste, qui respecte votre terrain.
+              On construit un dispositif discret, réaliste, qui respecte votre réalité.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-3">
