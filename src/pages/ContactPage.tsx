@@ -1,78 +1,72 @@
 // src/pages/Contact.tsx
+
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import { useState } from "react";
+import FloatingBubbles from "@/components/FloatingBubbles";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+import { Phone, Mail, MapPin, MessageCircle, Send, Sparkles } from "lucide-react";
+
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Phone, Mail, MapPin, MessageCircle, Send, BarChart3 } from "lucide-react";
-import { useAnalytics } from "@/hooks/useAnalytics";
-import { useLanguage } from "@/hooks/useLanguage";
 
-const CONTACT_EMAIL = "lamia.brechet@outlook.fr";
+const CONTACT_EMAIL = "contact@qvtbox.com";
 const FORM_ENDPOINT = `https://formsubmit.co/ajax/${encodeURIComponent(CONTACT_EMAIL)}`;
 const isBrowser = typeof window !== "undefined";
 
 const ContactPage = () => {
-  const { t } = useLanguage();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
     nom: "",
     email: "",
-    entreprise: "",
-    telephone: "",
-    taille_effectif: "",
-    type_offre: "",
+    profil: "",
     message: "",
+    telephone: "",
     _honeypot: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const { trackFormSubmission } = useAnalytics();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInput = (e: any) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((p) => ({ ...p, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSubmitting) return;
 
-    if (formData._honeypot && formData._honeypot.trim().length > 0) return;
+    if (formData._honeypot.trim() !== "") return; // bot
 
     setIsSubmitting(true);
 
     try {
-      const leadInsert = supabase.from("leads_demo").insert([
+      // 1) Save supabase
+      const leadAdd = supabase.from("leads_demo").insert([
         {
           nom: formData.nom,
           email: formData.email,
-          entreprise: formData.entreprise,
           telephone: formData.telephone,
-          taille_effectif: formData.taille_effectif,
-          type_offre: formData.type_offre,
+          profil: formData.profil,
           message: formData.message,
-          source_page: "/contact",
+          source_page: "contact",
         },
       ]);
 
+      // 2) Send email
       const emailPayload = {
         name: formData.nom,
         email: formData.email,
-        company: formData.entreprise,
         phone: formData.telephone,
-        headcount: formData.taille_effectif,
-        offer_type: formData.type_offre,
+        profil: formData.profil,
         message: formData.message,
-        _subject: "Nouveau message du site QVT Box",
-        _template: "table",
-        _captcha: "false",
       };
 
       const emailSend = fetch(FORM_ENDPOINT, {
@@ -81,263 +75,217 @@ const ContactPage = () => {
         body: JSON.stringify(emailPayload),
       });
 
-      const [leadRes, emailRes] = await Promise.allSettled([leadInsert, emailSend]);
+      const [dbRes, mailRes] = await Promise.allSettled([leadAdd, emailSend]);
 
-      if (leadRes.status === "rejected" ||
-          (emailRes.status === "fulfilled" ? !emailRes.value.ok : true)) {
+      if (mailRes.status !== "fulfilled" || !mailRes.value.ok) {
         throw new Error("Email send failed");
       }
 
-      trackFormSubmission("contact", true);
       toast({
-        title: t("contact.toast.success.title"),
-        description: t("contact.toast.success.desc"),
+        title: "Merci pour votre message 💛",
+        description: "Nous revenons vers vous très vite. Votre voix compte.",
       });
 
       setFormData({
         nom: "",
         email: "",
-        entreprise: "",
-        telephone: "",
-        taille_effectif: "",
-        type_offre: "",
         message: "",
+        telephone: "",
+        profil: "",
         _honeypot: "",
       });
-    } catch (error) {
-      trackFormSubmission("contact", false, [String(error)]);
+    } catch (err) {
       toast({
-        title: t("contact.toast.error.title"),
-        description: t("contact.toast.error.desc"),
+        title: "Impossible d’envoyer votre message",
+        description: "Vous pouvez réessayer ou nous écrire directement.",
         variant: "destructive",
       });
 
       try {
         if (isBrowser) {
-          window.open(
-            `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
-              "Contact QVT Box"
-            )}&body=${encodeURIComponent(
-              `Nom: ${formData.nom}\nEmail: ${formData.email}\nSociété: ${formData.entreprise}\nTéléphone: ${formData.telephone}\nEffectif: ${formData.taille_effectif}\nOffre: ${formData.type_offre}\n\nMessage:\n${formData.message}`
-            )}`
-          );
+          window.open(`mailto:${CONTACT_EMAIL}?subject=Demande QVT Box`);
         }
       } catch {}
-    } finally {
-      setIsSubmitting(false);
     }
+
+    setIsSubmitting(false);
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#FAF6EE] relative overflow-hidden">
+      <FloatingBubbles />
       <Navigation />
 
-      {/* Hero visuel premium */}
-      <section className="relative h-[40vh] w-full overflow-hidden">
+      {/* --- HERO ÉMOTIONNEL --- */}
+      <section className="relative h-[45vh] w-full overflow-hidden">
         <img
-          src="/images/contact-hero.jpg"
-          alt="Contact QVT Box"
+          src="/images/hero-contact-sable.jpg"
           className="absolute inset-0 w-full h-full object-cover"
+          alt="QVT Box contact"
         />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute bottom-8 left-8 text-white max-w-xl">
-          <h1 className="text-4xl font-semibold">
-            Parlons de votre bien-être au travail
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-transparent" />
+
+        <div className="absolute bottom-12 left-8 sm:left-16 max-w-xl text-white drop-shadow-lg">
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+            Parlez-nous de vous.
+            <br />
+            <span className="text-[#4FD1C5]">On est là.</span>
           </h1>
-          <p className="text-white/90 mt-2 text-lg">
-            Une équipe humaine pour un projet humain.
+          <p className="mt-3 text-white/90 text-base md:text-lg">
+            Salarié(e), parent, ado, senior ou entreprise : vous pouvez tout nous dire.
           </p>
         </div>
       </section>
 
-      {/* Contenu */}
-      <main className="py-16 px-6">
-        <div className="container mx-auto grid lg:grid-cols-2 gap-14">
+      {/* --- CONTENU --- */}
+      <main className="container mx-auto px-6 py-16 grid lg:grid-cols-2 gap-14">
+        
+        {/* --- COLONNE GAUCHE — Contact info --- */}
+        <div className="space-y-10">
 
-          {/* Colonne gauche */}
-          <div className="space-y-10">
-            
-            {/* Image workspace */}
-            <img
-              src="/images/contact-workspace.jpg"
-              alt="Workspace QVT Box"
-              className="rounded-xl shadow-xl"
-            />
+          {/* CARTE INFO */}
+          <div className="space-y-6">
+            {/* Téléphone */}
+            <Card className="card-professional">
+              <CardContent className="p-6 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Phone className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg">Téléphone</h3>
+                  <p className="text-foreground/70">06 76 43 55 51</p>
+                </div>
+              </CardContent>
+            </Card>
 
-            <div>
-              <h2 className="text-3xl font-bold mb-4">Votre projet QVT</h2>
-              <p className="text-foreground/80 leading-relaxed mb-6">
-                Une question, un devis, une démonstration ou un besoin
-                spécifique : nous sommes là pour vous guider rapidement
-                et simplement.
-              </p>
-            </div>
+            {/* Email */}
+            <Card className="card-professional">
+              <CardContent className="p-6 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Mail className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg">Email</h3>
+                  <p className="text-foreground/70">{CONTACT_EMAIL}</p>
+                </div>
+              </CardContent>
+            </Card>
 
-            {/* Coordonnées */}
-            <div className="space-y-6">
-              <Card className="card-professional">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                      <Phone className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-lg">Téléphone</h3>
-                      <p className="text-foreground/70">06 76 43 55 51 / 02 23 24 28 45</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="card-professional">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                      <Mail className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-lg">Email</h3>
-                      <p className="text-foreground/70">contact@qvtbox.com</p>
-                      <p className="text-foreground/70">
-                        lamia.brechet@outlook.fr
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="card-professional">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                      <MapPin className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-lg">Adresse</h3>
-                      <p className="text-foreground/70">Rennes, France</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            {/* Adresse */}
+            <Card className="card-professional">
+              <CardContent className="p-6 flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <MapPin className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-lg">Adresse</h3>
+                  <p className="text-foreground/70">Rennes, France</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Formulaire */}
-          <Card className="card-professional">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MessageCircle className="w-5 h-5 text-primary" />
-                Demande de devis / Démo
-              </CardTitle>
-            </CardHeader>
+          {/* CTA Zena */}
+          <div className="rounded-2xl bg-white/70 border border-primary/20 shadow p-6">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="rounded-full bg-secondary/10 p-3">
+                <Sparkles className="text-secondary w-5 h-5" />
+              </div>
+              <h3 className="font-semibold text-lg text-foreground">
+                Envie de parler à Zéna ?
+              </h3>
+            </div>
+            <p className="text-foreground/70 text-sm mb-4">
+              L’IA émotionnelle qui vous écoute sans jugement.
+            </p>
+            <a
+              href="/zena"
+              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium bg-secondary text-white hover:bg-secondary/90"
+            >
+              Accéder à Zéna
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
 
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <input
-                  type="text"
-                  name="_honeypot"
-                  value={formData._honeypot}
-                  onChange={handleInputChange}
-                  className="hidden"
-                  tabIndex={-1}
-                  autoComplete="off"
-                />
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Label>Nom *</Label>
-                    <Input name="nom" value={formData.nom} onChange={handleInputChange} required />
-                  </div>
-
-                  <div>
-                    <Label>Email pro *</Label>
-                    <Input type="email" name="email" value={formData.email} onChange={handleInputChange} required />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Label>Entreprise *</Label>
-                    <Input name="entreprise" value={formData.entreprise} onChange={handleInputChange} required />
-                  </div>
-
-                  <div>
-                    <Label>Téléphone</Label>
-                    <Input name="telephone" value={formData.telephone} onChange={handleInputChange} />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Label>Taille de l'effectif</Label>
-                    <Select value={formData.taille_effectif} onValueChange={(v) => setFormData({ ...formData, taille_effectif: v })}>
-                      <SelectTrigger><SelectValue placeholder="Effectif" /></SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1-10">1 à 10</SelectItem>
-                        <SelectItem value="11-50">11 à 50</SelectItem>
-                        <SelectItem value="51-200">51 à 200</SelectItem>
-                        <SelectItem value="201-500">201 à 500</SelectItem>
-                        <SelectItem value="500+">500+</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label>Offre souhaitée</Label>
-                    <Select value={formData.type_offre} onValueChange={(v) => setFormData({ ...formData, type_offre: v })}>
-                      <SelectTrigger><SelectValue placeholder="Sélectionnez" /></SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="box-physique">Box seules</SelectItem>
-                        <SelectItem value="licence-saas">Licence SaaS</SelectItem>
-                        <SelectItem value="phygital">Solution phygitale</SelectItem>
-                        <SelectItem value="information">Demande d’infos</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div>
-                  <Label>Message *</Label>
-                  <Textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    rows={4}
-                    required
-                  />
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <Button type="submit" className="flex-1 btn-primary" disabled={isSubmitting}>
-                    {isSubmitting ? "Envoi..." : (
-                      <>
-                        <Send className="w-4 h-4 mr-2" />
-                        Envoyer
-                      </>
-                    )}
-                  </Button>
-
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="flex-1"
-                    onClick={() =>
-                      setFormData({
-                        ...formData,
-                        type_offre: "licence-saas",
-                        message:
-                          "Je souhaite une démonstration de la licence SaaS QVT Box.",
-                      })
-                    }
-                  >
-                    <BarChart3 className="w-4 h-4 mr-2" />
-                    Demander une démo
-                  </Button>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
         </div>
+
+        {/* --- FORMULAIRE --- */}
+        <Card className="card-professional">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MessageCircle className="w-5 h-5 text-primary" />
+              Envoyer un message
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="text"
+                name="_honeypot"
+                value={formData._honeypot}
+                onChange={handleInput}
+                className="hidden"
+              />
+
+              <div>
+                <Label>Nom *</Label>
+                <Input name="nom" required value={formData.nom} onChange={handleInput} />
+              </div>
+
+              <div>
+                <Label>Email *</Label>
+                <Input type="email" name="email" required value={formData.email} onChange={handleInput} />
+              </div>
+
+              <div>
+                <Label>Vous êtes…</Label>
+                <Select
+                  value={formData.profil}
+                  onValueChange={(v) => setFormData((p) => ({ ...p, profil: v }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Choisissez votre situation" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="salarie">Salarié(e)</SelectItem>
+                    <SelectItem value="parent">Parent</SelectItem>
+                    <SelectItem value="ado">Adolescent(e)</SelectItem>
+                    <SelectItem value="senior">Grand-parent / Senior</SelectItem>
+                    <SelectItem value="entreprise">Entreprise / RH</SelectItem>
+                    <SelectItem value="autre">Autre</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label>Téléphone</Label>
+                <Input name="telephone" value={formData.telephone} onChange={handleInput} />
+              </div>
+
+              <div>
+                <Label>Message *</Label>
+                <Textarea
+                  required
+                  rows={4}
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInput}
+                  placeholder="Écrivez-nous en toute simplicité…"
+                />
+              </div>
+
+              <Button disabled={isSubmitting} className="w-full bg-primary text-white rounded-full py-3">
+                {isSubmitting ? "Envoi…" : <>
+                  <Send className="w-4 h-4 mr-2" />
+                  Envoyer mon message
+                </>}
+              </Button>
+
+            </form>
+          </CardContent>
+        </Card>
+
       </main>
 
       <Footer />
