@@ -70,7 +70,7 @@ export default function Index() {
             </p>
 
             <h2 className="text-2xl md:text-3xl font-light text-[#1B1A18] mb-4">
-              Écouter ce qui ne se dit pas, par pudeur, par peur, ou que sais-je encore .
+              Écouter ce qui ne se dit pas tout haut.
             </h2>
 
             <p className="max-w-xl text-sm md:text-base text-[#6F6454]">
